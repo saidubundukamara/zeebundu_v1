@@ -308,6 +308,7 @@ export interface Media {
    * Leave empty for group-wide content.
    */
   business?: (number | null) | Business;
+  _objectKey?: string | null;
   updatedAt: string;
   createdAt: string;
   url?: string | null;
@@ -1510,6 +1511,7 @@ export interface MediaSelect<T extends boolean = true> {
   alt?: T;
   caption?: T;
   business?: T;
+  _objectKey?: T;
   updatedAt?: T;
   createdAt?: T;
   url?: T;
