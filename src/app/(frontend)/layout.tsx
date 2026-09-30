@@ -2,6 +2,8 @@ import type { Metadata } from 'next'
 import { Fraunces, Geist } from 'next/font/google'
 import './globals.css'
 
+import { Analytics } from '@/components/Analytics'
+
 const fontSans = Geist({
   variable: '--font-sans',
   subsets: ['latin'],
@@ -26,7 +28,10 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: LayoutProps<'/'>) {
   return (
     <html lang="en" className={`${fontSans.variable} ${fontDisplay.variable} h-full antialiased`}>
-      <body className="flex min-h-full flex-col">{children}</body>
+      <body className="flex min-h-full flex-col">
+        {children}
+        <Analytics />
+      </body>
     </html>
   )
 }
