@@ -4,6 +4,7 @@
  *
  * Usage: npm run seed
  * Optional: SEED_ADMIN_EMAIL + SEED_ADMIN_PASSWORD create a first super-admin if none exists.
+ * Optional (local only): SEED_DEMO_USERS=true adds one demo account per role (src/seed/users.ts).
  */
 import config from '@payload-config'
 import { getPayload, type Payload } from 'payload'
@@ -12,6 +13,7 @@ import { businesses } from './data/businesses'
 import { groupCopy } from './data/group'
 import { sectors } from './data/sectors'
 import { photo, seedMedia } from './media'
+import { seedDemoUsers } from './users'
 
 /** Plain paragraphs → Lexical rich text JSON. */
 const toRichText = (paragraphs: string[]) => ({
@@ -85,10 +87,11 @@ async function seed() {
   const businessPhoto = (slug: string) => photo(photos, slug) ?? photo(photos, photoFor[slug] ?? '')
 
   // Businesses (published so the site renders; contact details stay empty until supplied)
+  const businessIDs: Record<string, number> = {}
   for (const business of businesses) {
     const sector = sectorIDs[business.sector]
     if (!sector) throw new Error(`Unknown sector "${business.sector}" for ${business.name}`)
-    await upsertBySlug(payload, 'businesses', business.slug, {
+    businessIDs[business.slug] = await upsertBySlug(payload, 'businesses', business.slug, {
       name: business.name,
       sector,
       tagline: business.tagline,
@@ -190,6 +193,9 @@ async function seed() {
       log(`super-admin ${email}`)
     }
   }
+
+  // Optional demo accounts, one per role (local only)
+  await seedDemoUsers(payload, businessIDs, log)
 
   log('done')
 }

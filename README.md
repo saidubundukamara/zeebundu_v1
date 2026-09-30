@@ -8,7 +8,7 @@ See [IMPLEMENTATION_PLAN.md](./IMPLEMENTATION_PLAN.md) for scope and phases.
 1. `npm install`
 2. `docker compose up -d` — local Postgres 16 on `localhost:5432` (data persists in a Docker volume).
 3. `cp .env.example .env`, then set `PAYLOAD_SECRET` (`openssl rand -hex 32`). The example `DATABASE_URI` already points at the Docker database.
-4. `npm run seed` — loads sectors, the 16 businesses and group copy (safe to re-run). Set `SEED_ADMIN_EMAIL`/`SEED_ADMIN_PASSWORD` to also create a first super-admin.
+4. `npm run seed` — loads sectors, the 16 businesses and group copy (safe to re-run). Set `SEED_ADMIN_EMAIL`/`SEED_ADMIN_PASSWORD` to also create a first super-admin. For local testing, `SEED_DEMO_USERS=true npm run seed` adds one demo account per role (super admin, group editor, two business editors; see `src/seed/users.ts`). It only runs against a local database.
 5. `npm run dev`, then open http://localhost:3000/admin (create the first user there if you skipped the seed admin).
 
 Production uses Neon instead of Docker — see `docs/LAUNCH_CHECKLIST.md`.
