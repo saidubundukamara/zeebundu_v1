@@ -40,7 +40,7 @@ export function BusinessHero({
       <Terrain
         variant="band"
         priority
-        className="absolute inset-0 terrain-fade-left opacity-50 lg:hidden"
+        className="absolute inset-0 [mask-image:linear-gradient(to_bottom,black_0%,black_18%,transparent_55%)] opacity-70 lg:[mask-image:radial-gradient(ellipse_60%_80%_at_25%_0%,black_20%,transparent_75%)]"
       />
       <Container className="relative grid gap-10 py-10 md:py-14 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:items-stretch lg:gap-14">
         <div className="flex flex-col justify-between gap-10">

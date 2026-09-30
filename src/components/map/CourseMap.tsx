@@ -33,7 +33,7 @@ const EASE = [0.16, 1, 0.3, 1] as const
  * a gentle arc so the map never breaks.
  */
 const COURSE = [
-  { x: 150, y: 470 },
+  { x: 135, y: 505 },
   { x: 95, y: 300 },
   { x: 230, y: 175 },
   { x: 170, y: 55 },
@@ -58,6 +58,45 @@ function layout(count: number) {
     pts.push({ x: 120 + ((i * 97) % 760), y: 600 - ((i * 53) % 90) })
   }
   return pts
+}
+
+/**
+ * Place a control's number on the side facing away from both of its legs, as
+ * printed courses do, so the numeral never sits on a line.
+ */
+function labelAt(
+  pts: { x: number; y: number }[],
+  i: number,
+  start: { x: number; y: number },
+  finish: { x: number; y: number },
+) {
+  const p = pts[i]
+  const prev = i > 0 ? pts[i - 1] : start
+  const next = i < pts.length - 1 ? pts[i + 1] : finish
+  const unit = (a: { x: number; y: number }) => {
+    const dx = a.x - p.x
+    const dy = a.y - p.y
+    const len = Math.hypot(dx, dy) || 1
+    return { x: dx / len, y: dy / len }
+  }
+  const a = unit(prev)
+  const b = unit(next)
+  let vx = -(a.x + b.x)
+  let vy = -(a.y + b.y)
+  // Legs nearly opposite each other: use the perpendicular instead.
+  if (Math.hypot(vx, vy) < 0.3) {
+    vx = -a.y
+    vy = a.x
+  }
+  const len = Math.hypot(vx, vy)
+  vx /= len
+  vy /= len
+  const d = R + 22
+  return {
+    x: p.x + vx * d,
+    y: p.y + vy * d,
+    anchor: (vx > 0.35 ? 'start' : vx < -0.35 ? 'end' : 'middle') as 'start' | 'end' | 'middle',
+  }
 }
 
 /** A straight leg that stops at each circle's edge, as course lines do on a real map. */
@@ -106,10 +145,7 @@ export function CourseMap({
           {legs.length} sectors, {controls.length} businesses
         </span>
       </p>
-      <ul
-        className="grid gap-x-8 sm:grid-cols-2"
-        onMouseLeave={() => setSector(null)}
-      >
+      <ul className="grid gap-x-8 sm:grid-cols-2" onMouseLeave={() => setSector(null)}>
         {legs.map((leg, i) => (
           <li key={leg.id}>
             <Link
@@ -228,7 +264,7 @@ export function CourseMap({
             {/* Controls */}
             {controls.map((c, i) => {
               const p = pts[i]
-              const labelLeft = p.x > W - 140
+              const label = labelAt(pts, i, start, finish)
               const href = `/businesses/${c.slug}`
               return (
                 <motion.a
@@ -265,9 +301,10 @@ export function CourseMap({
                     style={{ transformOrigin: `${p.x}px ${p.y}px` }}
                   />
                   <text
-                    x={labelLeft ? p.x - R - 10 : p.x + R + 8}
-                    y={p.y - R + 6}
-                    textAnchor={labelLeft ? 'end' : 'start'}
+                    x={label.x}
+                    y={label.y}
+                    textAnchor={label.anchor}
+                    dominantBaseline="central"
                     fill="var(--map-course)"
                     className="control-num"
                     style={{ fontSize: 40 }}

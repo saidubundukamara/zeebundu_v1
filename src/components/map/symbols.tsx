@@ -96,7 +96,17 @@ export function SectorSymbol({ index, className }: { index: number; className?: 
       )}
       {k === 5 && <circle cx="12" cy="8" r="5" stroke="var(--color-thicket)" strokeWidth="2.2" />}
       {k === 6 && <circle cx="12" cy="8" r="4.5" fill="var(--map-contour)" />}
-      {k === 7 && <rect x="2" y="1.5" width="20" height="13" fill="var(--color-open)" />}
+      {k === 7 && (
+        <rect
+          x="2.5"
+          y="2"
+          width="19"
+          height="12"
+          fill="var(--color-open)"
+          stroke="var(--map-ink)"
+          strokeWidth="1"
+        />
+      )}
     </svg>
   )
 }

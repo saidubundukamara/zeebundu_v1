@@ -66,7 +66,7 @@ export default async function HomePage() {
         <Terrain
           variant="hero"
           priority
-          className="absolute inset-0 terrain-fade-left opacity-90"
+          className="absolute inset-0 opacity-90 max-lg:[mask-image:linear-gradient(to_bottom,transparent_0%,transparent_42%,black_62%)] lg:terrain-fade-left"
         />
         <Container className="relative py-10 md:py-14 lg:min-h-[calc(100dvh-4rem)] lg:content-center">
           <CourseMap

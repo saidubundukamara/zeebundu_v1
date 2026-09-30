@@ -58,7 +58,7 @@ export function BusinessDirectory({ groups }: { groups: DirectoryGroup[] }) {
         <div
           role="group"
           aria-label="Filter by sector"
-          className="-mx-4 flex snap-x gap-2 overflow-x-auto px-4 pb-2 [scrollbar-width:none] md:mx-0 md:flex-wrap md:overflow-visible md:px-0 md:pb-0"
+          className="-mx-4 flex snap-x [scrollbar-width:none] gap-2 overflow-x-auto px-4 pb-2 md:mx-0 md:flex-wrap md:overflow-visible md:px-0 md:pb-0"
         >
           {chips.map((chip) => {
             const active = sector === chip.id

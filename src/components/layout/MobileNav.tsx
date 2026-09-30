@@ -67,7 +67,7 @@ export function MobileNav({ items, cta }: { items: NavLink[]; cta: NavLink }) {
                     aria-current={isActive(pathname, item.url) ? 'page' : undefined}
                     className="flex items-baseline gap-4 py-4 font-heading text-5xl font-extrabold text-map-ink uppercase aria-[current=page]:text-map-course"
                   >
-                    <span className="control-num w-8 shrink-0 text-lg text-map-course">
+                    <span className="w-8 shrink-0 control-num text-lg text-map-course">
                       {String(i + 1).padStart(2, '0')}
                     </span>
                     {item.label}
