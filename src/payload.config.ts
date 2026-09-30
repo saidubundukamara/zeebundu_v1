@@ -113,6 +113,12 @@ export default buildConfig({
     // Production is managed by migrations (src/migrations): pending ones run on startup.
     // Create one after any schema change with `npm run migrate:create -- <name>`.
     prodMigrations: migrations,
+    // Dev-mode schema push only against a local database. Pushing to Neon (e.g. running the
+    // dev server or seed with DATABASE_URI pointing at it) leaves a "dev" marker that makes the
+    // production migration step stop and ask a question, which hangs Vercel builds.
+    push:
+      process.env.NODE_ENV !== 'production' &&
+      /@(localhost|127\.0\.0\.1|\[::1\])[:/]/.test(process.env.DATABASE_URI || ''),
   }),
   sharp,
   // Scheduled publishing runs through the jobs queue. On Vercel a cron calls
