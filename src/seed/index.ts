@@ -11,6 +11,7 @@ import { getPayload, type Payload } from 'payload'
 import { businesses } from './data/businesses'
 import { groupCopy } from './data/group'
 import { sectors } from './data/sectors'
+import { photo, seedMedia } from './media'
 
 /** Plain paragraphs → Lexical rich text JSON. */
 const toRichText = (paragraphs: string[]) => ({
@@ -62,6 +63,10 @@ async function seed() {
   const payload = await getPayload({ config })
   const log = (msg: string) => payload.logger.info(`[seed] ${msg}`)
 
+  // Temporary photography (skipped when src/seed/media/credits.json is absent)
+  const photos = await seedMedia(payload)
+  log(`${Object.keys(photos).length} photos`)
+
   // Sectors
   const sectorIDs: Record<string, number> = {}
   for (const sector of sectors) {
@@ -69,6 +74,7 @@ async function seed() {
       name: sector.name,
       description: sector.description,
       order: sector.order,
+      ...(photo(photos, sector.slug) && { image: photo(photos, sector.slug) }),
     })
   }
   log(`${sectors.length} sectors`)
@@ -89,6 +95,7 @@ async function seed() {
       })),
       featured: business.featured,
       order: business.order,
+      ...(photo(photos, business.slug) && { heroImage: photo(photos, business.slug) }),
       _status: 'published',
     })
   }
@@ -134,6 +141,7 @@ async function seed() {
     data: {
       hero: {
         ...groupCopy.hero,
+        ...(photo(photos, 'group-hero') && { image: photo(photos, 'group-hero') }),
         primaryCta: { label: 'Explore our businesses', url: '/businesses' },
         secondaryCta: { label: 'About Zeebundu', url: '/about' },
       },

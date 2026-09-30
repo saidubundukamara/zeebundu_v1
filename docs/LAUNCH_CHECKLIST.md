@@ -40,6 +40,7 @@ See `content/legacy/COPY_REVIEW.md` for the full list of open questions.
 - [ ] Copy review signed off, and the 6 drafted business descriptions confirmed.
 - [ ] **Group details** (CMS → Site settings): head-office address, phone, WhatsApp, email, **group enquiries inbox**, socials, stats band numbers.
 - [ ] Every business: "Enquiries go to" email, phone/WhatsApp, locations and hours, logo, main photo, gallery.
+- [ ] Replace the temporary Unsplash seed photos (`src/seed/media/CREDITS.md`) with real Zeebundu photography. Two are clearly off: the forex photo shows Nigerian naira and the pharmacy shelf is from the USA.
 - [ ] Regulatory claims confirmed before publishing (e.g. Bank of Sierra Leone licence for Foreign Exchange, Pharmacy Board registration).
 - [ ] **About** page: mission, vision, values and history. Publish it (it's seeded as a draft). Leadership profiles and photos. Chairman's message on the Homepage.
 - [ ] **Impact programmes:** at least one real programme.
