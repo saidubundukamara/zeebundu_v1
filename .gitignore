@@ -44,3 +44,7 @@ next-env.d.ts
 
 # Payload local uploads
 /media
+
+# Impeccable design-review scratch (decision comps, review screenshots)
+.impeccable/mocks/
+.impeccable/review/
