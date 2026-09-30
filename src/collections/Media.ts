@@ -36,6 +36,20 @@ export const Media: CollectionConfig = {
       { name: 'card', width: 800 },
       { name: 'hero', width: 1920 },
     ],
-    adminThumbnail: 'thumbnail',
+    // Sizes are never enlarged, so an image narrower than 400px has no thumbnail;
+    // fall back to the original so the admin still shows a preview of it.
+    adminThumbnail: ({ doc }) => {
+      const { mimeType, url, filename, sizes } = doc as {
+        mimeType?: string
+        url?: string | null
+        filename?: string | null
+        sizes?: { thumbnail?: { url?: string | null; filename?: string | null } }
+      }
+      if (!mimeType?.startsWith('image/')) return null
+      const thumbnail = sizes?.thumbnail
+      if (thumbnail?.url) return thumbnail.url
+      if (thumbnail?.filename) return `/api/media/file/${encodeURIComponent(thumbnail.filename)}`
+      return url || (filename ? `/api/media/file/${encodeURIComponent(filename)}` : null)
+    },
   },
 }
