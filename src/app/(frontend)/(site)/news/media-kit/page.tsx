@@ -101,7 +101,7 @@ export default async function MediaKitPage() {
                       <div className="flex items-center justify-between gap-3 p-4">
                         <div>
                           <p className="font-medium text-stone-900">{logo.label}</p>
-                          <p className="text-xs text-stone-500">
+                          <p className="text-xs text-stone-600">
                             {[fileType(logo.doc), fileSize(logo.doc.filesize)]
                               .filter(Boolean)
                               .join(' · ')}
@@ -132,7 +132,7 @@ export default async function MediaKitPage() {
                     <FileTextIcon aria-hidden className="size-8 text-forest-700" />
                     <div>
                       <p className="font-medium text-stone-900">Zeebundu brand guidelines</p>
-                      <p className="text-xs text-stone-500">
+                      <p className="text-xs text-stone-600">
                         {[fileType(guidelines), fileSize(guidelines.filesize)]
                           .filter(Boolean)
                           .join(' · ')}

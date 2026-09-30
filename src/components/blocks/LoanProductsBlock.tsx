@@ -32,7 +32,7 @@ export function LoanProductsBlock({
               ].map(([label, value]) =>
                 value ? (
                   <div key={label}>
-                    <dt className="text-xs text-stone-500">{label}</dt>
+                    <dt className="text-xs text-stone-600">{label}</dt>
                     <dd className="font-medium text-forest-800">{value}</dd>
                   </div>
                 ) : null,

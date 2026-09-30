@@ -76,7 +76,7 @@ export default async function ContactPage() {
                         <Icon aria-hidden className="size-5" />
                       </span>
                       <span>
-                        <span className="block text-xs text-stone-500">{label}</span>
+                        <span className="block text-xs text-stone-600">{label}</span>
                         <span className="font-medium text-forest-800 group-hover:underline">
                           {value}
                         </span>

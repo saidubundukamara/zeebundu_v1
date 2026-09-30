@@ -24,7 +24,13 @@ export function RatesTableBlock({
           </p>
         )}
       </div>
-      <div className="overflow-x-auto rounded-lg border border-stone-200 bg-white">
+      <div
+        // Focusable so keyboard users can scroll the table on small screens
+        tabIndex={0}
+        role="region"
+        aria-label={block.heading ?? 'Exchange rates'}
+        className="overflow-x-auto rounded-lg border border-stone-200 bg-white focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none"
+      >
         <table className="w-full min-w-md text-left text-sm">
           <caption className="sr-only">
             Buy and sell rates in {base} per one unit of each currency

@@ -40,7 +40,7 @@ export function NewsCard({ article }: { article: NewsCardData }) {
         </h3>
         <p className="line-clamp-3 text-sm leading-relaxed text-stone-600">{article.excerpt}</p>
         {article.publishedAt && (
-          <time dateTime={article.publishedAt} className="mt-auto text-xs text-stone-500">
+          <time dateTime={article.publishedAt} className="mt-auto text-xs text-stone-600">
             {formatDate(article.publishedAt)}
           </time>
         )}
