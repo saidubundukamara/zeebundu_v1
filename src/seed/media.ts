@@ -49,7 +49,9 @@ export async function seedMedia(payload: Payload): Promise<Record<string, number
     const caption = `Photo: ${credit.photographer} on Unsplash (temporary)`
     const existing = await payload.find({
       collection: 'media',
-      where: { filename: { equals: credit.file } },
+      // Payload may store "pharmacy-1.jpg" if a same-named file already existed, so also
+      // match on the alt text, which is unique per photo.
+      where: { or: [{ filename: { equals: credit.file } }, { alt: { equals: credit.alt } }] },
       limit: 1,
       depth: 0,
     })
