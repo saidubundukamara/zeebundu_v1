@@ -1,4 +1,4 @@
-import { CheckIcon } from 'lucide-react'
+import { CheckIcon } from '@phosphor-icons/react/ssr'
 
 import { Section, SectionHeader } from '@/components/layout/Section'
 import { RichText } from '@/components/RichText'
@@ -16,15 +16,12 @@ export function LoanProductsBlock({
       {block.heading && <SectionHeader title={block.heading} description={block.intro} />}
       <ul className="grid gap-5 md:grid-cols-2">
         {block.products?.map((product) => (
-          <li
-            key={product.id}
-            className="space-y-4 rounded-lg border border-stone-200 bg-white p-6"
-          >
-            <h3 className="font-heading text-h3 text-forest-800">{product.name}</h3>
+          <li key={product.id} className="space-y-4 rounded-lg border border-map-rule bg-card p-6">
+            <h3 className="font-heading text-h3 text-map-ink">{product.name}</h3>
             {product.description && (
-              <p className="text-sm leading-relaxed text-stone-600">{product.description}</p>
+              <p className="text-sm leading-relaxed text-map-ink-soft">{product.description}</p>
             )}
-            <dl className="grid grid-cols-3 gap-3 border-t border-stone-200 pt-4 text-sm">
+            <dl className="grid grid-cols-3 gap-3 border-t border-map-rule pt-4 text-sm">
               {[
                 ['Amount', product.amountRange],
                 ['Interest', product.interestRate],
@@ -32,8 +29,8 @@ export function LoanProductsBlock({
               ].map(([label, value]) =>
                 value ? (
                   <div key={label}>
-                    <dt className="text-xs text-stone-600">{label}</dt>
-                    <dd className="font-medium text-forest-800">{value}</dd>
+                    <dt className="text-xs text-map-ink-soft">{label}</dt>
+                    <dd className="font-medium text-map-ink">{value}</dd>
                   </div>
                 ) : null,
               )}
@@ -49,7 +46,11 @@ export function LoanProductsBlock({
               <ul className="space-y-2">
                 {block.requirements.map((r) => (
                   <li key={r.id} className="flex gap-3 text-sm">
-                    <CheckIcon aria-hidden className="mt-0.5 size-4 shrink-0 text-forest-600" />
+                    <CheckIcon
+                      weight="light"
+                      aria-hidden
+                      className="mt-0.5 size-4 shrink-0 text-map-ink"
+                    />
                     {r.item}
                   </li>
                 ))}

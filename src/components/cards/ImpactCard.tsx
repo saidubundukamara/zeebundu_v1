@@ -1,33 +1,38 @@
+import { ArrowRightIcon } from '@phosphor-icons/react/ssr'
 import Link from 'next/link'
 
 import { Media } from '@/components/Media'
-import type { ImpactProgramme } from '@/payload-types'
-
 import { impactPillarLabels } from '@/lib/impact'
+import type { ImpactProgramme } from '@/payload-types'
 
 export function ImpactCard({ programme }: { programme: ImpactProgramme }) {
   return (
-    <article className="group relative flex h-full flex-col overflow-hidden rounded-lg border border-stone-200 bg-white">
-      <Media
-        resource={programme.heroImage}
-        className="aspect-[16/10]"
-        fallbackLabel={impactPillarLabels[programme.pillar]}
-        sizes="(min-width: 1024px) 33vw, 100vw"
-      />
-      <div className="flex flex-1 flex-col gap-2 p-5">
-        <p className="text-xs font-medium tracking-[0.14em] text-gold-700 uppercase">
+    <Link
+      href={`/impact/${programme.slug}`}
+      className="group flex h-full flex-col border border-map-rule bg-card transition-colors duration-300 hover:border-map-ink"
+    >
+      <div className="overflow-hidden">
+        <Media
+          resource={programme.heroImage}
+          className="aspect-[4/3] transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.04]"
+          fallbackLabel={impactPillarLabels[programme.pillar]}
+          sizes="(min-width: 1024px) 30vw, 100vw"
+        />
+      </div>
+      <div className="flex flex-1 flex-col gap-3 p-5">
+        <p className="text-xs font-medium text-map-course">
           {impactPillarLabels[programme.pillar]}
         </p>
-        <h3 className="font-heading text-h3 text-forest-800">
-          <Link
-            href={`/impact/${programme.slug}`}
-            className="group-hover:underline after:absolute after:inset-0"
-          >
-            {programme.title}
-          </Link>
+        <h3 className="flex items-start justify-between gap-3 font-heading text-2xl leading-none font-extrabold uppercase">
+          {programme.title}
+          <ArrowRightIcon
+            aria-hidden
+            weight="light"
+            className="size-6 shrink-0 transition-transform duration-300 group-hover:translate-x-1 group-hover:text-map-course"
+          />
         </h3>
-        <p className="text-sm leading-relaxed text-stone-600">{programme.summary}</p>
+        <p className="text-sm leading-relaxed text-map-ink-soft">{programme.summary}</p>
       </div>
-    </article>
+    </Link>
   )
 }

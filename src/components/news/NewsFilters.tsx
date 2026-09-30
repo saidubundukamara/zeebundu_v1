@@ -43,7 +43,7 @@ export function NewsFilters({
   businesses: Pick<Business, 'id' | 'name'>[]
 }) {
   return (
-    <div className="mb-10 flex flex-col gap-5 border-b border-stone-200 pb-6 lg:flex-row lg:items-end lg:justify-between">
+    <div className="mb-10 flex flex-col gap-5 border-b border-map-rule pb-6 lg:flex-row lg:items-end lg:justify-between">
       <nav aria-label="Filter by category">
         <ul className="flex flex-wrap gap-2">
           {newsCategoryFilters.map((filter) => {
@@ -54,10 +54,10 @@ export function NewsFilters({
                   href={newsHref({ category: filter.value, business })}
                   aria-current={active ? 'page' : undefined}
                   className={cn(
-                    'inline-flex h-9 items-center rounded-full border px-4 text-sm transition-colors focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none',
+                    'inline-flex h-9 items-center rounded-sm border px-4 text-sm transition-colors focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none',
                     active
-                      ? 'border-forest-800 bg-forest-800 text-stone-50'
-                      : 'border-stone-300 text-forest-800 hover:border-forest-700 hover:bg-forest-50',
+                      ? 'border-map-course bg-map-course text-primary-foreground'
+                      : 'border-map-rule text-map-ink hover:border-map-ink hover:bg-muted',
                   )}
                 >
                   {filter.label}
@@ -71,14 +71,14 @@ export function NewsFilters({
       <form action="/news" method="get" className="flex flex-wrap items-end gap-2">
         {category && <input type="hidden" name="category" value={category} />}
         <div className="flex flex-col gap-1.5">
-          <label htmlFor="news-business" className="text-sm font-medium text-stone-700">
+          <label htmlFor="news-business" className="text-sm font-medium text-map-ink-soft">
             Business
           </label>
           <select
             id="news-business"
             name="business"
             defaultValue={business ? String(business) : ''}
-            className="h-9 min-w-56 rounded-lg border border-input bg-white px-2.5 text-sm text-stone-900 outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50"
+            className="h-9 min-w-56 rounded-lg border border-input bg-card px-2.5 text-sm text-map-ink-soft outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50"
           >
             <option value="">All businesses</option>
             {businesses.map((b) => (

@@ -20,7 +20,7 @@ export function ShareLinks({
   ]
   return (
     <div className={cn('flex flex-wrap items-center gap-2', className)}>
-      <span className="mr-1 text-sm font-medium text-stone-700">Share</span>
+      <span className="mr-1 text-sm font-medium text-map-ink-soft">Share</span>
       <ul className="flex flex-wrap gap-2">
         {links.map((link) => (
           <li key={link.label}>
@@ -28,7 +28,7 @@ export function ShareLinks({
               href={link.href}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex h-9 items-center rounded-full border border-stone-300 px-4 text-sm text-forest-800 transition-colors hover:border-forest-700 hover:bg-forest-50 focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none"
+              className="inline-flex h-9 items-center rounded-sm border border-map-rule px-4 text-sm text-map-ink transition-colors hover:border-map-ink hover:bg-muted focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none"
             >
               {link.label}
               <span className="sr-only"> (opens in a new tab)</span>

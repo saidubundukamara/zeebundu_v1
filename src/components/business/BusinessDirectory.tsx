@@ -1,11 +1,11 @@
 'use client'
 
-import { ArrowRightIcon, SearchIcon } from 'lucide-react'
+import { ArrowRightIcon, MagnifyingGlassIcon } from '@phosphor-icons/react'
+import { AnimatePresence, LayoutGroup, motion, useReducedMotion } from 'motion/react'
 import Link from 'next/link'
 import { useDeferredValue, useId, useState } from 'react'
 
 import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
 import { cn } from '@/lib/utils'
 
 export type DirectoryItem = {
@@ -20,18 +20,20 @@ export type DirectoryGroup = {
   id: number
   name: string
   slug: string
+  codes: string[]
   items: DirectoryItem[]
 }
 
-const chipClass =
-  'inline-flex h-9 items-center rounded-full border px-4 text-sm font-medium transition-colors outline-none focus-visible:ring-3 focus-visible:ring-ring/50'
+const EASE = [0.16, 1, 0.3, 1] as const
 
-/** Sector chips + text search over the businesses grid. Cards are rendered on the server. */
+/** Legend-style sector filter + text search over the businesses. Cards are rendered on the server. */
 export function BusinessDirectory({ groups }: { groups: DirectoryGroup[] }) {
   const [sector, setSector] = useState<number | null>(null)
   const [query, setQuery] = useState('')
   const deferredQuery = useDeferredValue(query)
   const id = useId()
+  const reduce = useReducedMotion()
+  const total = groups.reduce((n, g) => n + g.items.length, 0)
 
   const terms = deferredQuery.trim().toLowerCase().split(/\s+/).filter(Boolean)
   const visible = groups
@@ -48,11 +50,13 @@ export function BusinessDirectory({ groups }: { groups: DirectoryGroup[] }) {
     setQuery('')
   }
 
+  const chips = [{ id: null, name: 'All sectors', codes: [] as string[] }, ...groups]
+
   return (
     <div>
-      <div className="mb-10 flex flex-col gap-5 lg:flex-row lg:items-start lg:justify-between">
+      <div className="mb-14 grid gap-6 lg:grid-cols-[minmax(0,1fr)_18rem] lg:items-end">
         <div role="group" aria-label="Filter by sector" className="flex flex-wrap gap-2">
-          {[{ id: null, name: 'All' }, ...groups].map((chip) => {
+          {chips.map((chip) => {
             const active = sector === chip.id
             return (
               <button
@@ -61,81 +65,122 @@ export function BusinessDirectory({ groups }: { groups: DirectoryGroup[] }) {
                 aria-pressed={active}
                 onClick={() => setSector(chip.id)}
                 className={cn(
-                  chipClass,
+                  'relative isolate inline-flex h-10 items-center gap-2 rounded-sm border px-3.5 text-sm font-medium transition-colors duration-200',
                   active
-                    ? 'border-forest-800 bg-forest-800 text-stone-50'
-                    : 'border-stone-300 bg-white text-stone-700 hover:border-forest-700 hover:text-forest-800',
+                    ? 'border-map-course text-primary-foreground'
+                    : 'border-map-rule text-map-ink hover:border-map-ink',
                 )}
               >
-                {chip.name}
+                {active && (
+                  <motion.span
+                    layoutId={`${id}-chip`}
+                    className="absolute inset-0 -z-0 rounded-[1px] bg-map-course"
+                    transition={reduce ? { duration: 0 } : { duration: 0.45, ease: EASE }}
+                  />
+                )}
+                <span className="relative">{chip.name}</span>
+                {chip.codes.length > 0 && (
+                  <span
+                    className={cn(
+                      'relative control-num text-sm',
+                      active ? 'text-primary-foreground/80' : 'text-map-course',
+                    )}
+                  >
+                    {chip.codes.join(' ')}
+                  </span>
+                )}
               </button>
             )
           })}
         </div>
-        <div className="relative shrink-0 lg:w-72">
-          <label htmlFor={`${id}-search`} className="sr-only">
+        <div className="relative">
+          <label htmlFor={`${id}-search`} className="mb-2 block text-sm font-medium">
             Search businesses
           </label>
-          <SearchIcon
+          <MagnifyingGlassIcon
             aria-hidden
-            className="pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2 text-stone-600"
+            weight="light"
+            className="pointer-events-none absolute bottom-3 left-0 size-5 text-map-ink-soft"
           />
-          <Input
+          <input
             id={`${id}-search`}
             type="search"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="Search businesses"
+            placeholder="Pharmacy, fuel, juice…"
             autoComplete="off"
-            className="h-10 bg-white pl-9"
+            className="h-11 w-full border-0 border-b border-map-ink bg-transparent pl-8 text-base outline-none placeholder:text-map-ink-soft focus-visible:border-b-2 focus-visible:border-map-course focus-visible:outline-none"
           />
         </div>
       </div>
 
-      <p role="status" className="sr-only">
-        {count} {count === 1 ? 'business' : 'businesses'} shown
+      <p role="status" className="mb-6 text-sm text-map-ink-soft">
+        Showing <span className="font-medium text-map-ink tabular">{count}</span> of {total}{' '}
+        businesses
       </p>
 
       {visible.length === 0 ? (
-        <div className="flex flex-col items-start gap-4 rounded-lg border border-dashed border-stone-300 bg-stone-100 p-8">
-          <h2 className="font-heading text-h3 text-forest-800">No businesses match your search</h2>
-          <p className="text-stone-600">
-            Try a different word, or browse all {groups.reduce((n, g) => n + g.items.length, 0)}{' '}
-            businesses.
+        <div className="flex flex-col items-start gap-4 border border-dashed border-map-rule p-8 md:p-12">
+          <h2 className="text-h3">Nothing matches that search</h2>
+          <p className="max-w-[48ch] text-map-ink-soft">
+            Try a shorter word, like &ldquo;fuel&rdquo; or &ldquo;loan&rdquo;, or clear the filters
+            to see all {total} businesses.
           </p>
           <Button variant="outline" size="lg" onClick={reset}>
             Clear filters
           </Button>
         </div>
       ) : (
-        <div className="space-y-14">
-          {visible.map((group) => (
-            <section key={group.id} aria-labelledby={`${id}-${group.slug}`}>
-              <div className="mb-5 flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2 border-b border-stone-200 pb-3">
-                <h2 id={`${id}-${group.slug}`} className="text-h3 text-forest-800">
-                  <Link
-                    href={`/businesses/sector/${group.slug}`}
-                    className="rounded-sm outline-none hover:underline focus-visible:ring-3 focus-visible:ring-ring/50"
-                  >
-                    {group.name}
-                  </Link>
-                </h2>
-                <Link
-                  href={`/businesses/sector/${group.slug}`}
-                  className="inline-flex items-center gap-1.5 rounded-sm text-sm font-medium text-forest-700 outline-none hover:underline focus-visible:ring-3 focus-visible:ring-ring/50"
+        <LayoutGroup>
+          <div className="space-y-16">
+            <AnimatePresence mode="popLayout" initial={false}>
+              {visible.map((group) => (
+                <motion.section
+                  key={group.id}
+                  layout={!reduce}
+                  initial={reduce ? false : { opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={reduce ? undefined : { opacity: 0 }}
+                  transition={{ duration: 0.4, ease: EASE }}
+                  aria-labelledby={`${id}-${group.slug}`}
                 >
-                  View sector <span className="sr-only">{group.name}</span>
-                  <ArrowRightIcon aria-hidden className="size-4" />
-                </Link>
-              </div>
-              <ul className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-                {group.items.map((item) => (
-                  <li key={item.id}>{item.card}</li>
-                ))}
-              </ul>
-            </section>
-          ))}
-        </div>
+                  <div className="mb-6 flex flex-wrap items-end justify-between gap-x-6 gap-y-2 border-b border-map-ink pb-3">
+                    <h2 id={`${id}-${group.slug}`} className="text-h3">
+                      <Link
+                        href={`/businesses/sector/${group.slug}`}
+                        className="hover:text-map-course"
+                      >
+                        {group.name}
+                      </Link>
+                    </h2>
+                    <Link
+                      href={`/businesses/sector/${group.slug}`}
+                      className="group inline-flex items-center gap-1.5 text-sm font-medium hover:text-map-course"
+                    >
+                      Sector page <span className="sr-only">for {group.name}</span>
+                      <ArrowRightIcon
+                        aria-hidden
+                        weight="light"
+                        className="size-4 transition-transform duration-300 group-hover:translate-x-1"
+                      />
+                    </Link>
+                  </div>
+                  <ul className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+                    {group.items.map((item) => (
+                      <motion.li
+                        key={item.id}
+                        layout={!reduce}
+                        transition={{ duration: 0.45, ease: EASE }}
+                      >
+                        {item.card}
+                      </motion.li>
+                    ))}
+                  </ul>
+                </motion.section>
+              ))}
+            </AnimatePresence>
+          </div>
+        </LayoutGroup>
       )}
     </div>
   )

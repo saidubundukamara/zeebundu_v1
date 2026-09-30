@@ -5,7 +5,7 @@ import type { StatsBlock as StatsBlockType } from '@/payload-types'
 export function StatsBlock({ block }: { block: StatsBlockType }) {
   if (!block.stats?.length) return null
   return (
-    <Section tone="dark">
+    <Section className="border-t border-map-rule">
       {block.heading && <h2 className="mb-10 text-h2">{block.heading}</h2>}
       <StatsGrid stats={block.stats} />
     </Section>

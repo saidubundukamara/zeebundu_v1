@@ -1,4 +1,4 @@
-import { ArrowUpRightIcon } from 'lucide-react'
+import { ArrowUpRightIcon } from '@phosphor-icons/react/ssr'
 
 import { Media } from '@/components/Media'
 import { populated } from '@/lib/data'
@@ -24,20 +24,21 @@ export function PartnerList({ partners }: { partners: Partner[] }) {
               <Media
                 resource={logo}
                 size="thumbnail"
-                className="size-12 shrink-0 rounded-md bg-stone-100 [&_img]:object-contain!"
+                className="size-12 shrink-0 rounded-md bg-muted [&_img]:object-contain!"
                 sizes="48px"
               />
             )}
-            <span className="flex-1 font-medium text-stone-900">{partner.name}</span>
+            <span className="flex-1 font-medium text-map-ink-soft">{partner.name}</span>
             {href && (
               <ArrowUpRightIcon
+                weight="light"
                 aria-hidden
-                className="size-4 shrink-0 text-stone-400 group-hover:text-forest-700"
+                className="size-4 shrink-0 text-map-ink-soft group-hover:text-map-ink"
               />
             )}
           </>
         )
-        const base = 'flex items-center gap-3 rounded-lg border border-stone-200 bg-white p-3'
+        const base = 'flex items-center gap-3 rounded-lg border border-map-rule bg-card p-3'
         return (
           <li key={partner.id ?? partner.name}>
             {href ? (
@@ -45,7 +46,7 @@ export function PartnerList({ partners }: { partners: Partner[] }) {
                 href={href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className={`group ${base} transition-colors hover:border-forest-700 focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none`}
+                className={`group ${base} transition-colors hover:border-map-ink focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none`}
               >
                 {content}
                 <span className="sr-only">(opens in a new tab)</span>

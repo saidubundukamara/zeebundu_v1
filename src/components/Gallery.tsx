@@ -17,7 +17,7 @@ export function Gallery({ images }: { images?: (number | MediaDoc)[] | null }) {
               sizes={i === 0 ? '50vw' : '25vw'}
             />
             {img.caption && (
-              <figcaption className="mt-2 text-xs text-stone-600">{img.caption}</figcaption>
+              <figcaption className="mt-2 text-xs text-map-ink-soft">{img.caption}</figcaption>
             )}
           </figure>
         </li>

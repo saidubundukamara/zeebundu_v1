@@ -1,4 +1,4 @@
-import { ArrowLeftIcon, ArrowRightIcon } from 'lucide-react'
+import { ArrowLeftIcon, ArrowRightIcon } from '@phosphor-icons/react/ssr'
 import Link from 'next/link'
 
 import { Button } from '@/components/ui/button'
@@ -19,19 +19,19 @@ export function Pagination({
       {page > 1 ? (
         <Button asChild variant="outline" size="lg">
           <Link href={hrefFor(page - 1)} rel="prev">
-            <ArrowLeftIcon data-icon="inline-start" /> Newer
+            <ArrowLeftIcon weight="light" data-icon="inline-start" /> Newer
           </Link>
         </Button>
       ) : (
         <span />
       )}
-      <p className="text-sm text-stone-600">
+      <p className="text-sm text-map-ink-soft">
         Page {page} of {totalPages}
       </p>
       {page < totalPages ? (
         <Button asChild variant="outline" size="lg">
           <Link href={hrefFor(page + 1)} rel="next">
-            Older <ArrowRightIcon data-icon="inline-end" />
+            Older <ArrowRightIcon weight="light" data-icon="inline-end" />
           </Link>
         </Button>
       ) : (

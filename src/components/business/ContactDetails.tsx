@@ -1,10 +1,10 @@
-import { MailIcon, MessageCircleIcon, PhoneIcon } from 'lucide-react'
+import { EnvelopeSimpleIcon, PhoneIcon, WhatsappLogoIcon } from '@phosphor-icons/react/ssr'
 
 import { telHref, whatsappHref } from '@/lib/links'
 import type { Business } from '@/payload-types'
 
 const linkClass =
-  'group flex items-center gap-4 rounded-lg border border-stone-200 bg-white p-4 transition-colors outline-none hover:border-forest-700 focus-visible:ring-3 focus-visible:ring-ring/50'
+  'group flex items-center gap-4 rounded-lg border border-map-rule bg-card p-4 transition-colors outline-none hover:border-map-ink focus-visible:ring-3 focus-visible:ring-ring/50'
 
 /** Phone, WhatsApp and email links for a business. Renders nothing when none are set. */
 export function ContactDetails({ business }: { business: Business }) {
@@ -22,7 +22,7 @@ export function ContactDetails({ business }: { business: Business }) {
       label: 'WhatsApp',
       value: whatsapp,
       href: whatsappHref(whatsapp, `Hello ${business.name}, I found you on the Zeebundu website.`),
-      Icon: MessageCircleIcon,
+      Icon: WhatsappLogoIcon,
       external: true,
     },
     email && {
@@ -30,7 +30,7 @@ export function ContactDetails({ business }: { business: Business }) {
       label: 'Email',
       value: email,
       href: `mailto:${email}`,
-      Icon: MailIcon,
+      Icon: EnvelopeSimpleIcon,
     },
   ].filter(Boolean) as {
     key: string
@@ -52,14 +52,12 @@ export function ContactDetails({ business }: { business: Business }) {
             className={linkClass}
             {...(external && { target: '_blank', rel: 'noopener noreferrer' })}
           >
-            <span className="flex size-10 shrink-0 items-center justify-center rounded-full bg-forest-50 text-forest-700">
-              <Icon aria-hidden className="size-5" />
+            <span className="flex size-10 shrink-0 items-center justify-center rounded-sm border border-map-rule text-map-course">
+              <Icon weight="light" aria-hidden className="size-5" />
             </span>
             <span className="min-w-0">
-              <span className="block text-xs font-medium tracking-[0.14em] text-gold-700 uppercase">
-                {label}
-              </span>
-              <span className="block truncate font-medium text-forest-800 group-hover:underline">
+              <span className="block text-sm font-medium text-map-ink-soft">{label}</span>
+              <span className="block truncate font-medium text-map-ink group-hover:underline">
                 {value}
               </span>
             </span>

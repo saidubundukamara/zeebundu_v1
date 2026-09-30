@@ -1,4 +1,4 @@
-import { ClockIcon, MapPinIcon, PhoneIcon } from 'lucide-react'
+import { ClockIcon, MapPinIcon, PhoneIcon } from '@phosphor-icons/react/ssr'
 
 import { telHref } from '@/lib/links'
 import type { Business } from '@/payload-types'
@@ -27,17 +27,21 @@ export function Locations({ locations }: { locations: Location[] }) {
           return (
             <li
               key={location.id ?? location.name}
-              className="space-y-3 rounded-lg border border-stone-200 bg-white p-5"
+              className="space-y-3 rounded-lg border border-map-rule bg-card p-5"
             >
               <div>
-                <h3 className="font-heading text-h3 text-forest-800">{location.name}</h3>
-                {district && <p className="text-sm text-stone-600">{district}</p>}
+                <h3 className="font-heading text-h3 text-map-ink">{location.name}</h3>
+                {district && <p className="text-sm text-map-ink-soft">{district}</p>}
               </div>
               <dl className="space-y-2 text-sm">
                 {location.address && (
                   <div className="flex gap-2.5">
                     <dt>
-                      <MapPinIcon aria-hidden className="mt-0.5 size-4 text-forest-600" />
+                      <MapPinIcon
+                        weight="light"
+                        aria-hidden
+                        className="mt-0.5 size-4 text-map-ink"
+                      />
                       <span className="sr-only">Address</span>
                     </dt>
                     <dd className="whitespace-pre-line">{location.address}</dd>
@@ -46,7 +50,11 @@ export function Locations({ locations }: { locations: Location[] }) {
                 {location.hours && (
                   <div className="flex gap-2.5">
                     <dt>
-                      <ClockIcon aria-hidden className="mt-0.5 size-4 text-forest-600" />
+                      <ClockIcon
+                        weight="light"
+                        aria-hidden
+                        className="mt-0.5 size-4 text-map-ink"
+                      />
                       <span className="sr-only">Opening hours</span>
                     </dt>
                     <dd>{location.hours}</dd>
@@ -55,13 +63,17 @@ export function Locations({ locations }: { locations: Location[] }) {
                 {location.phone && (
                   <div className="flex gap-2.5">
                     <dt>
-                      <PhoneIcon aria-hidden className="mt-0.5 size-4 text-forest-600" />
+                      <PhoneIcon
+                        weight="light"
+                        aria-hidden
+                        className="mt-0.5 size-4 text-map-ink"
+                      />
                       <span className="sr-only">Phone</span>
                     </dt>
                     <dd>
                       <a
                         href={telHref(location.phone)}
-                        className="rounded-sm font-medium text-forest-700 underline-offset-4 outline-none hover:underline focus-visible:ring-3 focus-visible:ring-ring/50"
+                        className="rounded-sm font-medium text-map-ink underline-offset-4 outline-none hover:underline focus-visible:ring-3 focus-visible:ring-ring/50"
                       >
                         {location.phone}
                       </a>
@@ -74,7 +86,7 @@ export function Locations({ locations }: { locations: Location[] }) {
                   href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(q)}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-block rounded-sm text-sm font-medium text-forest-700 underline underline-offset-4 outline-none focus-visible:ring-3 focus-visible:ring-ring/50"
+                  className="inline-block rounded-sm text-sm font-medium text-map-ink underline underline-offset-4 outline-none focus-visible:ring-3 focus-visible:ring-ring/50"
                 >
                   Open in Google Maps
                   <span className="sr-only"> (opens in a new tab)</span>
@@ -86,7 +98,7 @@ export function Locations({ locations }: { locations: Location[] }) {
       </ul>
 
       {mapped && query && (
-        <div className="overflow-hidden rounded-lg border border-stone-200 bg-stone-200 lg:sticky lg:top-24 lg:self-start">
+        <div className="overflow-hidden rounded-lg border border-map-rule bg-muted lg:sticky lg:top-24 lg:self-start">
           <iframe
             title={`Map showing ${mapped.name}`}
             src={`https://www.google.com/maps?q=${encodeURIComponent(query)}&output=embed`}

@@ -15,7 +15,7 @@ export function ProductListBlock({
       {block.heading && <SectionHeader title={block.heading} description={block.intro} />}
       <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {block.products.map((p) => (
-          <li key={p.id} className="flex gap-4 rounded-lg border border-stone-200 bg-white p-4">
+          <li key={p.id} className="flex gap-4 rounded-lg border border-map-rule bg-card p-4">
             {p.image && typeof p.image === 'object' && (
               <Media
                 resource={p.image}
@@ -25,8 +25,8 @@ export function ProductListBlock({
               />
             )}
             <div className="min-w-0 space-y-1">
-              <h3 className="font-medium text-forest-800">{p.name}</h3>
-              <p className="text-sm text-stone-600">
+              <h3 className="font-medium text-map-ink">{p.name}</h3>
+              <p className="text-sm text-map-ink-soft">
                 {[p.size, p.pack].filter(Boolean).join(' · ')}
               </p>
               {p.price && <p className="text-sm font-medium tabular-nums">Le {p.price}</p>}
@@ -34,7 +34,7 @@ export function ProductListBlock({
           </li>
         ))}
       </ul>
-      {block.note && <p className="mt-4 text-sm text-stone-600">{block.note}</p>}
+      {block.note && <p className="mt-4 text-sm text-map-ink-soft">{block.note}</p>}
     </Section>
   )
 }

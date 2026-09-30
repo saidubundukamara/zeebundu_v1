@@ -1,25 +1,45 @@
+import { ArrowRightIcon } from '@phosphor-icons/react/ssr'
 import Link from 'next/link'
 
 import { Media } from '@/components/Media'
 import type { Sector } from '@/payload-types'
 
-export function SectorCard({ sector, count }: { sector: Sector; count: number }) {
+export function SectorCard({
+  sector,
+  count,
+  codes,
+}: {
+  sector: Sector
+  count: number
+  codes?: string[]
+}) {
   return (
-    <Link
-      href={`/businesses/sector/${sector.slug}`}
-      className="group relative flex aspect-[4/5] flex-col justify-end overflow-hidden rounded-lg text-stone-50 focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none sm:aspect-[3/4]"
-    >
-      <Media
-        resource={sector.image}
-        className="absolute inset-0 transition-transform duration-500 group-hover:scale-105"
-        sizes="(min-width: 1024px) 25vw, 50vw"
-      />
-      <div className="absolute inset-0 bg-gradient-to-t from-forest-950/90 via-forest-950/30 to-transparent" />
-      <div className="relative space-y-1 p-5">
-        <h3 className="font-heading text-h3">{sector.name}</h3>
-        <p className="text-sm text-stone-300">
-          {count} {count === 1 ? 'business' : 'businesses'}
-        </p>
+    <Link href={`/businesses/sector/${sector.slug}`} className="group block">
+      <div className="overflow-hidden">
+        <Media
+          resource={sector.image}
+          className="aspect-[4/5] transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.04]"
+          fallbackLabel={sector.name}
+          sizes="(min-width: 1024px) 25vw, 50vw"
+        />
+      </div>
+      <div className="mt-3 flex items-start justify-between gap-3 border-b border-map-ink pb-3">
+        <div>
+          <h3 className="font-heading text-2xl leading-none font-extrabold uppercase group-hover:text-map-course">
+            {sector.name}
+          </h3>
+          <p className="mt-1.5 text-sm text-map-ink-soft">
+            {count} {count === 1 ? 'business' : 'businesses'}
+            {codes?.length ? (
+              <span className="ml-2 control-num text-base text-map-course">{codes.join(' ')}</span>
+            ) : null}
+          </p>
+        </div>
+        <ArrowRightIcon
+          aria-hidden
+          weight="light"
+          className="mt-0.5 size-6 shrink-0 transition-transform duration-300 group-hover:translate-x-1"
+        />
       </div>
     </Link>
   )

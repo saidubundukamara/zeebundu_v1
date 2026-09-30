@@ -1,6 +1,6 @@
 'use client'
 
-import { CheckCircle2Icon } from 'lucide-react'
+import { CheckCircleIcon } from '@phosphor-icons/react'
 import { usePathname } from 'next/navigation'
 import { useActionState, useEffect, useId } from 'react'
 
@@ -18,7 +18,7 @@ import { Turnstile } from './Turnstile'
 const initialState: EnquiryState = { status: 'idle' }
 
 const selectClass =
-  'h-10 w-full rounded-md border border-input bg-white px-3 text-sm outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 aria-invalid:border-destructive'
+  'h-11 w-full rounded-md border border-input bg-card px-3 text-sm outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 aria-invalid:border-destructive'
 
 /**
  * Enquiry form. Pass `business` to route it to one business (hidden field);
@@ -49,15 +49,15 @@ export function EnquiryForm({
       <div
         role="status"
         className={cn(
-          'flex flex-col items-start gap-3 rounded-lg border border-forest-200 bg-forest-50 p-6',
+          'flex flex-col items-start gap-3 rounded-lg border border-map-ink bg-muted p-6',
           className,
         )}
       >
-        <CheckCircle2Icon aria-hidden className="size-8 text-forest-600" />
-        <h3 className="font-heading text-h3 text-forest-800">
+        <CheckCircleIcon weight="light" aria-hidden className="size-8 text-map-course" />
+        <h3 className="font-heading text-h3 text-map-ink">
           Thank you, we’ve received your message
         </h3>
-        <p className="text-sm text-stone-700">
+        <p className="text-sm text-map-ink-soft">
           {business ? `The ${business.name} team` : 'Our team'} will get back to you as soon as
           possible.
         </p>
@@ -102,7 +102,7 @@ export function EnquiryForm({
       <div className="grid gap-5 sm:grid-cols-2">
         <div className="space-y-2">
           <Label htmlFor={`${id}-name`}>Your name</Label>
-          <Input {...field('name')} autoComplete="name" required className="h-10 bg-white" />
+          <Input {...field('name')} autoComplete="name" required className="h-11 bg-card" />
           {fieldError('name')}
         </div>
         <div className="space-y-2">
@@ -112,15 +112,15 @@ export function EnquiryForm({
             type="email"
             autoComplete="email"
             required
-            className="h-10 bg-white"
+            className="h-11 bg-card"
           />
           {fieldError('email')}
         </div>
         <div className="space-y-2">
           <Label htmlFor={`${id}-phone`}>
-            Phone <span className="font-normal text-stone-600">(optional)</span>
+            Phone <span className="font-normal text-map-ink-soft">(optional)</span>
           </Label>
-          <Input {...field('phone')} type="tel" autoComplete="tel" className="h-10 bg-white" />
+          <Input {...field('phone')} type="tel" autoComplete="tel" className="h-11 bg-card" />
           {fieldError('phone')}
         </div>
         <div className="space-y-2">
@@ -158,7 +158,7 @@ export function EnquiryForm({
 
       <div className="space-y-2">
         <Label htmlFor={`${id}-message`}>Message</Label>
-        <Textarea {...field('message')} required rows={6} className="bg-white" />
+        <Textarea {...field('message')} required rows={6} className="bg-card" />
         {fieldError('message')}
       </div>
 
@@ -168,7 +168,9 @@ export function EnquiryForm({
       {state.status === 'error' && state.message && state.code && alert}
 
       <div className="flex flex-wrap items-center justify-between gap-4">
-        <p className="text-xs text-stone-600">We only use your details to reply to this enquiry.</p>
+        <p className="text-xs text-map-ink-soft">
+          We only use your details to reply to this enquiry.
+        </p>
         <Button type="submit" variant="highlight" size="xl" disabled={pending}>
           {pending ? 'Sending…' : 'Send enquiry'}
         </Button>
