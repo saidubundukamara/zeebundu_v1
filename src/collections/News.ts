@@ -22,7 +22,7 @@ export const News: CollectionConfig = {
     delete: ownBusinessOrGroup(),
     readVersions: ownBusinessOrGroup(),
   },
-  versions: { drafts: { schedulePublish: true }, maxPerDoc: 25 },
+  versions: { drafts: { autosave: { interval: 1500 }, schedulePublish: true }, maxPerDoc: 25 },
   fields: [
     {
       type: 'tabs',

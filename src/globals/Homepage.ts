@@ -8,7 +8,7 @@ export const Homepage: GlobalConfig = {
   slug: 'homepage',
   admin: { group: adminGroups.content },
   access: { read: anyone, update: groupEditors },
-  versions: { drafts: true, max: 25 },
+  versions: { drafts: { autosave: { interval: 1500 } }, max: 25 },
   fields: [
     {
       type: 'tabs',

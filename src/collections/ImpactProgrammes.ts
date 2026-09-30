@@ -30,7 +30,7 @@ export const ImpactProgrammes: CollectionConfig = {
     delete: groupEditors,
     readVersions: groupEditors,
   },
-  versions: { drafts: true, maxPerDoc: 25 },
+  versions: { drafts: { autosave: { interval: 1500 } }, maxPerDoc: 25 },
   fields: [
     {
       type: 'tabs',
