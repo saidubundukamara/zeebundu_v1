@@ -386,3 +386,13 @@ Two curves carry all of it: expo out, `cubic-bezier(0.16, 1, 0.3, 1)`, for arriv
 - **Don't** use rounded pills, soft 8px+ corners or drop shadows (the control description card is the one exception).
 - **Don't** add gradients, grain, glassmorphism or decorative blobs in place of the terrain.
 - **Don't** use the legacy "Forest & gold" colours (forest, gold, stone); they exist only for the `/wireframes` route.
+
+## Admin (Payload CMS)
+
+The CMS at `/admin` wears the same world, kept quiet because it is a working tool (`src/app/(payload)/custom.scss`):
+
+- Payload's grey scale (`--color-base-0` to `1000`) is replaced by the map's ground-to-ink scale, so light mode is the day map and Payload's dark mode is the night map. Editors pick light, dark or automatic on their account page.
+- Course purple marks primary buttons, "Create new" pills (in the soft tint), the current nav item, links and focus rings. Nothing else.
+- Page titles, dashboard groups and nav group labels are set in Big Shoulders uppercase; everything else, including rich text, is Mona Sans. Both are self-hosted from `public/fonts`.
+- Radii follow the site: 2 to 4px.
+- The login screen sits on the generated terrain, with the form on a plain ground panel. The logo and nav icon are the start triangle and wordmark (`src/components/admin/Graphics.tsx`).

@@ -47,6 +47,12 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
     meta: { titleSuffix: ' · Zeebundu CMS' },
+    components: {
+      graphics: {
+        Logo: '/components/admin/Graphics#Logo',
+        Icon: '/components/admin/Graphics#Icon',
+      },
+    },
     livePreview: {
       url: ({ data, collectionConfig }) =>
         previewURL(collectionConfig ? docPath(collectionConfig.slug, data?.slug) || '/' : '/'),

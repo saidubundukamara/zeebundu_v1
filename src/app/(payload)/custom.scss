@@ -1,0 +1,200 @@
+/*
+ * Zeebundu CMS, dressed in the site's "Orienteering map" world (see DESIGN.md).
+ * The admin is a working tool, so Payload's layout and controls stay as they are;
+ * only the palette, type, shapes and a few brand details change.
+ *
+ * Payload builds light and dark mode from one grey scale (--color-base-*), with
+ * dark mode reading it backwards. Swapping that scale for the map's ground-to-ink
+ * scale gives the day map in light mode and the night map in dark mode.
+ */
+/* Self-hosted (SIL Open Font License), latin subset: the site's two faces. */
+@font-face {
+  font-family: 'Big Shoulders';
+  src: url('/fonts/big-shoulders-latin.woff2') format('woff2');
+  font-weight: 100 900;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Mona Sans';
+  src: url('/fonts/mona-sans-latin.woff2') format('woff2');
+  font-weight: 200 900;
+  font-stretch: 75% 125%;
+  font-display: swap;
+}
+
+:root {
+  --color-base-0: rgb(251, 252, 250);
+  --color-base-50: rgb(242, 244, 240);
+  --color-base-100: rgb(233, 236, 230);
+  --color-base-150: rgb(224, 227, 221);
+  --color-base-200: rgb(201, 205, 198);
+  --color-base-250: rgb(188, 192, 185);
+  --color-base-300: rgb(175, 179, 172);
+  --color-base-350: rgb(162, 166, 160);
+  --color-base-400: rgb(149, 154, 147);
+  --color-base-450: rgb(136, 141, 134);
+  --color-base-500: rgb(123, 128, 121);
+  --color-base-550: rgb(109, 114, 107);
+  --color-base-600: rgb(96, 101, 94);
+  --color-base-650: rgb(82, 87, 80);
+  --color-base-700: rgb(69, 73, 66);
+  --color-base-750: rgb(55, 59, 52);
+  --color-base-800: rgb(42, 45, 39);
+  --color-base-850: rgb(28, 31, 25);
+  --color-base-900: rgb(18, 20, 16);
+  --color-base-950: rgb(12, 13, 10);
+  --color-base-1000: rgb(7, 8, 6);
+
+  /* Course purple: the one accent, for primary actions, links, focus and the active nav item. */
+  --zb-course: #7b2cbf;
+  --zb-course-strong: #6621a3;
+  --zb-course-soft: #f1e8fa;
+  --zb-on-course: #ffffff;
+  --zb-contour: #8c5a2b;
+
+  --font-body: 'Mona Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --zb-font-display: 'Big Shoulders', 'Mona Sans', sans-serif;
+  /* Rich text is edited in the site's text face, not Payload's default serif. */
+  --font-serif: var(--font-body);
+
+  /* Square containers, like the site (4px at most). */
+  --style-radius-s: 2px;
+  --style-radius-m: 3px;
+  --style-radius-l: 4px;
+}
+
+html[data-theme='dark'] {
+  --zb-course: #a36fe3;
+  --zb-course-strong: #b98af0;
+  --zb-course-soft: #251a33;
+  --zb-on-course: #140a20;
+  --zb-contour: #c79a6c;
+}
+
+/* ---------- Type ---------- */
+
+h1,
+h2,
+.doc-header__title,
+.list-header__title,
+.render-title {
+  font-family: var(--zb-font-display);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+}
+
+.doc-header__title,
+.list-header__title {
+  font-size: clamp(2rem, 1.5rem + 1.6vw, 3rem);
+  line-height: 0.95;
+}
+
+/* Nav group labels and dashboard group headings read like map-legend headings. */
+.nav-group__toggle,
+.nav-group__label,
+.dashboard__label {
+  font-family: var(--zb-font-display);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+::selection {
+  background: var(--zb-course);
+  color: var(--zb-on-course);
+}
+
+/* ---------- Accent ---------- */
+
+.btn--style-primary {
+  --bg-color: var(--zb-course);
+  --color: var(--zb-on-course);
+  --hover-bg: var(--zb-course-strong);
+  --hover-color: var(--zb-on-course);
+}
+
+.btn--style-primary,
+.btn--style-secondary {
+  font-family: var(--zb-font-display);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+/* "Create new" and other pill buttons: square like the site, in the course's soft tint. */
+.btn--style-pill {
+  --bg-color: var(--zb-course-soft);
+  --color: var(--zb-course);
+  --hover-bg: var(--zb-course);
+  --hover-color: var(--zb-on-course);
+  border-radius: var(--style-radius-s);
+  font-weight: 600;
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textare/* "Create new" and other pill buttons: square like the site, in the course's soft tint. */
+.btn--style-pill {
+  --bg-color: var(--zb-course-soft);
+  --color: var(--zb-course);
+  --hover-bg: var(--zb-course);
+  --hover-color: var(--zb-on-course);
+  border-radius: var(--style-radius-s);
+  font-weight: 600;
+}
+
+a:focus-visible,
+[role='button']:focus-visible {
+  outline: 2px solid var(--zb-course);
+  outline-offset: 2px;
+}
+
+input,
+textarea {
+  caret-color: var(--zb-course);
+}
+
+/* Active nav item: a purple rule, like the course line. */
+.nav__link-indicator {
+  background: var(--zb-course);
+}
+
+/* Payload renders the current page's nav item as a div rather than a link. */
+div.nav__link {
+  color: var(--zb-course);
+  font-weight: 600;
+}
+
+.rich-text-lexical a,
+.field-description a {
+  color: var(--zb-course);
+}
+
+/* ---------- Login: the map, with the form on white ground ---------- */
+
+.template-minimal {
+  background-color: var(--theme-bg);
+  background-image: url('/terrain/hero-light.svg');
+  background-size: cover;
+  background-position: center;
+}
+
+html[data-theme='dark'] .template-minimal {
+  background-image: url('/terrain/hero-dark.svg');
+}
+
+.template-minimal__wrap {
+  background: var(--theme-bg);
+  border: 1px solid var(--theme-elevation-800);
+  padding: 2.5rem 2rem;
+  box-shadow: 0 24px 48px -28px rgb(0 0 0 / 0.35);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}
