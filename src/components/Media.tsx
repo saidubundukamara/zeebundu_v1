@@ -1,7 +1,9 @@
 import Image from 'next/image'
 
 import type { Media as MediaDoc } from '@/payload-types'
+import { CloudinaryImage } from '@/components/CloudinaryImage'
 import { Terrain } from '@/components/map/Terrain'
+import { isCloudinaryURL } from '@/lib/storage/is-cloudinary'
 import { cn } from '@/lib/utils'
 
 type Size = 'thumbnail' | 'card' | 'hero'
@@ -62,6 +64,23 @@ export function Media({
 
   const focal =
     doc.focalX != null && doc.focalY != null ? `${doc.focalX}% ${doc.focalY}%` : undefined
+
+  // Cloudinary resizes on its CDN, so start from the original rather than a pre-cut size.
+  if (doc.url && isCloudinaryURL(doc.url)) {
+    return (
+      <div className={cn('relative overflow-hidden bg-muted', className)}>
+        <CloudinaryImage
+          src={doc.url}
+          alt={doc.alt}
+          fill
+          sizes={sizes}
+          priority={priority}
+          className="object-cover"
+          style={focal ? { objectPosition: focal } : undefined}
+        />
+      </div>
+    )
+  }
 
   return (
     <div className={cn('relative overflow-hidden bg-muted', className)}>
