@@ -4,6 +4,8 @@ import { fileURLToPath } from 'node:url'
 
 import type { Payload } from 'payload'
 
+import { isLocalDatabase } from './env'
+
 /**
  * Temporary seed photography (Unsplash License), listed in src/seed/media/credits.json.
  * Replace with real Zeebundu photography before launch (docs/LAUNCH_CHECKLIST.md).
@@ -30,6 +32,14 @@ const dir = path.join(path.dirname(fileURLToPath(import.meta.url)), 'media')
 export async function seedMedia(payload: Payload): Promise<Record<string, number>> {
   const manifest = path.join(dir, 'credits.json')
   if (!existsSync(manifest)) return {}
+  // Without Cloudinary, uploads land on this machine's disk. That's fine for local dev,
+  // but a hosted database would end up pointing at files that don't exist in production.
+  if (!cloudinaryEnabled && !isLocalDatabase()) {
+    payload.logger.warn(
+      '[seed] photos skipped: set CLOUDINARY_* to seed photos into a hosted database',
+    )
+    return {}
+  }
   const credits = JSON.parse(readFileSync(manifest, 'utf8')) as Credit[]
   const ids: Record<string, number> = {}
 

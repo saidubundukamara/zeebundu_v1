@@ -15,7 +15,10 @@
     "generate:importmap": "cross-env NODE_OPTIONS=--no-deprecation payload generate:importmap",
     "seed": "cross-env NODE_OPTIONS=--no-deprecation payload run src/seed/index.ts",
     "test:int": "cross-env NODE_OPTIONS=--no-deprecation vitest run",
-    "test:e2e": "playwright test"
+    "test:e2e": "playwright test",
+    "migrate": "cross-env NODE_OPTIONS=--no-deprecation payload migrate",
+    "migrate:create": "cross-env NODE_OPTIONS=--no-deprecation payload migrate:create",
+    "migrate:status": "cross-env NODE_OPTIONS=--no-deprecation payload migrate:status"
   },
   "dependencies": {
     "@payloadcms/db-postgres": "3.90.2",

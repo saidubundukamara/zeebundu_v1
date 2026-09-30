@@ -29,6 +29,7 @@ import { emailAdapter } from './lib/email/adapter'
 import { docPath } from './lib/paths'
 import { cloudinaryStorage } from './lib/storage/cloudinary'
 import { tags } from './lib/tags'
+import { migrations } from './migrations'
 import type { Config } from './payload-types'
 
 const filename = fileURLToPath(import.meta.url)
@@ -109,6 +110,9 @@ export default buildConfig({
     pool: {
       connectionString: process.env.DATABASE_URI || '',
     },
+    // Production is managed by migrations (src/migrations): pending ones run on startup.
+    // Create one after any schema change with `npm run migrate:create -- <name>`.
+    prodMigrations: migrations,
   }),
   sharp,
   // Scheduled publishing runs through the jobs queue. On Vercel a cron calls

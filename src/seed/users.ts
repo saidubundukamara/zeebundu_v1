@@ -1,5 +1,7 @@
 import type { Payload } from 'payload'
 
+import { isLocalDatabase } from './env'
+
 /**
  * Demo accounts for local development and the e2e tests: one per role, so you
  * can see what each kind of editor gets in /admin.
@@ -24,15 +26,13 @@ const demoUsers = [
   },
 ]
 
-const isLocalDatabase = (uri = '') => /@(localhost|127\.0\.0\.1|\[::1\])[:/]/.test(uri)
-
 export async function seedDemoUsers(
   payload: Payload,
   businessIDs: Record<string, number>,
   log: (msg: string) => void,
 ) {
   if (process.env.SEED_DEMO_USERS !== 'true') return
-  if (process.env.NODE_ENV === 'production' || !isLocalDatabase(process.env.DATABASE_URI)) {
+  if (process.env.NODE_ENV === 'production' || !isLocalDatabase()) {
     log('demo users skipped: only seeded against a local database outside production')
     return
   }
