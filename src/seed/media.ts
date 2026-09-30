@@ -17,9 +17,16 @@ type Credit = {
   license: string
 }
 
+const cloudinaryEnabled = Boolean(
+  process.env.CLOUDINARY_CLOUD_NAME && process.env.CLOUDINARY_API_SECRET,
+)
+
 const dir = path.join(path.dirname(fileURLToPath(import.meta.url)), 'media')
 
-/** Uploads each credited photo once (matched by filename) and returns file → media ID. */
+/**
+ * Uploads each credited photo once (matched by filename) and returns file → media ID.
+ * Goes to Cloudinary when CLOUDINARY_* is set (see src/lib/storage/cloudinary.ts).
+ */
 export async function seedMedia(payload: Payload): Promise<Record<string, number>> {
   const manifest = path.join(dir, 'credits.json')
   if (!existsSync(manifest)) return {}
@@ -38,10 +45,13 @@ export async function seedMedia(payload: Payload): Promise<Record<string, number
     })
     const doc = existing.docs[0]
     if (doc) {
+      // Re-send the file when Cloudinary is on but this copy still lives on local disk.
+      const moveToCloud = cloudinaryEnabled && !doc.url?.startsWith('https://res.cloudinary.com/')
       await payload.update({
         collection: 'media',
         id: doc.id,
         data: { alt: credit.alt, caption },
+        ...(moveToCloud && { filePath }),
         depth: 0,
       })
       ids[credit.file] = doc.id as number

@@ -62,6 +62,6 @@ Businesses are the multi-tenant plugin's tenants (assigned on each user). News, 
 
 ## Integrations (all optional in development)
 
-Email (Resend), spam protection (Cloudflare Turnstile), media storage (Cloudflare R2), analytics (Plausible) and error tracking (Sentry) switch on when their env vars are set — see `.env.example`. Without them, emails are logged to the console, the Turnstile check is skipped, uploads go to `./media`, and analytics/Sentry are off.
+Email (Resend), spam protection (Cloudflare Turnstile), media storage (Cloudinary), analytics (Plausible) and error tracking (Sentry) switch on when their env vars are set — see `.env.example`. Without them, emails are logged to the console, the Turnstile check is skipped, uploads go to `./media`, and analytics/Sentry are off.
 
 See `docs/LAUNCH_CHECKLIST.md` for production setup and `docs/EDITOR_GUIDE.md` for CMS users.

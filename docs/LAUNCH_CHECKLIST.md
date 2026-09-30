@@ -9,7 +9,7 @@ Everything that must happen outside the codebase before zeebundu.com goes live. 
 - [ ] **Vercel project** linked to the repo, with the env vars below set for Production (and Preview where noted).
   - Builds need database access (pages are generated from CMS content at build time).
   - Vercel Cron (`vercel.json`) runs scheduled publishing every 5 minutes. Sub-daily crons need a Vercel **Pro** plan; on Hobby, change the schedule to daily.
-- [ ] **Media storage:** Cloudflare R2 bucket (or Vercel Blob) wired in with `@payloadcms/storage-s3`. **Not done yet:** uploads currently go to local disk, which does not persist on Vercel. Must be completed before editors upload images in production.
+- [ ] **Media storage:** Cloudinary is wired in (`src/lib/storage/cloudinary.ts`). Set `CLOUDINARY_CLOUD_NAME`, `CLOUDINARY_API_KEY` and `CLOUDINARY_API_SECRET` in Vercel, then run `npm run seed` once against production to move the seed photos up. Without them, uploads go to local disk, which does not persist on Vercel.
 
 ## 2. Environment variables
 
@@ -23,7 +23,7 @@ Everything that must happen outside the codebase before zeebundu.com goes live. 
 | `NEXT_PUBLIC_TURNSTILE_SITE_KEY`, `TURNSTILE_SECRET_KEY`                                    | Cloudflare Turnstile widget for zeebundu.com. Set **both** or neither | Yes                                   |
 | `NEXT_PUBLIC_PLAUSIBLE_DOMAIN` (+ optional `NEXT_PUBLIC_PLAUSIBLE_SRC`)                     | Plausible site                                                        | Recommended                           |
 | `SENTRY_DSN`, `NEXT_PUBLIC_SENTRY_DSN`, `SENTRY_ORG`, `SENTRY_PROJECT`, `SENTRY_AUTH_TOKEN` | Sentry project                                                        | Recommended                           |
-| `S3_*`                                                                                      | R2 bucket (see above)                                                 | Yes, once storage is wired            |
+| `CLOUDINARY_CLOUD_NAME`, `CLOUDINARY_API_KEY`, `CLOUDINARY_API_SECRET`                      | Cloudinary → Settings → API Keys (same account as the old site)       | Yes                                   |
 
 `NEXT_PUBLIC_*` values are built into the pages: redeploy after changing them.
 
