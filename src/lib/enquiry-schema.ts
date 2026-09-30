@@ -23,7 +23,7 @@ export const enquirySchema = z.object({
   type: z.enum(['general', 'sales', 'partnership', 'media']),
   business: z.coerce.number().int().positive().optional(),
   message: z
-    .string()
+    .string({ error: 'Please enter a message.' })
     .trim()
     .min(10, 'Please tell us a little more (at least 10 characters).')
     .max(5000),

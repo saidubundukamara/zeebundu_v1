@@ -14,7 +14,7 @@ export async function generateStaticParams() {
 
 export async function generateMetadata(props: PageProps<'/[slug]'>): Promise<Metadata> {
   const page = await getPage((await props.params).slug)
-  if (!page) return {}
+  if (!page) return { title: 'Page not found' }
   return {
     title: page.meta?.title || page.title,
     description: page.meta?.description ?? undefined,
