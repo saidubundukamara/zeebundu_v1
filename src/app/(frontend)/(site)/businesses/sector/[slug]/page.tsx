@@ -1,7 +1,8 @@
 import { ArrowRightIcon } from 'lucide-react'
 import type { Metadata } from 'next'
+
+import { notFoundOrRedirect } from '@/lib/redirects'
 import Link from 'next/link'
-import { notFound } from 'next/navigation'
 
 import { BusinessCard } from '@/components/cards/BusinessCard'
 import { PageHeader } from '@/components/layout/PageHeader'
@@ -31,7 +32,7 @@ export async function generateMetadata(
 export default async function SectorPage(props: PageProps<'/businesses/sector/[slug]'>) {
   const { slug } = await props.params
   const [sector, groups] = await Promise.all([getSector(slug), getBusinessesBySector()])
-  if (!sector) notFound()
+  if (!sector) return notFoundOrRedirect(`/businesses/sector/${slug}`)
 
   const businesses = groups.find((g) => g.sector.id === sector.id)?.businesses ?? []
   const others = groups.filter((g) => g.sector.id !== sector.id)

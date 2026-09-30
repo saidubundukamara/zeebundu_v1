@@ -1,7 +1,10 @@
+import { breadcrumbJsonLd, JsonLd, newsArticleJsonLd } from '@/lib/seo/jsonld'
+import { draftMode } from 'next/headers'
 import { ArrowLeftIcon } from 'lucide-react'
 import type { Metadata } from 'next'
+
+import { notFoundOrRedirect } from '@/lib/redirects'
 import Link from 'next/link'
-import { notFound } from 'next/navigation'
 
 import { NewsCard, newsCategoryLabels, type NewsCardData } from '@/components/cards/NewsCard'
 import { Container } from '@/components/layout/Container'
@@ -48,7 +51,8 @@ export async function generateMetadata(props: PageProps<'/news/[slug]'>): Promis
       modifiedTime: article.updatedAt,
       authors: article.author ? [article.author] : undefined,
       section: newsCategoryLabels[article.category],
-      images: image ? [{ url: image }] : undefined,
+      // Without a hero photo, the co-located opengraph-image card is used
+      ...(image && { images: [{ url: image }] }),
     },
     twitter: { card: image ? 'summary_large_image' : 'summary' },
   }
@@ -69,54 +73,27 @@ async function getRelated(article: News): Promise<NewsCardData[]> {
 }
 
 export default async function ArticlePage(props: PageProps<'/news/[slug]'>) {
+  const { isEnabled: draft } = await draftMode()
   const { slug } = await props.params
-  const article = await getArticle(slug)
-  if (!article) notFound()
+  const article = await getArticle(slug, draft)
+  if (!article) return notFoundOrRedirect(`/news/${slug}`)
 
   const business = populated(article.business)
   const related = await getRelated(article)
   const url = siteURL(`/news/${article.slug}`)
-  const image = imageURL(article.heroImage)
   const category = newsCategoryLabels[article.category]
-
-  const jsonLd = [
-    {
-      '@context': 'https://schema.org',
-      '@type': 'NewsArticle',
-      headline: article.title,
-      description: article.excerpt,
-      url,
-      mainEntityOfPage: url,
-      datePublished: article.publishedAt ?? article.createdAt,
-      dateModified: article.updatedAt,
-      image: image ? [image] : undefined,
-      articleSection: category,
-      author: article.author
-        ? { '@type': 'Person', name: article.author }
-        : { '@type': 'Organization', name: 'Zeebundu Group', url: siteURL('/') },
-      publisher: {
-        '@type': 'Organization',
-        name: 'Zeebundu Group',
-        url: siteURL('/'),
-      },
-    },
-    {
-      '@context': 'https://schema.org',
-      '@type': 'BreadcrumbList',
-      itemListElement: [
-        { name: 'Home', item: siteURL('/') },
-        { name: 'Newsroom', item: siteURL('/news') },
-        { name: article.title, item: url },
-      ].map((crumb, i) => ({ '@type': 'ListItem', position: i + 1, ...crumb })),
-    },
-  ]
 
   return (
     <>
-      <script
-        type="application/ld+json"
-        // Escape `<` so CMS text can never close the script tag.
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, '\\u003c') }}
+      <JsonLd
+        data={[
+          newsArticleJsonLd(article),
+          breadcrumbJsonLd([
+            { name: 'Home', path: '/' },
+            { name: 'Newsroom', path: '/news' },
+            { name: article.title, path: `/news/${article.slug}` },
+          ]),
+        ]}
       />
 
       <PageHeader

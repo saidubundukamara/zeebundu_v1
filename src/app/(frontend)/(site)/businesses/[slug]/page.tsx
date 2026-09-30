@@ -1,11 +1,13 @@
+import { draftMode } from 'next/headers'
 import { ArrowRightIcon, ArrowUpRightIcon } from 'lucide-react'
 import type { Metadata } from 'next'
+
+import { notFoundOrRedirect } from '@/lib/redirects'
 import Link from 'next/link'
-import { notFound } from 'next/navigation'
 
 import { BusinessHero } from '@/components/business/BusinessHero'
 import { ContactDetails } from '@/components/business/ContactDetails'
-import { breadcrumbJsonLd, businessJsonLd, JsonLd } from '@/components/business/JsonLd'
+import { breadcrumbJsonLd, JsonLd, localBusinessJsonLd } from '@/lib/seo/jsonld'
 import { Locations } from '@/components/business/Locations'
 import { RenderBlocks } from '@/components/blocks'
 import { NewsCard } from '@/components/cards/NewsCard'
@@ -57,9 +59,10 @@ const hasText = (value: unknown) =>
   )
 
 export default async function BusinessPage(props: PageProps<'/businesses/[slug]'>) {
+  const { isEnabled: draft } = await draftMode()
   const { slug } = await props.params
-  const business = await getBusiness(slug)
-  if (!business) notFound()
+  const business = await getBusiness(slug, draft)
+  if (!business) return notFoundOrRedirect(`/businesses/${slug}`)
 
   const sector = populated(business.sector)
   const [allBusinesses, news] = await Promise.all([
@@ -101,7 +104,7 @@ export default async function BusinessPage(props: PageProps<'/businesses/[slug]'
     <>
       <JsonLd
         data={[
-          businessJsonLd(business),
+          localBusinessJsonLd(business),
           breadcrumbJsonLd(
             crumbs.map((c) => ({ name: c.label, path: c.href ?? `/businesses/${business.slug}` })),
           ),

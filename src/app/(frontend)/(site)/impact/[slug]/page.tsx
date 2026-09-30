@@ -1,7 +1,9 @@
+import { draftMode } from 'next/headers'
 import { ArrowRightIcon } from 'lucide-react'
 import type { Metadata } from 'next'
+
+import { notFoundOrRedirect } from '@/lib/redirects'
 import Link from 'next/link'
-import { notFound } from 'next/navigation'
 
 import { BusinessCard } from '@/components/cards/BusinessCard'
 import { ImpactCard } from '@/components/cards/ImpactCard'
@@ -39,18 +41,20 @@ export async function generateMetadata(props: PageProps<'/impact/[slug]'>): Prom
       title: programme.title,
       description: programme.summary,
       url: `/impact/${programme.slug}`,
-      images: image ? [{ url: image.startsWith('http') ? image : siteURL(image) }] : undefined,
+      // Without a hero photo, the co-located opengraph-image card is used
+      ...(image && { images: [{ url: image.startsWith('http') ? image : siteURL(image) }] }),
     },
   }
 }
 
 export default async function ImpactProgrammePage(props: PageProps<'/impact/[slug]'>) {
+  const { isEnabled: draft } = await draftMode()
   const { slug } = await props.params
   const [programme, programmes] = await Promise.all([
-    getImpactProgramme(slug),
+    getImpactProgramme(slug, draft),
     getImpactProgrammes(),
   ])
-  if (!programme) notFound()
+  if (!programme) return notFoundOrRedirect(`/impact/${slug}`)
 
   const pillar = impactPillarLabels[programme.pillar]
   const business = populated(programme.business)

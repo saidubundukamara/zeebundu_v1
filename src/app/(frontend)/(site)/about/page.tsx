@@ -1,3 +1,4 @@
+import { draftMode } from 'next/headers'
 import type { Metadata } from 'next'
 
 import { RenderBlocks } from '@/components/blocks'
@@ -43,10 +44,11 @@ function LeaderGrid({ leaders }: { leaders: Leadership[] }) {
 }
 
 export default async function AboutPage() {
+  const { isEnabled: draft } = await draftMode()
   const [page, leadership, home, settings, groups] = await Promise.all([
-    getPage('about'),
+    getPage('about', draft),
     getLeadership(),
-    getGlobal('homepage', 1),
+    getGlobal('homepage', 1, draft),
     getGlobal('site-settings', 0),
     getBusinessesBySector(),
   ])

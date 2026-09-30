@@ -1,3 +1,4 @@
+import { draftMode } from 'next/headers'
 import { ArrowRightIcon } from 'lucide-react'
 import type { Metadata } from 'next'
 import Link from 'next/link'
@@ -22,6 +23,7 @@ import {
 } from '@/lib/data'
 import { impactPillarLabels } from '@/lib/impact'
 import { cn } from '@/lib/utils'
+import { JsonLd, organizationJsonLd } from '@/lib/seo/jsonld'
 import type { Business, ImpactProgramme } from '@/payload-types'
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -33,8 +35,9 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function HomePage() {
+  const { isEnabled: draft } = await draftMode()
   const [home, settings, groups, businesses, programmes, news] = await Promise.all([
-    getGlobal('homepage', 1),
+    getGlobal('homepage', 1, draft),
     getGlobal('site-settings', 0),
     getBusinessesBySector(),
     getBusinesses(),
@@ -53,6 +56,8 @@ export default async function HomePage() {
 
   return (
     <>
+      <JsonLd data={organizationJsonLd({ settings, businesses })} />
+
       {/* 1. Hero */}
       <section data-tone="dark" className="group/section bg-forest-800 text-stone-50">
         <Container className="grid items-center gap-10 py-16 md:py-24 lg:grid-cols-[1.1fr_1fr]">
