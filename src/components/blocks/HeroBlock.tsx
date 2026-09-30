@@ -26,9 +26,7 @@ export function HeroBlock({ block }: { block: HeroBlockType }) {
       >
         <div className="max-w-3xl space-y-6">
           {block.eyebrow && (
-            <p className="text-sm font-medium text-map-ink-soft">
-              {block.eyebrow}
-            </p>
+            <p className="text-sm font-medium text-map-ink-soft">{block.eyebrow}</p>
           )}
           <h1 className="text-h1 lg:text-[clamp(3.5rem,2rem+3.6vw,6rem)]">
             <Lines lines={splitHeadline(block.heading, 18)} />

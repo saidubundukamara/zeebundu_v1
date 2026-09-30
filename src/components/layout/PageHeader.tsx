@@ -49,11 +49,7 @@ export function PageHeader({
             </ol>
           </nav>
         )}
-        {eyebrow && (
-          <p className="text-sm font-medium text-map-ink-soft">
-            {eyebrow}
-          </p>
-        )}
+        {eyebrow && <p className="text-sm font-medium text-map-ink-soft">{eyebrow}</p>}
         <h1 className="max-w-5xl text-h1 text-map-ink">
           <Lines lines={splitHeadline(title, 22)} />
         </h1>
