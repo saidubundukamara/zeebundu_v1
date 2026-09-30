@@ -184,9 +184,11 @@ Layout (header/footer/mobile nav) → Home → Businesses index + sector pages �
 
 **Phase 4 — Forms, SEO, polish (days 18–23)**
 Enquiry flow + emails + Turnstile, JSON‑LD, sitemap, OG images, revalidation hooks, live preview, 404/500 pages, analytics, Sentry, accessibility & performance pass.
+**Status:** done. Enquiry emails (Resend, auto-reply, CC group), Turnstile, DB-backed rate limiting; cache expiry on publish; Draft Mode preview + Live Preview with autosave; scheduled publishing via jobs + Vercel Cron; sitemap, robots, JSON-LD (Organization/LocalBusiness/NewsArticle/Breadcrumbs), branded OG images; error pages; Plausible and Sentry (both opt-in); R2 media storage (opt-in); old-URL and CMS-managed redirects. Verified: 32 integration + 2 E2E tests, axe clean on 12 pages × 2 widths, Lighthouse mobile ≥ 90 performance and 100 accessibility/best practices/SEO on Home, business and article pages.
 
 **Phase 5 — Content entry, training, launch (days 23–28)**
 Enter real content, create business‑editor accounts, 1‑page editor guide, UAT, DNS cutover to zeebundu.com, redirects from any old URLs (`/business/[slug]` → `/businesses/[slug]`, `/services/[category]` → `/businesses/sector/[slug]`).
+**Status:** code-side done: old-URL redirects, `docs/EDITOR_GUIDE.md`, `docs/LAUNCH_CHECKLIST.md`. Remaining items are client content, accounts, UAT and DNS (tracked in the checklist).
 
 **Later (Phase 2 scope):** Careers/jobs board (with `JobPosting` schema), per‑business custom domains/subdomains via middleware if any business outgrows its page, Krio/French i18n if needed, live FX rates feed, Zeemart online shop.
 
