@@ -172,6 +172,7 @@ Payload 3.90 installed into the existing Next 16 app (blank setup, Postgres adap
 
 **Phase 1 — Copy & brand (parallel, days 2–5)**
 Run export script, produce `COPY_REVIEW.md`, client review. Brand direction: new logo lockup (if needed), palette, type scale, design tokens; low‑fi wireframes for Home, Businesses, Business detail.
+**Status:** repo copy harvested (`content/legacy/repo-copy.md`) and cleaned into `content/legacy/COPY_REVIEW.md` for client review; brand direction "Forest & gold" tokens in `globals.css`, documented in `content/brand/BRAND.md`; grey-box wireframes at `/wireframes` (brand sheet, home, businesses, business detail). **Pending:** MongoDB copy export (script not yet written; must be run by the team with access to the old DB), client sign-off on copy and brand.
 
 **Phase 2 — CMS model (days 4–8)**
 Collections, globals, blocks, access control, multi‑tenant plugin, seed script, admin grouping & labels for non‑technical editors.
