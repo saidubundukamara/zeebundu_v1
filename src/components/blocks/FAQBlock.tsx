@@ -1,0 +1,33 @@
+import { Section } from '@/components/layout/Section'
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from '@/components/ui/accordion'
+import type { FAQBlock as FAQBlockType } from '@/payload-types'
+
+export function FAQBlock({ block, tone }: { block: FAQBlockType; tone: 'default' | 'paper' }) {
+  if (!block.items?.length) return null
+  return (
+    <Section tone={tone} containerClassName="max-w-3xl">
+      {block.heading && <h2 className="mb-8 text-h2">{block.heading}</h2>}
+      <Accordion type="single" collapsible className="border-t border-stone-300">
+        {block.items.map((item) => (
+          <AccordionItem
+            key={item.id}
+            value={item.id ?? item.question}
+            className="border-stone-300"
+          >
+            <AccordionTrigger className="py-5 text-base font-medium">
+              {item.question}
+            </AccordionTrigger>
+            <AccordionContent className="pb-5 text-base leading-relaxed whitespace-pre-line text-stone-700">
+              {item.answer}
+            </AccordionContent>
+          </AccordionItem>
+        ))}
+      </Accordion>
+    </Section>
+  )
+}
