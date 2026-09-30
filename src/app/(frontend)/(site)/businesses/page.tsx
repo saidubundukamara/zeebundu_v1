@@ -4,29 +4,29 @@ import { BusinessDirectory, type DirectoryGroup } from '@/components/business/Bu
 import { BusinessCard } from '@/components/cards/BusinessCard'
 import { PageHeader } from '@/components/layout/PageHeader'
 import { Section } from '@/components/layout/Section'
-import { getBusinessesBySector } from '@/lib/data'
+import { getCourse } from '@/lib/course'
 
 export const metadata: Metadata = {
   title: 'Our businesses',
   description:
-    'Explore the Zeebundu Group businesses serving households and companies across Sierra Leone, from fuel and food to finance and retail.',
+    'All 16 Zeebundu Group businesses in Sierra Leone, from fuel and farming to pharmacy, forex and shopping.',
 }
 
 export default async function BusinessesPage() {
-  const groups = await getBusinessesBySector()
-  const total = groups.reduce((n, g) => n + g.businesses.length, 0)
+  const { legs, controls } = await getCourse()
 
-  const directory: DirectoryGroup[] = groups.map(({ sector, businesses }) => ({
+  const directory: DirectoryGroup[] = legs.map(({ sector, controls: legControls }) => ({
     id: sector.id,
     name: sector.name,
     slug: sector.slug,
-    items: businesses.map((business) => ({
+    codes: legControls.map((c) => c.code),
+    items: legControls.map(({ business, code }) => ({
       id: business.id,
       search: [business.name, business.tagline, business.summary, sector.name]
         .filter(Boolean)
         .join(' ')
         .toLowerCase(),
-      card: <BusinessCard business={business} />,
+      card: <BusinessCard business={business} code={code} />,
     })),
   }))
 
@@ -34,10 +34,10 @@ export default async function BusinessesPage() {
     <>
       <PageHeader
         title="Our businesses"
-        description={`${total} businesses across ${groups.length} sectors, serving households and companies across Sierra Leone.`}
+        description={`${controls.length} businesses in ${legs.length} sectors. Pick a sector or search for what you need.`}
         crumbs={[{ label: 'Our businesses' }]}
       />
-      <Section>
+      <Section className="pt-14 md:pt-20">
         <BusinessDirectory groups={directory} />
       </Section>
     </>

@@ -1,5 +1,5 @@
 import { draftMode } from 'next/headers'
-import { ArrowRightIcon } from 'lucide-react'
+import { ArrowRightIcon } from '@phosphor-icons/react/ssr'
 import type { Metadata } from 'next'
 
 import { notFoundOrRedirect } from '@/lib/redirects'
@@ -98,7 +98,7 @@ export default async function ImpactProgrammePage(props: PageProps<'/impact/[slu
             {programme.body ? (
               <RichText data={programme.body} />
             ) : (
-              <p className="text-lead text-stone-700">{programme.summary}</p>
+              <p className="text-lead text-map-ink-soft">{programme.summary}</p>
             )}
           </div>
 
@@ -106,7 +106,7 @@ export default async function ImpactProgrammePage(props: PageProps<'/impact/[slu
             <aside className="space-y-10">
               {business && (
                 <section aria-labelledby="run-by" className="space-y-4">
-                  <h2 id="run-by" className="font-heading text-h3 text-forest-800">
+                  <h2 id="run-by" className="font-heading text-h3 text-map-ink">
                     Delivered with
                   </h2>
                   <BusinessCard business={business} />
@@ -114,7 +114,7 @@ export default async function ImpactProgrammePage(props: PageProps<'/impact/[slu
               )}
               {partners.length > 0 && (
                 <section aria-labelledby="partners" className="space-y-4">
-                  <h2 id="partners" className="font-heading text-h3 text-forest-800">
+                  <h2 id="partners" className="font-heading text-h3 text-map-ink">
                     Partners
                   </h2>
                   <PartnerList partners={partners} />
@@ -125,7 +125,7 @@ export default async function ImpactProgrammePage(props: PageProps<'/impact/[slu
         </Container>
 
         {programme.stats?.length ? (
-          <Section tone="dark" className="py-12 md:py-14">
+          <Section className="border-t border-map-rule py-14 md:py-16">
             <h2 className="sr-only">Programme in numbers</h2>
             <StatsGrid stats={programme.stats} />
           </Section>
@@ -141,12 +141,11 @@ export default async function ImpactProgrammePage(props: PageProps<'/impact/[slu
 
       <Section tone="paper">
         <SectionHeader
-          eyebrow="Impact"
           title="More programmes"
           action={
             <Button asChild variant="outline" size="lg">
               <Link href="/impact">
-                All programmes <ArrowRightIcon data-icon="inline-end" />
+                All programmes <ArrowRightIcon weight="light" data-icon="inline-end" />
               </Link>
             </Button>
           }
@@ -160,7 +159,7 @@ export default async function ImpactProgrammePage(props: PageProps<'/impact/[slu
             ))}
           </ul>
         ) : (
-          <p className="text-stone-600">More programmes will be published here soon.</p>
+          <p className="text-map-ink-soft">More programmes will be published here soon.</p>
         )}
       </Section>
     </>

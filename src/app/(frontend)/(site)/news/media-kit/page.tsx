@@ -1,4 +1,9 @@
-import { DownloadIcon, FileTextIcon, MailIcon, PhoneIcon } from 'lucide-react'
+import {
+  DownloadSimpleIcon,
+  EnvelopeSimpleIcon,
+  FileTextIcon,
+  PhoneIcon,
+} from '@phosphor-icons/react/ssr'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 
@@ -29,7 +34,7 @@ const fileType = (doc: MediaDoc) =>
 
 function Empty({ children }: { children: React.ReactNode }) {
   return (
-    <p className="rounded-lg border border-dashed border-stone-300 bg-stone-50 px-5 py-8 text-center text-stone-600">
+    <p className="border border-dashed border-map-rule bg-muted px-5 py-8 text-center text-map-ink-soft">
       {children}
     </p>
   )
@@ -63,11 +68,11 @@ export default async function MediaKitPage() {
         <div className="grid gap-12 lg:grid-cols-[2fr_1fr]">
           <div className="space-y-14">
             <section aria-labelledby="boilerplate" className="space-y-4">
-              <h2 id="boilerplate" className="text-h2 text-forest-800">
+              <h2 id="boilerplate" className="text-h2 text-map-ink">
                 About Zeebundu Group
               </h2>
               {kit.boilerplate ? (
-                <div className="space-y-4 text-lg leading-relaxed text-stone-700">
+                <div className="space-y-4 text-lg leading-relaxed text-map-ink-soft">
                   {kit.boilerplate.split(/\n\s*\n/).map((para, i) => (
                     <p key={i}>{para}</p>
                   ))}
@@ -78,7 +83,7 @@ export default async function MediaKitPage() {
             </section>
 
             <section aria-labelledby="logos" className="space-y-5">
-              <h2 id="logos" className="text-h2 text-forest-800">
+              <h2 id="logos" className="text-h2 text-map-ink">
                 Logos
               </h2>
               {logos.length ? (
@@ -86,10 +91,10 @@ export default async function MediaKitPage() {
                   {logos.map((logo) => (
                     <li
                       key={logo.id ?? logo.label}
-                      className="overflow-hidden rounded-lg border border-stone-200 bg-white"
+                      className="overflow-hidden border border-map-rule bg-card"
                     >
                       {logo.doc.mimeType?.startsWith('image/') && (
-                        <div className="flex aspect-[16/9] items-center justify-center bg-stone-100 p-6">
+                        <div className="flex aspect-[16/9] items-center justify-center bg-muted p-6">
                           <Media
                             resource={logo.doc}
                             size="thumbnail"
@@ -100,8 +105,8 @@ export default async function MediaKitPage() {
                       )}
                       <div className="flex items-center justify-between gap-3 p-4">
                         <div>
-                          <p className="font-medium text-stone-900">{logo.label}</p>
-                          <p className="text-xs text-stone-600">
+                          <p className="font-medium text-map-ink-soft">{logo.label}</p>
+                          <p className="text-xs text-map-ink-soft">
                             {[fileType(logo.doc), fileSize(logo.doc.filesize)]
                               .filter(Boolean)
                               .join(' · ')}
@@ -109,7 +114,7 @@ export default async function MediaKitPage() {
                         </div>
                         <Button asChild variant="outline" size="lg">
                           <a href={logo.doc.url!} download={logo.doc.filename ?? true}>
-                            <DownloadIcon data-icon="inline-start" /> Download
+                            <DownloadSimpleIcon weight="light" data-icon="inline-start" /> Download
                             <span className="sr-only"> {logo.label}</span>
                           </a>
                         </Button>
@@ -123,16 +128,16 @@ export default async function MediaKitPage() {
             </section>
 
             <section aria-labelledby="guidelines" className="space-y-5">
-              <h2 id="guidelines" className="text-h2 text-forest-800">
+              <h2 id="guidelines" className="text-h2 text-map-ink">
                 Brand guidelines
               </h2>
               {guidelines?.url ? (
-                <div className="flex flex-wrap items-center justify-between gap-4 rounded-lg border border-stone-200 bg-white p-5">
+                <div className="flex flex-wrap items-center justify-between gap-4 border border-map-rule bg-card p-5">
                   <div className="flex items-center gap-4">
-                    <FileTextIcon aria-hidden className="size-8 text-forest-700" />
+                    <FileTextIcon weight="light" aria-hidden className="size-8 text-map-ink" />
                     <div>
-                      <p className="font-medium text-stone-900">Zeebundu brand guidelines</p>
-                      <p className="text-xs text-stone-600">
+                      <p className="font-medium text-map-ink-soft">Zeebundu brand guidelines</p>
+                      <p className="text-xs text-map-ink-soft">
                         {[fileType(guidelines), fileSize(guidelines.filesize)]
                           .filter(Boolean)
                           .join(' · ')}
@@ -141,7 +146,8 @@ export default async function MediaKitPage() {
                   </div>
                   <Button asChild size="lg">
                     <a href={guidelines.url} download={guidelines.filename ?? true}>
-                      <DownloadIcon data-icon="inline-start" /> Download guidelines
+                      <DownloadSimpleIcon weight="light" data-icon="inline-start" /> Download
+                      guidelines
                     </a>
                   </Button>
                 </div>
@@ -152,20 +158,24 @@ export default async function MediaKitPage() {
           </div>
 
           <aside aria-labelledby="press-contact" className="lg:pt-2">
-            <div className="space-y-4 rounded-lg bg-forest-800 p-6 text-stone-50 lg:sticky lg:top-24">
-              <h2 id="press-contact" className="font-heading text-h3">
+            <div className="space-y-4 border border-map-ink bg-card p-6 lg:sticky lg:top-24">
+              <h2 id="press-contact" className="font-heading text-h3 font-extrabold uppercase">
                 Press contact
               </h2>
-              {contact.name && <p className="text-stone-200">{contact.name}</p>}
+              {contact.name && <p className="font-medium">{contact.name}</p>}
               {contact.email || contact.phone ? (
                 <ul className="space-y-3">
                   {contact.email && (
                     <li>
                       <a
                         href={`mailto:${contact.email}`}
-                        className="inline-flex items-center gap-2 break-all text-gold-300 underline-offset-4 hover:underline focus-visible:ring-3 focus-visible:ring-gold-300/60 focus-visible:outline-none"
+                        className="inline-flex items-center gap-2 break-all text-map-course underline-offset-4 hover:underline focus-visible:ring-3 focus-visible:ring-map-course/60 focus-visible:outline-none"
                       >
-                        <MailIcon aria-hidden className="size-4 shrink-0" />
+                        <EnvelopeSimpleIcon
+                          weight="light"
+                          aria-hidden
+                          className="size-4 shrink-0"
+                        />
                         {contact.email}
                       </a>
                     </li>
@@ -174,31 +184,31 @@ export default async function MediaKitPage() {
                     <li>
                       <a
                         href={telHref(contact.phone)}
-                        className="inline-flex items-center gap-2 text-gold-300 underline-offset-4 hover:underline focus-visible:ring-3 focus-visible:ring-gold-300/60 focus-visible:outline-none"
+                        className="inline-flex items-center gap-2 text-map-course underline-offset-4 hover:underline focus-visible:ring-3 focus-visible:ring-map-course/60 focus-visible:outline-none"
                       >
-                        <PhoneIcon aria-hidden className="size-4 shrink-0" />
+                        <PhoneIcon weight="light" aria-hidden className="size-4 shrink-0" />
                         {contact.phone}
                       </a>
                     </li>
                   )}
                 </ul>
               ) : (
-                <p className="text-stone-300">
+                <p className="text-map-ink-soft">
                   For media enquiries, please use our{' '}
                   <Link
                     href="/contact"
-                    className="text-gold-300 underline underline-offset-4 focus-visible:ring-3 focus-visible:ring-gold-300/60 focus-visible:outline-none"
+                    className="text-map-course underline underline-offset-4 focus-visible:ring-3 focus-visible:ring-map-course/60 focus-visible:outline-none"
                   >
                     contact page
                   </Link>
                   .
                 </p>
               )}
-              <p className="border-t border-white/15 pt-4 text-sm text-stone-300">
+              <p className="border-t border-map-rule pt-4 text-sm text-map-ink-soft">
                 Looking for our latest announcements?{' '}
                 <Link
                   href="/news?category=press"
-                  className="text-gold-300 underline underline-offset-4 focus-visible:ring-3 focus-visible:ring-gold-300/60 focus-visible:outline-none"
+                  className="text-map-course underline underline-offset-4 focus-visible:ring-3 focus-visible:ring-map-course/60 focus-visible:outline-none"
                 >
                   Read our press releases
                 </Link>

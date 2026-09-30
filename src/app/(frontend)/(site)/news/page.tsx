@@ -1,4 +1,4 @@
-import { ArrowRightIcon, RssIcon } from 'lucide-react'
+import { ArrowRightIcon, RssIcon } from '@phosphor-icons/react/ssr'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 
@@ -60,12 +60,12 @@ export default async function NewsPage(props: PageProps<'/news'>) {
         <div className="flex flex-wrap gap-3 pt-2">
           <Button asChild variant="outline" size="lg">
             <Link href="/news/media-kit">
-              Media kit <ArrowRightIcon data-icon="inline-end" />
+              Media kit <ArrowRightIcon weight="light" data-icon="inline-end" />
             </Link>
           </Button>
           <Button asChild variant="ghost" size="lg">
             <a href="/news/rss.xml">
-              <RssIcon data-icon="inline-start" /> RSS feed
+              <RssIcon weight="light" data-icon="inline-start" /> RSS feed
             </a>
           </Button>
         </div>
@@ -98,16 +98,16 @@ export default async function NewsPage(props: PageProps<'/news'>) {
             />
           </>
         ) : (
-          <div className="rounded-lg border border-dashed border-stone-300 bg-stone-50 px-6 py-16 text-center">
-            <p className="font-heading text-h3 text-forest-800">
+          <div className="border border-dashed border-map-rule px-6 py-16 text-center">
+            <p className="font-heading text-h3 text-map-ink">
               {filtered
                 ? 'No articles match these filters yet.'
                 : 'No news has been published yet.'}
             </p>
-            <p className="mt-2 text-stone-600">
+            <p className="mt-2 text-map-ink-soft">
               {filtered
                 ? 'Try another category or business.'
-                : 'Check back soon for updates from across the group.'}
+                : 'News from across the group will appear here.'}
             </p>
             {filtered && (
               <Button asChild variant="outline" size="lg" className="mt-6">

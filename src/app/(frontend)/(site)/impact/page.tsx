@@ -3,7 +3,8 @@ import Link from 'next/link'
 
 import { ImpactCard } from '@/components/cards/ImpactCard'
 import { PageHeader } from '@/components/layout/PageHeader'
-import { Eyebrow, Section, SectionHeader } from '@/components/layout/Section'
+import { Section, SectionHeader } from '@/components/layout/Section'
+import { Reveal } from '@/components/motion/Reveal'
 import { StatsGrid } from '@/components/StatsGrid'
 import { getImpactProgrammes } from '@/lib/data'
 import { impactPillarLabels } from '@/lib/impact'
@@ -13,11 +14,11 @@ import type { ImpactProgramme } from '@/payload-types'
 type Pillar = ImpactProgramme['pillar']
 
 const pillarDescriptions: Record<Pillar, string> = {
-  education: 'Helping children and young people learn, from school meals to scholarships.',
-  health: 'Bringing care, screening and medicines closer to the communities we serve.',
-  environment: 'Protecting the land, water and forests our businesses depend on.',
-  enterprise: 'Backing local suppliers, traders and small businesses to grow.',
-  community: 'Standing with our neighbours through local projects and emergencies.',
+  education: 'Support for learning: schools, students and skills.',
+  health: 'Access to care and medicines near where our businesses work.',
+  environment: 'Looking after the land, water and coast our businesses rely on.',
+  enterprise: 'Support for local suppliers, traders and small businesses.',
+  community: 'Local projects, and help when our neighbours need it.',
 }
 
 const pillars = Object.keys(impactPillarLabels) as Pillar[]
@@ -30,9 +31,9 @@ const parsePillar = (value: string | string[] | undefined) => {
 export async function generateMetadata(props: PageProps<'/impact'>): Promise<Metadata> {
   const pillar = parsePillar((await props.searchParams).pillar)
   return {
-    title: pillar ? `${impactPillarLabels[pillar]} — Impact` : 'Impact',
+    title: pillar ? `${impactPillarLabels[pillar]} impact` : 'Impact',
     description:
-      'How Zeebundu Group and the Zeebundu Foundation invest in education, health, the environment, enterprise and communities across Sierra Leone.',
+      'How Zeebundu and the Zeebundu Foundation invest in education, health, the environment, enterprise and communities in Sierra Leone.',
     alternates: { canonical: '/impact' },
   }
 }
@@ -55,53 +56,53 @@ export default async function ImpactPage(props: PageProps<'/impact'>) {
     <>
       <PageHeader
         title="Our impact"
-        description="We grow with the communities we serve. Through the Zeebundu Foundation and our businesses, we invest in the people and places that make Sierra Leone home."
+        description="How our businesses and the Zeebundu Foundation invest in the people and places around them."
         crumbs={[{ label: 'Impact' }]}
       />
 
       {/* Intro */}
       <Section>
-        <div className="grid gap-8 md:grid-cols-[1fr_2fr] md:gap-12">
-          <div className="space-y-3">
-            <Eyebrow>Zeebundu Foundation</Eyebrow>
-            <h2 className="text-h2 text-forest-800">Business with a purpose</h2>
-          </div>
-          <div className="space-y-4 text-lg leading-relaxed text-stone-700">
+        <div className="grid gap-8 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-20">
+          <Reveal>
+            <h2 className="text-h2">The Zeebundu Foundation</h2>
+          </Reveal>
+          <Reveal delay={0.08} className="max-w-[62ch] space-y-5 text-lead text-map-ink">
             <p>
-              Our businesses employ, supply and serve thousands of people across Sierra Leone. That
-              gives us a responsibility, and an opportunity, to leave communities stronger than we
-              found them.
+              Our businesses employ people, buy from local suppliers and serve customers across
+              Sierra Leone. We think that comes with a duty to leave those communities better off.
             </p>
-            <p>
-              Our programmes are organised around five pillars. Many are run hand in hand with our
-              businesses, drawing on their people, products and know-how, and with local partners
-              who know their communities best.
+            <p className="text-map-ink-soft">
+              Programmes sit under five pillars. Many are run with our businesses and with local
+              partners who know their areas well.
             </p>
-          </div>
+          </Reveal>
         </div>
       </Section>
 
-      {/* Pillars */}
-      <Section tone="paper">
-        <SectionHeader eyebrow="What we focus on" title="Five pillars" />
-        <ul className="grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
-          {pillars.map((p) => {
+      {/* Pillars, as a legend */}
+      <Section className="border-t border-map-rule">
+        <h2 className="mb-10 text-h2">Five pillars</h2>
+        <ul className="border-t border-map-ink">
+          {pillars.map((p, i) => {
             const count = counts[p]
             const body = (
               <>
-                <span className="font-heading text-h3 text-forest-800">
+                <span className="control-num text-2xl text-map-course">
+                  {String(i + 1).padStart(2, '0')}
+                </span>
+                <span className="font-heading text-3xl leading-none font-extrabold uppercase md:text-4xl">
                   {impactPillarLabels[p]}
                 </span>
-                <span className="text-sm leading-relaxed text-stone-600">
+                <span className="text-sm leading-relaxed text-map-ink-soft md:text-base">
                   {pillarDescriptions[p]}
                 </span>
-                <span className="mt-auto pt-2 text-xs font-medium tracking-[0.14em] text-gold-700 uppercase">
-                  {count ? `${count} programme${count === 1 ? '' : 's'}` : 'Coming soon'}
+                <span className="text-sm whitespace-nowrap text-map-ink-soft md:text-right">
+                  {count ? `${count} programme${count === 1 ? '' : 's'}` : 'None published yet'}
                 </span>
               </>
             )
             const base =
-              'flex h-full flex-col gap-2 rounded-lg border bg-white p-5 transition-colors'
+              'grid grid-cols-[3rem_minmax(0,1fr)] items-baseline gap-x-4 gap-y-2 border-b border-map-rule py-6 md:grid-cols-[4rem_minmax(0,4fr)_minmax(0,6fr)_minmax(0,2fr)] md:gap-x-8 [&>*:nth-child(n+3)]:col-start-2 md:[&>*:nth-child(n+3)]:col-start-auto'
             return (
               <li key={p}>
                 {count ? (
@@ -110,16 +111,14 @@ export default async function ImpactPage(props: PageProps<'/impact'>) {
                     aria-current={pillar === p ? 'true' : undefined}
                     className={cn(
                       base,
-                      'hover:border-forest-700 focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none',
-                      pillar === p
-                        ? 'border-forest-700 ring-1 ring-forest-700'
-                        : 'border-stone-200',
+                      'transition-colors hover:bg-map-course-soft',
+                      pillar === p && 'bg-map-course-soft',
                     )}
                   >
                     {body}
                   </Link>
                 ) : (
-                  <div className={cn(base, 'border-stone-200')}>{body}</div>
+                  <div className={base}>{body}</div>
                 )}
               </li>
             )
@@ -129,22 +128,21 @@ export default async function ImpactPage(props: PageProps<'/impact'>) {
 
       {/* Stats */}
       {stats.length > 0 && (
-        <Section tone="dark" className="py-12 md:py-14">
+        <Section className="border-t border-map-rule py-14 md:py-16">
           <h2 className="sr-only">Impact in numbers</h2>
           <StatsGrid stats={stats} />
         </Section>
       )}
 
       {/* Programmes */}
-      <Section id="programmes" className="scroll-mt-20">
+      <Section id="programmes" className="scroll-mt-20 border-t border-map-rule">
         <SectionHeader
-          eyebrow="Programmes"
           title={pillar ? `${impactPillarLabels[pillar]} programmes` : 'Our programmes'}
           action={
             pillar ? (
               <Link
                 href="/impact#programmes"
-                className="rounded-sm text-sm font-medium text-forest-700 underline underline-offset-4 hover:text-forest-900 focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none"
+                className="rounded-sm text-sm font-medium text-map-ink underline underline-offset-4 hover:text-map-ink focus-visible:ring-3 focus-visible:ring-ring/50 focus-visible:outline-none"
               >
                 Show all programmes
               </Link>
@@ -160,8 +158,8 @@ export default async function ImpactPage(props: PageProps<'/impact'>) {
             ))}
           </ul>
         ) : (
-          <p className="rounded-lg border border-dashed border-stone-300 bg-stone-50 px-6 py-16 text-center font-heading text-h3 text-forest-800">
-            Programmes will be published here soon.
+          <p className="border border-dashed border-map-rule px-6 py-16 text-center text-lead text-map-ink-soft">
+            No programmes are published yet. Check back soon.
           </p>
         )}
       </Section>

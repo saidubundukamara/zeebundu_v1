@@ -1,14 +1,16 @@
-import { ArrowRightIcon } from 'lucide-react'
+import { ArrowRightIcon } from '@phosphor-icons/react/ssr'
 import type { Metadata } from 'next'
-
-import { notFoundOrRedirect } from '@/lib/redirects'
 import Link from 'next/link'
 
 import { BusinessCard } from '@/components/cards/BusinessCard'
 import { PageHeader } from '@/components/layout/PageHeader'
-import { Section, SectionHeader } from '@/components/layout/Section'
-import { Button } from '@/components/ui/button'
-import { getBusinessesBySector, getSector, getSectors } from '@/lib/data'
+import { Section } from '@/components/layout/Section'
+import { Media } from '@/components/Media'
+import { DevelopImage } from '@/components/motion/DevelopImage'
+import { Reveal } from '@/components/motion/Reveal'
+import { getCourse } from '@/lib/course'
+import { getSector, getSectors } from '@/lib/data'
+import { notFoundOrRedirect } from '@/lib/redirects'
 
 export async function generateStaticParams() {
   const sectors = await getSectors()
@@ -24,81 +26,97 @@ export async function generateMetadata(
   return {
     title: sector.name,
     description:
-      sector.description ||
-      `Zeebundu Group businesses in ${sector.name}, serving customers across Sierra Leone.`,
+      sector.description || `Zeebundu Group businesses in ${sector.name}, in Sierra Leone.`,
   }
 }
 
 export default async function SectorPage(props: PageProps<'/businesses/sector/[slug]'>) {
   const { slug } = await props.params
-  const [sector, groups] = await Promise.all([getSector(slug), getBusinessesBySector()])
+  const [sector, { legs }] = await Promise.all([getSector(slug), getCourse()])
   if (!sector) return notFoundOrRedirect(`/businesses/sector/${slug}`)
 
-  const businesses = groups.find((g) => g.sector.id === sector.id)?.businesses ?? []
-  const others = groups.filter((g) => g.sector.id !== sector.id)
+  const leg = legs.find((l) => l.sector.id === sector.id)
+  const controls = leg?.controls ?? []
+  const index = legs.findIndex((l) => l.sector.id === sector.id)
+  const next = legs.length > 1 ? legs[(index + 1) % legs.length] : null
+  const others = legs.filter((l) => l.sector.id !== sector.id)
 
   return (
     <>
       <PageHeader
-        eyebrow="Sector"
         title={sector.name}
         description={sector.description}
         crumbs={[{ label: 'Our businesses', href: '/businesses' }, { label: sector.name }]}
-      />
+      >
+        {controls.length > 0 && (
+          <p className="text-sm text-map-ink-soft">
+            {controls.length} {controls.length === 1 ? 'business' : 'businesses'}, controls{' '}
+            <span className="control-num text-lg text-map-course">
+              {controls.map((c) => c.code).join(' ')}
+            </span>
+          </p>
+        )}
+      </PageHeader>
+
+      {sector.image && typeof sector.image === 'object' && (
+        <div className="border-b border-map-rule">
+          <DevelopImage className="aspect-[21/9] max-h-[70vh] w-full">
+            <Media resource={sector.image} size="hero" className="size-full" sizes="100vw" />
+          </DevelopImage>
+        </div>
+      )}
 
       <Section>
-        {businesses.length > 0 ? (
+        {controls.length > 0 ? (
           <>
             <h2 className="sr-only">Businesses in {sector.name}</h2>
             <ul className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-              {businesses.map((business) => (
-                <li key={business.id}>
-                  <BusinessCard business={business} />
-                </li>
+              {controls.map(({ business, code }, i) => (
+                <Reveal as="li" key={business.id} delay={i * 0.06}>
+                  <BusinessCard business={business} code={code} />
+                </Reveal>
               ))}
             </ul>
           </>
         ) : (
-          <p className="text-lead text-stone-600">
-            Businesses in this sector will be listed here soon.
+          <p className="text-lead text-map-ink-soft">
+            No businesses are listed in this sector yet.
           </p>
         )}
       </Section>
 
-      {others.length > 0 && (
-        <Section tone="paper">
-          <SectionHeader
-            eyebrow="Keep exploring"
-            title="Other sectors"
-            action={
-              <Button asChild variant="outline" size="lg">
-                <Link href="/businesses">
-                  All businesses <ArrowRightIcon data-icon="inline-end" />
-                </Link>
-              </Button>
-            }
-          />
-          <ul className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-            {others.map(({ sector: other, businesses }) => (
-              <li key={other.id}>
-                <Link
-                  href={`/businesses/sector/${other.slug}`}
-                  className="group flex h-full items-center justify-between gap-4 rounded-lg border border-stone-200 bg-white p-5 transition-colors outline-none hover:border-forest-700 focus-visible:ring-3 focus-visible:ring-ring/50"
-                >
-                  <span className="space-y-1">
-                    <span className="block font-heading text-lg text-forest-800">{other.name}</span>
-                    <span className="block text-sm text-stone-600">
-                      {businesses.length} {businesses.length === 1 ? 'business' : 'businesses'}
-                    </span>
-                  </span>
-                  <ArrowRightIcon
-                    aria-hidden
-                    className="size-5 shrink-0 text-stone-400 transition-colors group-hover:text-forest-700"
-                  />
-                </Link>
-              </li>
-            ))}
-          </ul>
+      {next && (
+        <Section className="border-t border-map-rule">
+          <div className="grid gap-12 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)]">
+            <Link href={`/businesses/sector/${next.sector.slug}`} className="group block">
+              <p className="text-sm text-map-ink-soft">Next sector</p>
+              <p className="mt-3 flex items-center gap-4 font-heading text-h2 font-extrabold uppercase group-hover:text-map-course">
+                {next.sector.name}
+                <ArrowRightIcon
+                  aria-hidden
+                  weight="light"
+                  className="size-10 shrink-0 transition-transform duration-300 group-hover:translate-x-2"
+                />
+              </p>
+            </Link>
+            <nav aria-label="Other sectors">
+              <ul className="grid border-t border-map-ink sm:grid-cols-2 sm:gap-x-8">
+                {others.map(({ sector: other, controls: otherControls }) => (
+                  <li key={other.id} className="border-b border-map-rule">
+                    <Link
+                      href={`/businesses/sector/${other.slug}`}
+                      className="flex items-center justify-between gap-4 py-3 text-sm hover:text-map-course"
+                    >
+                      <span className="font-medium">{other.name}</span>
+                      <span className="control-num text-base whitespace-nowrap text-map-course">
+                        {otherControls.map((c) => c.code).join(' ')}
+                      </span>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          </div>
         </Section>
       )}
     </>

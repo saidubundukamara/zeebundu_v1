@@ -1,5 +1,5 @@
 import { draftMode } from 'next/headers'
-import { ArrowRightIcon, ArrowUpRightIcon } from 'lucide-react'
+import { ArrowLeftIcon, ArrowRightIcon, ArrowUpRightIcon } from '@phosphor-icons/react/ssr'
 import type { Metadata } from 'next'
 
 import { notFoundOrRedirect } from '@/lib/redirects'
@@ -10,15 +10,17 @@ import { ContactDetails } from '@/components/business/ContactDetails'
 import { breadcrumbJsonLd, JsonLd, localBusinessJsonLd } from '@/lib/seo/jsonld'
 import { Locations } from '@/components/business/Locations'
 import { RenderBlocks } from '@/components/blocks'
-import { NewsCard } from '@/components/cards/NewsCard'
 import { Gallery } from '@/components/Gallery'
 import { Section, SectionHeader } from '@/components/layout/Section'
 import { Media } from '@/components/Media'
 import { RichText } from '@/components/RichText'
 import { StatsGrid } from '@/components/StatsGrid'
-import { Button } from '@/components/ui/button'
 import { EnquiryForm } from '@/components/forms/EnquiryForm'
-import { getBusiness, getBusinesses, getNews, populated, relationID } from '@/lib/data'
+import { ControlMark } from '@/components/map/symbols'
+import { Reveal } from '@/components/motion/Reveal'
+import { getCourse } from '@/lib/course'
+import { getBusiness, getBusinesses, getNews, populated } from '@/lib/data'
+import { formatDate } from '@/lib/links'
 import type { Media as MediaDoc } from '@/payload-types'
 
 export async function generateStaticParams() {
@@ -65,23 +67,20 @@ export default async function BusinessPage(props: PageProps<'/businesses/[slug]'
   if (!business) return notFoundOrRedirect(`/businesses/${slug}`)
 
   const sector = populated(business.sector)
-  const [allBusinesses, news] = await Promise.all([
-    getBusinesses(),
+  const [{ controls }, news] = await Promise.all([
+    getCourse(),
     getNews({ business: business.id, limit: 3 }),
   ])
-  const siblings = allBusinesses.filter(
-    (b) => b.id !== business.id && relationID(b.sector) === relationID(business.sector),
-  )
+  const at = controls.findIndex((c) => c.business.id === business.id)
+  const control = at >= 0 ? controls[at] : null
+  const previous = at > 0 ? controls[at - 1] : null
+  const next = at >= 0 && at < controls.length - 1 ? controls[at + 1] : null
 
   const services = business.services ?? []
   const stats = business.stats ?? []
   const gallery = (business.gallery ?? []).filter((img) => typeof img === 'object')
   const locations = business.locations ?? []
   const blocks = business.layout ?? []
-
-  // Light sections alternate default/paper, whichever optional ones are present.
-  let light = 0
-  const nextTone = () => (light++ % 2 === 0 ? 'default' : 'paper') as 'default' | 'paper'
 
   const crumbs = [
     { label: 'Home', href: '/' },
@@ -90,15 +89,46 @@ export default async function BusinessPage(props: PageProps<'/businesses/[slug]'
     { label: business.name },
   ]
 
-  const overviewTone = nextTone()
-  const servicesTone = services.length ? nextTone() : 'default'
-  const blocksStart = blocks.length ? nextTone() : 'default'
-  light += Math.max(blocks.length - 1, 0) // RenderBlocks alternates internally
-  const galleryTone = gallery.length ? nextTone() : 'default'
-  const locationsTone = locations.length ? nextTone() : 'default'
-  const enquireTone = nextTone()
-  const newsTone = news.docs.length ? nextTone() : 'default'
-  const siblingsTone = nextTone()
+  const facts = [
+    control && {
+      label: 'Control',
+      value: <span className="control-num text-xl text-map-course">{control.code}</span>,
+    },
+    sector && {
+      label: 'Sector',
+      value: (
+        <Link
+          href={`/businesses/sector/${sector.slug}`}
+          className="font-medium underline hover:text-map-course"
+        >
+          {sector.name}
+        </Link>
+      ),
+    },
+    locations.length > 0 && {
+      label: 'Locations',
+      value: (
+        <a href="#locations" className="font-medium underline hover:text-map-course">
+          {locations.length} {locations.length === 1 ? 'location' : 'locations'}
+        </a>
+      ),
+    },
+    business.website && {
+      label: 'Website',
+      value: (
+        <a
+          href={business.website}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex max-w-full items-center gap-1 font-medium underline hover:text-map-course"
+        >
+          <span className="truncate">{business.website.replace(/^https?:\/\//, '')}</span>
+          <ArrowUpRightIcon aria-hidden weight="light" className="size-3.5 shrink-0" />
+          <span className="sr-only">(opens in a new tab)</span>
+        </a>
+      ),
+    },
+  ].filter(Boolean) as { label: string; value: React.ReactNode }[]
 
   return (
     <>
@@ -111,246 +141,199 @@ export default async function BusinessPage(props: PageProps<'/businesses/[slug]'
         ]}
       />
 
-      <BusinessHero business={business} crumbs={crumbs} />
+      <BusinessHero business={business} crumbs={crumbs} code={control?.code} />
 
-      {/* Overview */}
-      <Section tone={overviewTone}>
-        <div className="grid gap-10 lg:grid-cols-[2fr_1fr] lg:gap-16">
-          <div className="space-y-6">
-            <h2 className="text-h2 text-forest-800">Overview</h2>
+      {/* Overview, with the control description as a legend table */}
+      <Section>
+        <div className="grid gap-12 lg:grid-cols-[minmax(0,7fr)_minmax(0,4fr)] lg:gap-20">
+          <Reveal className="space-y-6">
+            <h2 className="text-h2">Overview</h2>
             {hasText(business.overview) ? (
               <RichText data={business.overview} />
             ) : (
-              <p className="text-lead text-stone-700">{business.summary}</p>
+              <p className="max-w-[60ch] text-lead text-map-ink">{business.summary}</p>
             )}
-          </div>
-          <aside
-            aria-labelledby="at-a-glance"
-            className="h-fit space-y-5 rounded-lg border border-stone-200 bg-stone-100 p-6 group-data-[tone=paper]/section:bg-white"
-          >
-            <h2 id="at-a-glance" className="font-heading text-h3 text-forest-800">
-              At a glance
+          </Reveal>
+          <aside aria-labelledby="control-description" className="h-fit">
+            <h2
+              id="control-description"
+              className="border-b border-map-ink pb-2 font-heading text-lg font-extrabold uppercase"
+            >
+              Control description
             </h2>
-            <dl className="divide-y divide-stone-200 text-sm">
-              {sector && (
-                <div className="flex justify-between gap-4 py-3 first:pt-0">
-                  <dt className="text-stone-600">Sector</dt>
-                  <dd className="text-right">
-                    <Link
-                      href={`/businesses/sector/${sector.slug}`}
-                      className="rounded-sm font-medium text-forest-700 underline underline-offset-4 outline-none focus-visible:ring-3 focus-visible:ring-ring/50"
-                    >
-                      {sector.name}
-                    </Link>
-                  </dd>
+            <dl className="text-sm">
+              {facts.map((fact) => (
+                <div
+                  key={fact.label}
+                  className="grid grid-cols-[7rem_minmax(0,1fr)] items-center gap-4 border-b border-map-rule py-3"
+                >
+                  <dt className="text-map-ink-soft">{fact.label}</dt>
+                  <dd className="min-w-0">{fact.value}</dd>
                 </div>
-              )}
-              {locations.length > 0 && (
-                <div className="flex justify-between gap-4 py-3">
-                  <dt className="text-stone-600">Locations</dt>
-                  <dd className="text-right font-medium">
-                    <a
-                      href="#locations"
-                      className="rounded-sm text-forest-700 underline underline-offset-4 outline-none focus-visible:ring-3 focus-visible:ring-ring/50"
-                    >
-                      {locations.length} {locations.length === 1 ? 'location' : 'locations'}
-                    </a>
-                  </dd>
-                </div>
-              )}
-              {business.website && (
-                <div className="flex justify-between gap-4 py-3">
-                  <dt className="text-stone-600">Website</dt>
-                  <dd className="min-w-0 text-right">
-                    <a
-                      href={business.website}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex max-w-full items-center gap-1 rounded-sm font-medium text-forest-700 underline underline-offset-4 outline-none focus-visible:ring-3 focus-visible:ring-ring/50"
-                    >
-                      <span className="truncate">
-                        {business.website.replace(/^https?:\/\//, '')}
-                      </span>
-                      <ArrowUpRightIcon aria-hidden className="size-3.5 shrink-0" />
-                      <span className="sr-only">(opens in a new tab)</span>
-                    </a>
-                  </dd>
-                </div>
-              )}
+              ))}
             </dl>
-            <Button asChild variant="default" size="lg" className="w-full">
-              <a href="#enquire">Send an enquiry</a>
-            </Button>
           </aside>
         </div>
       </Section>
 
-      {/* Products & services */}
+      {/* Products & services: numbered rows, photo where one exists */}
       {services.length > 0 && (
-        <Section tone={servicesTone}>
-          <SectionHeader eyebrow="What we offer" title="Products & services" />
-          <ul className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {services.map((service) => {
+        <Section className="border-t border-map-rule">
+          <h2 className="mb-12 text-h2">Products and services</h2>
+          <ol className="grid gap-x-10 border-t border-map-ink md:grid-cols-2">
+            {services.map((service, i) => {
               const image = populated(service.image)
               return (
-                <li
+                <Reveal
+                  as="li"
                   key={service.id ?? service.title}
-                  className="flex flex-col overflow-hidden rounded-lg border border-stone-200 bg-white"
+                  delay={(i % 2) * 0.08}
+                  className="grid grid-cols-[3rem_minmax(0,1fr)] gap-4 border-b border-map-rule py-6"
                 >
-                  {image && (
-                    <Media
-                      resource={image}
-                      className="aspect-[16/10]"
-                      sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-                    />
-                  )}
-                  <div className="flex flex-1 flex-col gap-2 border-t-2 border-gold-400 p-5">
-                    <h3 className="font-heading text-h3 text-forest-800">{service.title}</h3>
+                  <span className="control-num text-2xl text-map-course">
+                    {String(i + 1).padStart(2, '0')}
+                  </span>
+                  <div className="space-y-3">
+                    <h3 className="font-heading text-2xl leading-none font-extrabold uppercase">
+                      {service.title}
+                    </h3>
                     {service.description && (
-                      <p className="text-sm leading-relaxed text-stone-600">
+                      <p className="text-sm leading-relaxed text-map-ink-soft">
                         {service.description}
                       </p>
                     )}
+                    {image && (
+                      <Media
+                        resource={image}
+                        className="mt-2 aspect-[16/9]"
+                        sizes="(min-width: 768px) 40vw, 100vw"
+                      />
+                    )}
                   </div>
-                </li>
+                </Reveal>
               )
             })}
-          </ul>
+          </ol>
         </Section>
       )}
 
-      {/* Key stats */}
       {stats.length > 0 && (
-        <Section tone="dark" aria-label={`${business.name} in numbers`}>
+        <Section className="border-t border-map-rule" aria-label={`${business.name} in numbers`}>
           <StatsGrid stats={stats} />
         </Section>
       )}
 
       {/* Business-specific extras (rates, loans, products, rooms, FAQ…) */}
-      <RenderBlocks blocks={blocks} startTone={blocksStart} />
+      <RenderBlocks blocks={blocks} />
 
-      {/* Gallery */}
       {gallery.length > 0 && (
-        <Section tone={galleryTone}>
-          <SectionHeader title="Gallery" />
+        <Section className="border-t border-map-rule">
+          <h2 className="mb-12 text-h2">Gallery</h2>
           <Gallery images={gallery} />
         </Section>
       )}
 
-      {/* Locations & opening hours */}
       {locations.length > 0 && (
-        <Section tone={locationsTone} id="locations" className="scroll-mt-20">
+        <Section id="locations" className="scroll-mt-20 border-t border-map-rule">
           <SectionHeader
-            eyebrow="Visit us"
-            title="Locations & opening hours"
-            description={
-              locations.length > 1 ? `Find us at ${locations.length} locations.` : undefined
-            }
+            title="Where to find us"
+            description={locations.length > 1 ? `${locations.length} locations.` : undefined}
           />
           <Locations locations={locations} />
         </Section>
       )}
 
       {/* Get in touch */}
-      <Section tone={enquireTone} id="enquire" className="scroll-mt-20">
-        <div className="grid gap-10 lg:grid-cols-[1fr_1.6fr] lg:gap-16">
-          <div className="space-y-6">
+      <Section id="enquire" className="scroll-mt-20 border-t border-map-rule">
+        <div className="grid gap-12 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-20">
+          <div className="space-y-8">
             <SectionHeader
-              eyebrow="Get in touch"
               title={`Contact ${business.name}`}
-              description="Send us a message and the team will get back to you, or reach us directly."
+              description="Send a message and the team will reply, or use the details below."
               className="mb-0"
             />
             <ContactDetails business={business} />
           </div>
-          <div className="rounded-lg border border-stone-200 bg-white p-5 md:p-8">
+          <div className="border border-map-ink bg-card p-5 md:p-8">
             <EnquiryForm business={{ id: business.id, name: business.name }} />
           </div>
         </div>
       </Section>
 
-      {/* Related news */}
       {news.docs.length > 0 && (
-        <Section tone={newsTone}>
-          <SectionHeader
-            eyebrow="Newsroom"
-            title={`News from ${business.name}`}
-            action={
-              <Button asChild variant="outline" size="lg">
-                <Link href="/news">
-                  All news <ArrowRightIcon data-icon="inline-end" />
-                </Link>
-              </Button>
-            }
-          />
-          <ul className="grid gap-5 md:grid-cols-3">
+        <Section className="border-t border-map-rule">
+          <h2 className="mb-10 text-h2">News from {business.name}</h2>
+          <ul className="border-t border-map-ink">
             {news.docs.map((article) => (
-              <li key={article.id}>
-                <NewsCard article={article} />
+              <li key={article.id} className="border-b border-map-rule">
+                <Link
+                  href={`/news/${article.slug}`}
+                  className="group grid gap-2 py-6 md:grid-cols-[9rem_minmax(0,1fr)] md:gap-8"
+                >
+                  {article.publishedAt && (
+                    <time
+                      dateTime={article.publishedAt}
+                      className="text-sm text-map-ink-soft tabular"
+                    >
+                      {formatDate(article.publishedAt)}
+                    </time>
+                  )}
+                  <span className="font-heading text-2xl leading-tight font-extrabold uppercase group-hover:text-map-course">
+                    {article.title}
+                  </span>
+                </Link>
               </li>
             ))}
           </ul>
         </Section>
       )}
 
-      {/* Other businesses in this sector */}
-      {siblings.length > 0 && sector && (
-        <Section tone={siblingsTone}>
-          <SectionHeader
-            eyebrow={sector.name}
-            title="Other businesses in this sector"
-            action={
-              <Button asChild variant="outline" size="lg">
-                <Link href={`/businesses/sector/${sector.slug}`}>
-                  View sector <ArrowRightIcon data-icon="inline-end" />
-                </Link>
-              </Button>
-            }
-          />
-          <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {siblings.map((sibling) => {
-              const logo = populated(sibling.logo)
-              return (
-                <li key={sibling.id}>
-                  <Link
-                    href={`/businesses/${sibling.slug}`}
-                    className="group flex h-full items-center gap-4 rounded-lg border border-stone-200 bg-white p-4 transition-colors outline-none hover:border-forest-700 focus-visible:ring-3 focus-visible:ring-ring/50"
-                  >
-                    {logo ? (
-                      <Media
-                        resource={logo}
-                        size="thumbnail"
-                        className="size-12 shrink-0 rounded-md"
-                        sizes="48px"
-                      />
-                    ) : (
-                      <span
-                        aria-hidden
-                        className="flex size-12 shrink-0 items-center justify-center rounded-md bg-forest-800 font-heading text-lg text-gold-300"
-                      >
-                        {sibling.name.charAt(0)}
-                      </span>
-                    )}
-                    <span className="min-w-0 flex-1">
-                      <span className="block font-heading text-lg text-forest-800 group-hover:underline">
-                        {sibling.name}
-                      </span>
-                      {sibling.tagline && (
-                        <span className="line-clamp-1 block text-sm text-stone-600">
-                          {sibling.tagline}
-                        </span>
-                      )}
-                    </span>
+      {/* The course continues: previous and next controls */}
+      {(previous || next) && (
+        <nav aria-label="Other businesses" className="border-t border-map-ink">
+          <div className="mx-auto grid max-w-[1360px] md:grid-cols-2">
+            {[previous, next].map((c, i) =>
+              c ? (
+                <Link
+                  key={c.business.id}
+                  href={`/businesses/${c.business.slug}`}
+                  className={
+                    'group flex items-center gap-5 px-4 py-10 transition-colors hover:bg-map-course-soft md:px-8 md:py-14 ' +
+                    (i === 1 ? 'md:flex-row-reverse md:text-right' : '') +
+                    (i === 1 && previous
+                      ? ' border-t border-map-rule md:border-t-0 md:border-l'
+                      : '')
+                  }
+                >
+                  {i === 0 ? (
+                    <ArrowLeftIcon
+                      aria-hidden
+                      weight="light"
+                      className="size-7 shrink-0 transition-transform duration-300 group-hover:-translate-x-1"
+                    />
+                  ) : (
                     <ArrowRightIcon
                       aria-hidden
-                      className="size-5 shrink-0 text-stone-400 transition-colors group-hover:text-forest-700"
+                      weight="light"
+                      className="size-7 shrink-0 transition-transform duration-300 group-hover:translate-x-1"
                     />
-                  </Link>
-                </li>
-              )
-            })}
-          </ul>
-        </Section>
+                  )}
+                  <ControlMark code={c.code} />
+                  <span className="min-w-0">
+                    <span className="block text-sm text-map-ink-soft">
+                      {i === 0 ? 'Previous control' : 'Next control'}
+                    </span>
+                    <span className="block font-heading text-3xl leading-none font-extrabold uppercase">
+                      {c.business.name}
+                    </span>
+                  </span>
+                </Link>
+              ) : (
+                <span key={i} aria-hidden className="hidden md:block" />
+              ),
+            )}
+          </div>
+        </nav>
       )}
     </>
   )

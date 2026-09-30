@@ -1,6 +1,6 @@
 import { breadcrumbJsonLd, JsonLd, newsArticleJsonLd } from '@/lib/seo/jsonld'
 import { draftMode } from 'next/headers'
-import { ArrowLeftIcon } from 'lucide-react'
+import { ArrowLeftIcon } from '@phosphor-icons/react/ssr'
 import type { Metadata } from 'next'
 
 import { notFoundOrRedirect } from '@/lib/redirects'
@@ -103,7 +103,7 @@ export default async function ArticlePage(props: PageProps<'/news/[slug]'>) {
         crumbs={[{ label: 'Newsroom', href: '/news' }, { label: article.title }]}
       >
         {article.publishedAt && (
-          <p className="text-sm text-stone-600">
+          <p className="text-sm text-map-ink-soft">
             <time dateTime={article.publishedAt}>{formatDate(article.publishedAt)}</time>
             {article.author && <> · By {article.author}</>}
           </p>
@@ -124,17 +124,17 @@ export default async function ArticlePage(props: PageProps<'/news/[slug]'>) {
         <Container className="mt-10 max-w-3xl md:mt-14">
           <RichText data={article.body} />
 
-          <footer className="mt-12 space-y-6 border-t border-stone-200 pt-8">
+          <footer className="mt-12 space-y-6 border-t border-map-rule pt-8">
             {article.author && (
-              <p className="text-sm text-stone-600">
-                Written by <span className="font-medium text-stone-900">{article.author}</span>
+              <p className="text-sm text-map-ink-soft">
+                Written by <span className="font-medium text-map-ink-soft">{article.author}</span>
               </p>
             )}
             <ShareLinks url={url} title={article.title} />
             <div className="flex flex-wrap gap-3">
               <Button asChild variant="outline" size="lg">
                 <Link href="/news">
-                  <ArrowLeftIcon data-icon="inline-start" /> Back to the newsroom
+                  <ArrowLeftIcon weight="light" data-icon="inline-start" /> Back to the newsroom
                 </Link>
               </Button>
               {business && (
@@ -149,7 +149,7 @@ export default async function ArticlePage(props: PageProps<'/news/[slug]'>) {
 
       {related.length > 0 && (
         <Section tone="paper">
-          <SectionHeader eyebrow="Newsroom" title="More from the newsroom" />
+          <SectionHeader title="More from the newsroom" />
           <ul className="grid gap-5 md:grid-cols-3">
             {related.map((item) => (
               <li key={item.id}>

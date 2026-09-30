@@ -22,13 +22,13 @@ export default function SiteError({
   return (
     <div className="mx-auto flex max-w-xl flex-col items-start gap-6 px-4 py-24 md:py-32">
       <title>Something went wrong | Zeebundu Group</title>
-      <p className="text-xs font-medium tracking-[0.14em] text-gold-700 uppercase">Error</p>
-      <h1 className="text-h1 text-forest-800">Something went wrong</h1>
-      <p className="text-lead text-stone-600">
-        Sorry — this page didn’t load properly. Please try again, or head back to the homepage.
+      <p className="text-sm font-medium text-map-ink-soft">Error</p>
+      <h1 className="text-h1 text-map-ink">Something went wrong</h1>
+      <p className="text-lead text-map-ink-soft">
+        Sorry, this page didn’t load properly. Try again, or go back to the homepage.
       </p>
       <div className="flex flex-wrap gap-3">
-        <Button variant="highlight" size="xl" onClick={() => retry()}>
+        <Button size="xl" onClick={() => retry()}>
           Try again
         </Button>
         <Button asChild variant="outline" size="xl">
@@ -36,7 +36,7 @@ export default function SiteError({
         </Button>
       </div>
       {error.digest && (
-        <p className="text-sm text-stone-600">
+        <p className="text-sm text-map-ink-soft">
           Reference: <code className="font-mono">{error.digest}</code>
         </p>
       )}
