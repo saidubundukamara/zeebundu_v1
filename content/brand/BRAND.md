@@ -25,6 +25,8 @@ Zeebundu is drawn as an orienteering map. Each of its 16 businesses is a numbere
 
 Purple is the one accent. Don't use it for decoration.
 
+The site is light (the day map) for every visitor by default. A sun/moon toggle in the header switches to the night map, and the browser remembers that choice.
+
 ## Type
 
 - **Display:** Big Shoulders, set in condensed uppercase. It is used for headings, control numbers and buttons.

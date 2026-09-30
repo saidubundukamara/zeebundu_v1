@@ -205,7 +205,7 @@ Zeebundu is drawn as an orienteering map. The group's 16 businesses are numbered
 
 The system is dense but calm. It reads like a map sheet and a control-description sheet: legend tables, ruled lists, numbered circles, condensed uppercase names. Headings are posters set in Big Shoulders; running text is Mona Sans. Containers are square, controls are round, and there is nothing in between. Depth comes from terrain and ink rules, not from shadows or tinted panels.
 
-The world deliberately refuses the holding-company default of a photo hero, a stats band and a sector card grid. Photos exist, but they are framed as surveyed evidence that "develops" once, never as the opening frame. The dark scheme is the night map: the same inks printed on near-black paper, with the course lifted for contrast and vegetation printed as dot screens.
+The world deliberately refuses the holding-company default of a photo hero, a stats band and a sector card grid. Photos exist, but they are framed as surveyed evidence that "develops" once, never as the opening frame. The day map (light) is the default for every visitor. The night map is opt-in from a header toggle: the same inks printed on near-black paper, with the course lifted for contrast and vegetation printed as dot screens.
 
 **Key Characteristics:**
 - One accent (course purple) with a hard usage rule; map inks everywhere else.
@@ -214,7 +214,7 @@ The world deliberately refuses the holding-company default of a photo hero, a st
 - Every business has a stable two-digit control code, numbered in sector order.
 - Generated, seeded contour terrain as the only texture, masked away from text.
 - A small, named motion vocabulary that becomes fully static under reduced motion.
-- Theme follows the visitor's system setting; there is no manual toggle.
+- Light is the default for everyone, whatever their system setting. A sun/moon toggle in the header (and in the mobile menu) switches to the night map; the choice is stored in localStorage (`zb-theme`) and applied before first paint by an inline script, so there is no flash.
 
 ## Colors
 
@@ -250,7 +250,7 @@ The terrain SVGs carry their own tuned inks from `scripts/generate-terrain.mjs` 
 
 **The Map Ink Rule.** Thicket, open land, marsh and contour colours are terrain. They live in the generated terrain and the legend symbols and never become button, badge, chip or text colours.
 
-**The Night Map Rule.** Dark mode is the same map printed on near-black paper, not an inverted UI. Swap the ink values, lift the course to #a36fe3, and let the terrain switch to its night file with dot-screened vegetation.
+**The Night Map Rule.** The night map (opt-in, `<html data-theme="dark">`) is the same map printed on near-black paper, not an inverted UI. Swap the ink values, lift the course to #a36fe3, and let the terrain switch to its night file with dot-screened vegetation.
 
 ## Typography
 
@@ -373,7 +373,7 @@ Two curves carry all of it: expo out, `cubic-bezier(0.16, 1, 0.3, 1)`, for arriv
 - **Do** set headings in Big Shoulders 800 uppercase and let them carry the section on their own.
 - **Do** keep containers at 0 to 4px radius and reserve full circles for controls.
 - **Do** separate content with ink and hairline rules in a legend-table grammar rather than boxed cards or shadows.
-- **Do** use the generated terrain for texture, masked away from text, and swap to the night file in dark mode.
+- **Do** use the generated terrain for texture, masked away from text, and swap to the night file when the night map is on (Terrain renders both files; `dark:` shows the right one).
 - **Do** assign legend symbols by sector order so the key matches a real ISOM map key.
 - **Do** make every animation play once, use the expo or drawer curve, and render the final state under reduced motion.
 - **Do** keep a visible focus state (2px course outline, 3px offset) on everything interactive.
