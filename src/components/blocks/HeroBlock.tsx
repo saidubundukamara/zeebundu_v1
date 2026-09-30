@@ -26,7 +26,7 @@ export function HeroBlock({ block }: { block: HeroBlockType }) {
       >
         <div className="max-w-3xl space-y-6">
           {block.eyebrow && (
-            <p className="font-heading text-lg font-bold tracking-[0.04em] text-map-course uppercase">
+            <p className="text-sm font-medium text-map-ink-soft">
               {block.eyebrow}
             </p>
           )}
