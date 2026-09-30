@@ -177,23 +177,24 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    /* Night map: same inks, read under a head torch. */
-    --map-ground: #0f1113;
+    /* Night map for visitors whose phone or laptop is set to dark mode (often after
+       dark, on a phone): the same inks as the day map, printed on near-black paper. */
+    --map-ground: #121410;
     --map-ink: #eceee9;
     --map-ink-soft: #a4aaa2;
-    --map-rule: #262a2c;
+    --map-rule: #2a2d27;
     --map-contour: #c79a6c;
     --map-thicket: #1b2317;
     --map-open: #33301b;
     --map-water: #13232d;
-    --map-course: #b98cf2;
-    --map-course-soft: #2a1d3a;
+    --map-course: #a36fe3;
+    --map-course-soft: #251a33;
 
-    --card: #16191b;
-    --popover: #16191b;
+    --card: #171a15;
+    --popover: #171a15;
     --primary-foreground: #140a20;
-    --secondary: #1b1f21;
-    --muted: #181b1d;
+    --secondary: #1c1f19;
+    --muted: #191c16;
     --accent-foreground: #d7bdf8;
     --input: #3a3f42;
     --destructive: #ff7a6b;

@@ -20,10 +20,15 @@ export function BusinessHero({
   business,
   crumbs,
   code,
+  leg,
+  sectorName,
 }: {
   business: Business
   crumbs: Crumb[]
   code?: string
+  /** Every control in this business's sector, in course order. */
+  leg?: { code: string; slug: string; name: string }[]
+  sectorName?: string
 }) {
   const logo = populated(business.logo)
   const logoURL = logo?.sizes?.thumbnail?.url ?? logo?.url
@@ -82,6 +87,38 @@ export function BusinessHero({
             </h1>
             {business.tagline && (
               <p className="max-w-[44ch] text-lead text-map-ink-soft">{business.tagline}</p>
+            )}
+            {leg && leg.length > 1 && (
+              <nav
+                aria-label={`${sectorName ?? 'Sector'} businesses`}
+                className="flex items-center gap-3"
+              >
+                <span className="text-sm text-map-ink-soft">{sectorName}</span>
+                <ol className="flex items-center">
+                  {leg.map((c, i) => (
+                    <li key={c.slug} className="flex items-center">
+                      {i > 0 && <span aria-hidden className="h-[2px] w-6 bg-map-course" />}
+                      {c.slug === business.slug ? (
+                        <span
+                          aria-current="page"
+                          className="flex size-9 items-center justify-center rounded-full border-2 border-map-course bg-map-course control-num text-sm text-primary-foreground"
+                        >
+                          {c.code}
+                        </span>
+                      ) : (
+                        <Link
+                          href={`/businesses/${c.slug}`}
+                          aria-label={`${c.code}: ${c.name}`}
+                          title={c.name}
+                          className="flex size-9 items-center justify-center rounded-full border-2 border-map-course bg-map-ground control-num text-sm text-map-course transition-colors hover:bg-map-course hover:text-primary-foreground"
+                        >
+                          {c.code}
+                        </Link>
+                      )}
+                    </li>
+                  ))}
+                </ol>
+              </nav>
             )}
             <div className="flex flex-wrap gap-3">
               <Button asChild size="xl">

@@ -141,7 +141,15 @@ export default async function BusinessPage(props: PageProps<'/businesses/[slug]'
         ]}
       />
 
-      <BusinessHero business={business} crumbs={crumbs} code={control?.code} />
+      <BusinessHero
+        business={business}
+        crumbs={crumbs}
+        code={control?.code}
+        sectorName={sector?.name}
+        leg={controls
+          .filter((c) => c.sector.id === control?.sector.id)
+          .map((c) => ({ code: c.code, slug: c.business.slug, name: c.business.name }))}
+      />
 
       {/* Overview, with the control description as a legend table */}
       <Section>

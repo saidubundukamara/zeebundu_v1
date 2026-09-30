@@ -79,6 +79,11 @@ async function seed() {
   }
   log(`${sectors.length} sectors`)
 
+  // A business without its own photo borrows its sector's (the forex business shows
+  // the Freetown banking wall rather than a foreign currency).
+  const photoFor: Record<string, string> = { 'foreign-exchange': 'financial-services' }
+  const businessPhoto = (slug: string) => photo(photos, slug) ?? photo(photos, photoFor[slug] ?? '')
+
   // Businesses (published so the site renders; contact details stay empty until supplied)
   for (const business of businesses) {
     const sector = sectorIDs[business.sector]
@@ -95,7 +100,7 @@ async function seed() {
       })),
       featured: business.featured,
       order: business.order,
-      ...(photo(photos, business.slug) && { heroImage: photo(photos, business.slug) }),
+      ...(businessPhoto(business.slug) && { heroImage: businessPhoto(business.slug) }),
       _status: 'published',
     })
   }
