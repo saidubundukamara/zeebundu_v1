@@ -116,7 +116,8 @@ export default buildConfig({
   }),
   sharp,
   // Scheduled publishing runs through the jobs queue. On Vercel a cron calls
-  // /api/payload-jobs/run (see vercel.json) with `Authorization: Bearer $CRON_SECRET`.
+  // /api/payload-jobs/run (see vercel.json; daily at 06:00 UTC on the Hobby plan)
+  // with `Authorization: Bearer $CRON_SECRET`.
   jobs: {
     access: {
       run: ({ req }) => {

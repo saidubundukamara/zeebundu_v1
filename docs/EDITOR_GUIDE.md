@@ -29,7 +29,7 @@ If something you need is missing from your menu, ask a super admin.
 4. Click the **eye icon** (Live Preview) to see the page update as you type, on phone, tablet and desktop sizes.
 5. When you're happy, click **Publish changes**. The live site updates straight away.
 
-To schedule a change for later, use the arrow next to **Publish changes** and choose **Schedule publish**.
+To schedule a change for later, use the arrow next to **Publish changes** and choose **Schedule publish**. Scheduled changes go live at the next daily publishing run, at 6am (Freetown time), so a change set for 2pm appears at 6am the following day. If it must go live at an exact time, publish it by hand at that time.
 
 ## News
 

@@ -8,7 +8,7 @@ Everything that must happen outside the codebase before zeebundu.com goes live. 
 - [ ] **Neon Postgres:** production database created. Use the **pooled** connection string for `DATABASE_URI`. A separate branch/database for preview deploys is recommended.
 - [ ] **Vercel project** linked to the repo, with the env vars below set for Production (and Preview where noted).
   - Builds need database access (pages are generated from CMS content at build time).
-  - Vercel Cron (`vercel.json`) runs scheduled publishing every 5 minutes. Sub-daily crons need a Vercel **Pro** plan; on Hobby, change the schedule to daily.
+  - Vercel Cron (`vercel.json`) runs scheduled publishing once a day at 06:00 UTC (06:00 in Freetown), the most the Hobby plan allows. So content scheduled for a future time goes live at the next 06:00 run. On Vercel **Pro**, change the schedule to `*/5 * * * *` for publishing within 5 minutes.
 - [ ] **Media storage:** Cloudinary is wired in (`src/lib/storage/cloudinary.ts`). Set `CLOUDINARY_CLOUD_NAME`, `CLOUDINARY_API_KEY` and `CLOUDINARY_API_SECRET` in Vercel, then run `npm run seed` once against production to move the seed photos up. Without them, uploads go to local disk, which does not persist on Vercel.
 
 ## 2. Environment variables
