@@ -78,24 +78,31 @@ const cloudinaryAdapter =
 export const cloudinaryStorage =
   (options: Options): Plugin =>
   (config: Config) => {
-    if (!options.enabled) return config
-    cloudinary.config({
-      cloud_name: options.cloudName,
-      api_key: options.apiKey,
-      api_secret: options.apiSecret,
-      secure: true,
-      url_analytics: false,
-    })
+    if (options.enabled) {
+      cloudinary.config({
+        cloud_name: options.cloudName,
+        api_key: options.apiKey,
+        api_secret: options.apiSecret,
+        secure: true,
+        url_analytics: false,
+      })
+    }
     return cloudStoragePlugin({
+      // Same database columns whether or not Cloudinary is configured, so one set of
+      // migrations fits every environment (local disk in dev, Cloudinary in production).
+      alwaysInsertFields: true,
+      enabled: options.enabled,
       collections: Object.fromEntries(
         options.collections.map((slug) => [
           slug,
-          {
-            adapter: cloudinaryAdapter(options.folder),
-            disableLocalStorage: true,
-            // Media is public, so documents link straight to the CDN.
-            disablePayloadAccessControl: true,
-          },
+          options.enabled
+            ? {
+                adapter: cloudinaryAdapter(options.folder),
+                disableLocalStorage: true,
+                // Media is public, so documents link straight to the CDN.
+                disablePayloadAccessControl: true as const,
+              }
+            : { adapter: null },
         ]),
       ),
     })(config)
