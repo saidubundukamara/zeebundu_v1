@@ -48,3 +48,4 @@ next-env.d.ts
 # Impeccable design-review scratch (decision comps, review screenshots)
 .impeccable/mocks/
 .impeccable/review/
+.impeccable/questions/
