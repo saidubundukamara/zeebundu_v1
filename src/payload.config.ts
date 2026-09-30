@@ -2,7 +2,6 @@ import { postgresAdapter } from '@payloadcms/db-postgres'
 import { multiTenantPlugin } from '@payloadcms/plugin-multi-tenant'
 import { redirectsPlugin } from '@payloadcms/plugin-redirects'
 import { seoPlugin } from '@payloadcms/plugin-seo'
-import { s3Storage } from '@payloadcms/storage-s3'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
 import path from 'path'
 import { buildConfig } from 'payload'
@@ -28,6 +27,7 @@ import { SiteSettings } from './globals/SiteSettings'
 import { expireTags, withGlobalRevalidation, withRevalidation } from './hooks/revalidate'
 import { emailAdapter } from './lib/email/adapter'
 import { docPath } from './lib/paths'
+import { cloudinaryStorage } from './lib/storage/cloudinary'
 import { tags } from './lib/tags'
 import type { Config } from './payload-types'
 
@@ -117,21 +117,15 @@ export default buildConfig({
     },
   },
   plugins: [
-    // Media in Cloudflare R2 (S3-compatible) when configured; local disk otherwise (dev only —
-    // Vercel's filesystem isn't persistent). Files are still served via /api/media/file/*.
-    s3Storage({
-      enabled: Boolean(process.env.S3_BUCKET),
-      collections: { media: true },
-      bucket: process.env.S3_BUCKET || '',
-      config: {
-        endpoint: process.env.S3_ENDPOINT,
-        region: process.env.S3_REGION || 'auto',
-        forcePathStyle: true,
-        credentials: {
-          accessKeyId: process.env.S3_ACCESS_KEY_ID || '',
-          secretAccessKey: process.env.S3_SECRET_ACCESS_KEY || '',
-        },
-      },
+    // Media on Cloudinary when configured; local disk otherwise (dev only, since Vercel's
+    // filesystem isn't persistent). See src/lib/storage/cloudinary.ts.
+    cloudinaryStorage({
+      enabled: Boolean(process.env.CLOUDINARY_CLOUD_NAME && process.env.CLOUDINARY_API_SECRET),
+      cloudName: process.env.CLOUDINARY_CLOUD_NAME || '',
+      apiKey: process.env.CLOUDINARY_API_KEY || '',
+      apiSecret: process.env.CLOUDINARY_API_SECRET || '',
+      folder: process.env.CLOUDINARY_FOLDER || 'zeebundu-site',
+      collections: ['media'],
     }),
     multiTenantPlugin<Config>({
       // Each business is a tenant; business editors are assigned businesses on their user
