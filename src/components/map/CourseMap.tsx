@@ -130,13 +130,14 @@ export function CourseMap({
         className,
       )}
     >
-      <div className="flex flex-col gap-10 lg:order-1">
-        {intro}
-        {legend}
+      {/* On phones: intro, map, legend. On desktop the legend sits under the intro. */}
+      <div className="contents lg:flex lg:flex-col lg:gap-10">
+        <div className="order-1 lg:order-none">{intro}</div>
+        <div className="order-3 lg:order-none">{legend}</div>
       </div>
-      <div className="relative lg:order-2">
+      <div className="relative order-2 lg:order-none">
         <svg
-          viewBox={`0 0 ${W} ${H}`}
+          viewBox={`-70 0 ${W + 140} ${H}`}
           className="h-auto w-full overflow-visible"
           role="group"
           aria-label="Course map: each numbered control is one Zeebundu business"
@@ -270,7 +271,7 @@ export function CourseMap({
           <div
             className="pointer-events-none absolute z-10 hidden w-60 -translate-x-1/2 border border-map-ink bg-map-ground shadow-[0_12px_32px_-12px_rgb(21_23_27/0.35)] md:block"
             style={{
-              left: `${(pts[focus].x / W) * 100}%`,
+              left: `${((pts[focus].x + 70) / (W + 140)) * 100}%`,
               top: `calc(${(pts[focus].y / H) * 100}% + 3.25rem)`,
             }}
           >

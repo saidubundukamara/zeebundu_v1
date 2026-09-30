@@ -55,7 +55,11 @@ export function BusinessDirectory({ groups }: { groups: DirectoryGroup[] }) {
   return (
     <div>
       <div className="mb-14 grid gap-6 lg:grid-cols-[minmax(0,1fr)_18rem] lg:items-end">
-        <div role="group" aria-label="Filter by sector" className="flex flex-wrap gap-2">
+        <div
+          role="group"
+          aria-label="Filter by sector"
+          className="-mx-4 flex snap-x gap-2 overflow-x-auto px-4 pb-2 [scrollbar-width:none] md:mx-0 md:flex-wrap md:overflow-visible md:px-0 md:pb-0"
+        >
           {chips.map((chip) => {
             const active = sector === chip.id
             return (
@@ -65,7 +69,7 @@ export function BusinessDirectory({ groups }: { groups: DirectoryGroup[] }) {
                 aria-pressed={active}
                 onClick={() => setSector(chip.id)}
                 className={cn(
-                  'relative isolate inline-flex h-10 items-center gap-2 rounded-sm border px-3.5 text-sm font-medium transition-colors duration-200',
+                  'relative isolate inline-flex h-10 shrink-0 snap-start items-center gap-2 rounded-sm border px-3.5 text-sm font-medium transition-colors duration-200',
                   active
                     ? 'border-map-course text-primary-foreground'
                     : 'border-map-rule text-map-ink hover:border-map-ink',

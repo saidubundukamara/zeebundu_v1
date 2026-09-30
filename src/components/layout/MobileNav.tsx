@@ -50,9 +50,6 @@ export function MobileNav({ items, cta }: { items: NavLink[]; cta: NavLink }) {
           aria-describedby={undefined}
         >
           <Dialog.Title className="sr-only">Menu</Dialog.Title>
-          <Dialog.Close className="sr-only focus:not-sr-only focus:m-4 focus:self-start focus:font-heading focus:font-bold focus:uppercase">
-            Close menu
-          </Dialog.Close>
           <Terrain variant="band" className="absolute inset-x-0 bottom-0 h-1/3 opacity-60" />
           <nav aria-label="Mobile" className="relative flex-1 px-4">
             <ul>
@@ -70,7 +67,7 @@ export function MobileNav({ items, cta }: { items: NavLink[]; cta: NavLink }) {
                     aria-current={isActive(pathname, item.url) ? 'page' : undefined}
                     className="flex items-baseline gap-4 py-4 font-heading text-5xl font-extrabold text-map-ink uppercase aria-[current=page]:text-map-course"
                   >
-                    <span className="control-num text-lg text-map-course">
+                    <span className="control-num w-8 shrink-0 text-lg text-map-course">
                       {String(i + 1).padStart(2, '0')}
                     </span>
                     {item.label}
@@ -90,6 +87,9 @@ export function MobileNav({ items, cta }: { items: NavLink[]; cta: NavLink }) {
               </Button>
             </motion.div>
           </nav>
+          <Dialog.Close className="sr-only focus:not-sr-only focus:relative focus:m-4 focus:self-start focus:font-heading focus:font-bold focus:uppercase">
+            Close menu
+          </Dialog.Close>
         </Dialog.Content>
       </Dialog.Portal>
     </Dialog.Root>

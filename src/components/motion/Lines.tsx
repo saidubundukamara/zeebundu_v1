@@ -13,19 +13,24 @@ export function Lines({ lines }: { lines: string[] }) {
   )
 }
 
-/** Break a headline into roughly balanced lines of at most `max` characters. */
+/**
+ * Break a headline into lines: at sentence ends first, then wherever a line
+ * would pass `max` characters.
+ */
 export function splitHeadline(text: string, max = 18) {
-  const words = text.split(/\s+/)
+  const sentences = text.match(/[^.!?]+[.!?]*\s*/g) ?? [text]
   const lines: string[] = []
-  let current = ''
-  for (const word of words) {
-    if (current && (current + ' ' + word).length > max) {
-      lines.push(current)
-      current = word
-    } else {
-      current = current ? `${current} ${word}` : word
+  for (const sentence of sentences) {
+    let current = ''
+    for (const word of sentence.trim().split(/\s+/)) {
+      if (current && (current + ' ' + word).length > max) {
+        lines.push(current)
+        current = word
+      } else {
+        current = current ? `${current} ${word}` : word
+      }
     }
+    if (current) lines.push(current)
   }
-  if (current) lines.push(current)
   return lines
 }

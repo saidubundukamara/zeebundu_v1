@@ -86,8 +86,8 @@ export default async function HomePage() {
             }))}
             intro={
               <div className="space-y-6">
-                <h1 className="text-[clamp(3rem,1.6rem+4vw,5.75rem)] leading-[0.9] text-map-ink">
-                  <Lines lines={splitHeadline(hero.headline, 20)} />
+                <h1 className="text-[clamp(3.25rem,1.6rem+4.2vw,6rem)] leading-[0.88] text-map-ink">
+                  <Lines lines={splitHeadline(hero.headline, 14)} />
                 </h1>
                 {hero.subline && (
                   <p className="max-w-[46ch] text-lead text-map-ink-soft">{hero.subline}</p>
