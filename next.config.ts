@@ -23,6 +23,10 @@ const nextConfig: NextConfig = {
 
     return webpackConfig
   },
+  experimental: {
+    // One 404 for unmatched URLs, since the site and admin have separate root layouts
+    globalNotFound: true,
+  },
   turbopack: {
     root: path.resolve(dirname),
   },
