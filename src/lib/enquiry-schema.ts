@@ -32,6 +32,8 @@ export const enquirySchema = z.object({
 
 export type EnquiryState = {
   status: 'idle' | 'success' | 'error'
+  /** Set for failures that aren't about a field */
+  code?: 'turnstile' | 'rate-limited'
   message?: string
   errors?: Partial<Record<keyof z.infer<typeof enquirySchema>, string[]>>
   values?: Record<string, string>

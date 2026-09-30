@@ -7,7 +7,9 @@ import { adminGroups } from './groups'
 // Submitted details are never edited in the admin; only status and notes are.
 const readOnly: FieldAccess = () => false
 const submitted = (field: Field): Field =>
-  'name' in field ? ({ ...field, access: { update: readOnly } } as Field) : field
+  'name' in field && field.type !== 'ui'
+    ? ({ ...field, access: { ...field.access, update: readOnly } } as Field)
+    : field
 
 /**
  * Website enquiries. Created by the enquiry form (server-side, Phase 4), not in the admin.
@@ -78,5 +80,14 @@ export const Enquiries: CollectionConfig = {
       admin: { position: 'sidebar' },
     },
     { name: 'internalNotes', type: 'textarea', admin: { description: 'Only visible to staff.' } },
+    // Keyed hash of the sender's IP, used only for rate limiting (never the raw IP).
+    // Hidden in the admin and never returned by the API; the server reads it with the Local API.
+    submitted({
+      name: 'ipHash',
+      type: 'text',
+      index: true,
+      access: { read: () => false },
+      admin: { hidden: true },
+    }),
   ],
 }

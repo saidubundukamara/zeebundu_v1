@@ -2,15 +2,18 @@
 
 import { CheckCircle2Icon } from 'lucide-react'
 import { usePathname } from 'next/navigation'
-import { useActionState, useId } from 'react'
+import { useActionState, useEffect, useId } from 'react'
 
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
+import { trackEvent } from '@/lib/analytics'
 import { submitEnquiry } from '@/lib/enquiry-action'
 import { enquiryTypes, type EnquiryState } from '@/lib/enquiry-schema'
 import { cn } from '@/lib/utils'
+
+import { Turnstile } from './Turnstile'
 
 const initialState: EnquiryState = { status: 'idle' }
 
@@ -31,6 +34,13 @@ export function EnquiryForm({
   className?: string
 }) {
   const [state, action, pending] = useActionState(submitEnquiry, initialState)
+
+  // Count successful enquiries as a Plausible goal ("Enquiry"); a no-op without analytics
+  useEffect(() => {
+    if (state.status === 'success') {
+      trackEvent('Enquiry', business ? { business: business.name } : { business: 'Group' })
+    }
+  }, [state.status, business])
   const pathname = usePathname()
   const id = useId()
 
@@ -70,13 +80,15 @@ export function EnquiryForm({
       </p>
     ) : null
 
+  const alert = (
+    <p role="alert" className="rounded-md bg-destructive/10 px-4 py-3 text-sm text-destructive">
+      {state.message}
+    </p>
+  )
+
   return (
     <form action={action} noValidate className={cn('space-y-5', className)}>
-      {state.status === 'error' && state.message && (
-        <p role="alert" className="rounded-md bg-destructive/10 px-4 py-3 text-sm text-destructive">
-          {state.message}
-        </p>
-      )}
+      {state.status === 'error' && state.message && !state.code && alert}
 
       <input type="hidden" name="pageUrl" value={pathname} />
       {business && <input type="hidden" name="business" value={business.id} />}
@@ -106,7 +118,7 @@ export function EnquiryForm({
         </div>
         <div className="space-y-2">
           <Label htmlFor={`${id}-phone`}>
-            Phone <span className="font-normal text-stone-500">(optional)</span>
+            Phone <span className="font-normal text-stone-600">(optional)</span>
           </Label>
           <Input {...field('phone')} type="tel" autoComplete="tel" className="h-10 bg-white" />
           {fieldError('phone')}
@@ -150,8 +162,13 @@ export function EnquiryForm({
         {fieldError('message')}
       </div>
 
+      {/* A new state object after each failed submit gets a fresh single-use token */}
+      <Turnstile resetKey={state.status === 'error' ? state : undefined} />
+      {/* Security-check and rate-limit messages sit next to the button, where the eye is */}
+      {state.status === 'error' && state.message && state.code && alert}
+
       <div className="flex flex-wrap items-center justify-between gap-4">
-        <p className="text-xs text-stone-500">We only use your details to reply to this enquiry.</p>
+        <p className="text-xs text-stone-600">We only use your details to reply to this enquiry.</p>
         <Button type="submit" variant="highlight" size="xl" disabled={pending}>
           {pending ? 'Sending…' : 'Send enquiry'}
         </Button>
