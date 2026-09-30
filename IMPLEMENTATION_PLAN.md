@@ -176,6 +176,7 @@ Run export script, produce `COPY_REVIEW.md`, client review. Brand direction: new
 
 **Phase 2 — CMS model (days 4–8)**
 Collections, globals, blocks, access control, multi‑tenant plugin, seed script, admin grouping & labels for non‑technical editors.
+**Status:** done. 9 collections, 5 globals, 11 blocks, role + business-scoped access, multi-tenant plugin (businesses as tenants), SEO + redirects plugins, idempotent `npm run seed`, 13 passing access-control integration tests (`npm run test:int`). Form-builder plugin not used: enquiries are a custom collection. Seeded businesses are published with contact details empty; the About page is seeded as a draft. Leadership and impact items are not seeded (no real data yet).
 
 **Phase 3 — Frontend pages (days 8–18)**
 Layout (header/footer/mobile nav) → Home → Businesses index + sector pages → Business detail + blocks → About → Impact → Newsroom + article + media kit → Contact → legal.
