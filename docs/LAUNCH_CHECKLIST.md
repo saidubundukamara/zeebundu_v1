@@ -44,7 +44,7 @@ See `content/legacy/COPY_REVIEW.md` for the full list of open questions.
 - [ ] Regulatory claims confirmed before publishing (e.g. Bank of Sierra Leone licence for Foreign Exchange, Pharmacy Board registration).
 - [ ] **About** page: mission, vision, values and history. Publish it (it's seeded as a draft). Leadership profiles and photos. Chairman's message on the Homepage.
 - [ ] **Impact programmes:** at least one real programme.
-- [ ] **Privacy** and **Terms** pages created under Pages (slugs `privacy` and `terms`); the footer already links to them.
+- [ ] **Privacy** and **Terms** pages: `npm run seed` publishes plain-language starters (`src/seed/data/legal.ts`). Have them reviewed, and update Privacy if a newsletter or other data collection is added.
 - [ ] **Media kit:** logos, brand guidelines PDF, press contact.
 - [ ] Logo decision (see `content/brand/BRAND.md`): the interim wordmark is in use.
 - [ ] Replace nothing marked `[Sample]`: sample content only ever existed in local test databases.

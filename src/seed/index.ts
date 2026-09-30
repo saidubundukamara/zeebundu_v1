@@ -11,11 +11,12 @@ import { getPayload, type Payload } from 'payload'
 
 import { businesses } from './data/businesses'
 import { groupCopy } from './data/group'
+import { legalPages } from './data/legal'
 import { sectors } from './data/sectors'
 import { photo, seedMedia } from './media'
 import { seedDemoUsers } from './users'
 
-/** Plain paragraphs → Lexical rich text JSON. */
+/** Plain paragraphs → Lexical rich text JSON. A line starting with "## " becomes an h2. */
 const toRichText = (paragraphs: string[]) => ({
   root: {
     type: 'root',
@@ -23,18 +24,22 @@ const toRichText = (paragraphs: string[]) => ({
     indent: 0,
     version: 1,
     direction: 'ltr' as const,
-    children: paragraphs.map((text) => ({
-      type: 'paragraph',
-      format: '',
-      indent: 0,
-      version: 1,
-      direction: 'ltr',
-      textFormat: 0,
-      textStyle: '',
-      children: [
-        { type: 'text', text, format: 0, style: '', mode: 'normal', detail: 0, version: 1 },
-      ],
-    })),
+    children: paragraphs.map((line) => {
+      const heading = line.startsWith('## ')
+      const text = heading ? line.slice(3) : line
+      return {
+        ...(heading
+          ? { type: 'heading', tag: 'h2' }
+          : { type: 'paragraph', textFormat: 0, textStyle: '' }),
+        format: '',
+        indent: 0,
+        version: 1,
+        direction: 'ltr',
+        children: [
+          { type: 'text', text, format: 0, style: '', mode: 'normal', detail: 0, version: 1 },
+        ],
+      }
+    }),
   },
 })
 
@@ -177,6 +182,16 @@ async function seed() {
     _status: 'draft',
   })
   log('about page (draft)')
+
+  // Starter legal pages behind the footer links; editors refine them in the admin
+  for (const [slug, { title, body }] of Object.entries(legalPages)) {
+    await upsertBySlug(payload, 'pages', slug, {
+      title,
+      layout: [{ blockType: 'richText', content: toRichText(body) }],
+      _status: 'published',
+    })
+  }
+  log('privacy and terms pages')
 
   // Optional first super-admin
   const { SEED_ADMIN_EMAIL: email, SEED_ADMIN_PASSWORD: password } = process.env
