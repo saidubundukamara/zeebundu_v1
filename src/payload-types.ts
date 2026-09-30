@@ -802,6 +802,7 @@ export interface Enquiry {
    * Only visible to staff.
    */
   internalNotes?: string | null;
+  ipHash?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -1497,6 +1498,7 @@ export interface EnquiriesSelect<T extends boolean = true> {
   type?: T;
   status?: T;
   internalNotes?: T;
+  ipHash?: T;
   updatedAt?: T;
   createdAt?: T;
 }
