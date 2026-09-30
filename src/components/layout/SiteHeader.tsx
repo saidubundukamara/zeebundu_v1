@@ -8,6 +8,7 @@ import { Logo } from './Logo'
 import { MobileNav } from './MobileNav'
 import { navFromHeader } from './nav'
 import { NavLinks } from './NavLinks'
+import { ThemeToggle } from './ThemeToggle'
 
 export async function SiteHeader() {
   const { items, cta } = navFromHeader(await getGlobal('header', 0))
@@ -26,6 +27,7 @@ export async function SiteHeader() {
           <NavLinks items={items} className="flex items-center gap-8" />
         </nav>
         <div className="flex items-center gap-2">
+          <ThemeToggle />
           <Button asChild size="lg" className="hidden sm:inline-flex">
             <Link href={cta.url}>{cta.label}</Link>
           </Button>

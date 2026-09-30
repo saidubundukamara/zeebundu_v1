@@ -12,6 +12,7 @@ import { cn } from '@/lib/utils'
 
 import type { NavLink } from './nav'
 import { isActive } from './NavLinks'
+import { ThemeToggle } from './ThemeToggle'
 
 const EASE = [0.16, 1, 0.3, 1] as const
 
@@ -85,6 +86,7 @@ export function MobileNav({ items, cta }: { items: NavLink[]; cta: NavLink }) {
                   {cta.label}
                 </Link>
               </Button>
+              <ThemeToggle withLabel className="mt-4 -ml-3" />
             </motion.div>
           </nav>
           <Dialog.Close className="sr-only focus:not-sr-only focus:relative focus:m-4 focus:self-start focus:font-heading focus:font-bold focus:uppercase">
