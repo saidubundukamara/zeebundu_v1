@@ -382,7 +382,7 @@ export const businesses: SeedBusiness[] = [
     sector: 'financial-services',
     tagline: 'Fair rates and trusted currency exchange in Sierra Leone.',
     summary:
-      'Licensed foreign exchange bureau buying and selling major currencies, with money transfer services.',
+      'Foreign exchange bureau buying and selling major currencies, with money transfer services.',
     overview: [
       'Our foreign exchange bureau buys and sells major international and regional currencies at competitive rates, with clear pricing and courteous service. We serve travellers, traders, businesses and families receiving money from abroad.',
       "Visit any of our bureaus or call us for today's rates.",
