@@ -6,6 +6,20 @@ import { cn } from '@/lib/utils'
 type Size = 'thumbnail' | 'card' | 'hero'
 
 /**
+ * Payload prefixes upload URLs with `serverURL`. Serve our own uploads by path so next/image
+ * treats them as local (allowed by `images.localPatterns`); leave other hosts untouched.
+ */
+const toImageSrc = (url: string) => {
+  if (url.startsWith('/')) return url
+  try {
+    const { pathname, search } = new URL(url)
+    return pathname.startsWith('/api/media/') ? pathname + search : url
+  } catch {
+    return url
+  }
+}
+
+/**
  * Renders a CMS image, or a branded placeholder when none has been uploaded yet
  * (most content launches before photography is ready).
  */
@@ -53,7 +67,7 @@ export function Media({
   return (
     <div className={cn('relative overflow-hidden bg-stone-200', className)}>
       <Image
-        src={url}
+        src={toImageSrc(url)}
         alt={doc.alt}
         fill
         sizes={sizes}
