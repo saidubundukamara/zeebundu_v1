@@ -51,7 +51,7 @@ See `content/legacy/COPY_REVIEW.md` for the full list of open questions.
 
 ## 5. People
 
-- [ ] Super-admin accounts for the web team (create the first one with `SEED_ADMIN_EMAIL`/`SEED_ADMIN_PASSWORD` when running `npm run seed`, or on first visit to `/admin`).
+- [ ] Super-admin accounts for the web team. There is no sign-up screen: create the first one by running `npm run seed` against the production database with `SEED_ADMIN_EMAIL`/`SEED_ADMIN_PASSWORD` set, then add everyone else from `/admin` → Users.
 - [ ] Group-editor accounts for the communications team.
 - [ ] One business-editor account per business, each assigned to its business.
 - [ ] Share `docs/EDITOR_GUIDE.md` and run a 30-minute walkthrough.

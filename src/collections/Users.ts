@@ -1,4 +1,4 @@
-import type { CollectionConfig } from 'payload'
+import { Forbidden, type CollectionConfig } from 'payload'
 import { tenantsArrayField } from '@payloadcms/plugin-multi-tenant/fields'
 
 import { isSuperAdminUser, superAdmin, superAdminField } from '@/access'
@@ -13,6 +13,19 @@ export const Users: CollectionConfig = {
     defaultColumns: ['name', 'email', 'role'],
   },
   auth: true,
+  hooks: {
+    // No self sign-up. Payload's "create first user" screen lets anyone register while the
+    // users table is empty, so over HTTP an account can only be created by a logged-in user
+    // (and the create access below makes that a super-admin). The seed script uses the local
+    // API and is unaffected. See also src/proxy.ts.
+    beforeOperation: [
+      ({ operation, req }) => {
+        if (operation === 'create' && !req.user && req.payloadAPI !== 'local') {
+          throw new Forbidden(req.t)
+        }
+      },
+    ],
+  },
   access: {
     // Everyone can see their own account; super-admins manage all accounts
     read: ({ req: { user } }) =>
