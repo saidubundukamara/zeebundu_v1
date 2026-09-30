@@ -180,6 +180,7 @@ Collections, globals, blocks, access control, multi‑tenant plugin, seed script
 
 **Phase 3 — Frontend pages (days 8–18)**
 Layout (header/footer/mobile nav) → Home → Businesses index + sector pages → Business detail + blocks → About → Impact → Newsroom + article + media kit → Contact → legal.
+**Status:** done. All pages built on a cached data layer (`src/lib/data.ts`, `unstable_cache` + tags). Enquiry form stores routed enquiries (email/Turnstile in Phase 4). Production build verified against a seeded local DB: every route 200 with one h1, 404s branded (`global-not-found` enabled). Note: `npm run build` needs database access because pages are statically generated. Legal pages (/privacy, /terms) are linked in the footer but need content in the CMS.
 
 **Phase 4 — Forms, SEO, polish (days 18–23)**
 Enquiry flow + emails + Turnstile, JSON‑LD, sitemap, OG images, revalidation hooks, live preview, 404/500 pages, analytics, Sentry, accessibility & performance pass.
