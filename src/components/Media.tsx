@@ -1,6 +1,7 @@
 import Image from 'next/image'
 
 import type { Media as MediaDoc } from '@/payload-types'
+import { Terrain } from '@/components/map/Terrain'
 import { cn } from '@/lib/utils'
 
 type Size = 'thumbnail' | 'card' | 'hero'
@@ -43,17 +44,15 @@ export function Media({
   const url = variant?.url ?? doc?.url
 
   if (!doc || !url) {
+    // No photo yet: show a patch of map terrain so empty slots still belong to the page.
     return (
       <div
-        className={cn(
-          'relative flex items-center justify-center overflow-hidden bg-forest-700 text-forest-200',
-          'bg-[radial-gradient(circle_at_20%_20%,var(--color-forest-600),transparent_55%),radial-gradient(circle_at_80%_90%,var(--color-forest-900),transparent_60%)]',
-          className,
-        )}
+        className={cn('relative flex items-end overflow-hidden bg-map-ground', className)}
         aria-hidden={!fallbackLabel}
       >
+        <Terrain variant="tile" className="absolute inset-0 opacity-70" />
         {fallbackLabel && (
-          <span className="px-4 text-center font-heading text-lg text-forest-100/80">
+          <span className="relative m-4 bg-map-ground px-2 py-1 font-heading text-sm font-bold tracking-[0.04em] text-map-ink uppercase">
             {fallbackLabel}
           </span>
         )}
@@ -65,7 +64,7 @@ export function Media({
     doc.focalX != null && doc.focalY != null ? `${doc.focalX}% ${doc.focalY}%` : undefined
 
   return (
-    <div className={cn('relative overflow-hidden bg-stone-200', className)}>
+    <div className={cn('relative overflow-hidden bg-muted', className)}>
       <Image
         src={toImageSrc(url)}
         alt={doc.alt}

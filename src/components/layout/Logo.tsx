@@ -1,26 +1,24 @@
 import Link from 'next/link'
 
+import { StartMark } from '@/components/map/symbols'
 import { cn } from '@/lib/utils'
 
-/** Interim wordmark until a logo lockup is supplied (see content/brand/BRAND.md). */
-export function Logo({
-  className,
-  tone = 'dark',
-}: {
-  className?: string
-  tone?: 'dark' | 'light'
-}) {
+/**
+ * Interim wordmark until the client supplies a logo (see PRODUCT.md).
+ * The start triangle is the orienteering "you begin here" symbol.
+ */
+export function Logo({ className }: { className?: string }) {
   return (
     <Link
       href="/"
       className={cn(
-        'font-heading text-xl font-semibold tracking-[0.12em]',
-        tone === 'dark' ? 'text-forest-800' : 'text-stone-50',
+        'group inline-flex items-center gap-2 font-heading text-2xl leading-none font-extrabold tracking-[0.02em] text-map-ink uppercase',
         className,
       )}
     >
-      ZEEBUNDU
-      <span className="sr-only"> Group — home</span>
+      <StartMark className="size-5 text-map-course transition-transform duration-500 ease-out group-hover:rotate-[120deg]" />
+      Zeebundu
+      <span className="sr-only"> Group, home</span>
     </Link>
   )
 }

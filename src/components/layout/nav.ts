@@ -17,6 +17,6 @@ export const navFromHeader = (header: Header | null) => {
   const cta =
     header?.cta?.label && header.cta.url
       ? { label: header.cta.label, url: header.cta.url }
-      : { label: 'Enquire', url: '/contact' }
+      : { label: 'Send an enquiry', url: '/contact' }
   return { items: items.length ? items : fallbackNav, cta }
 }
