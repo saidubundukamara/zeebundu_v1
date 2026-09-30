@@ -1,36 +1,34 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Zeebundu Group website
 
-## Getting Started
+Next.js 16 (App Router) + Payload CMS 3 + Postgres (Neon). Public site at `/`, CMS at `/admin`.
+See [IMPLEMENTATION_PLAN.md](./IMPLEMENTATION_PLAN.md) for scope and phases.
 
-First, run the development server:
+## Setup
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+1. `npm install`
+2. `cp .env.example .env`, then set `DATABASE_URI` (Neon pooled connection string) and `PAYLOAD_SECRET` (`openssl rand -hex 32`).
+3. `npm run dev` — in development Payload pushes the schema to the database automatically.
+4. Open http://localhost:3000/admin and create the first user (give it the `super-admin` role).
+
+## Scripts
+
+| Script                       | What it does                                                         |
+| ---------------------------- | -------------------------------------------------------------------- |
+| `npm run dev`                | Dev server                                                           |
+| `npm run build` / `start`    | Production build / serve                                             |
+| `npm run lint`               | ESLint                                                               |
+| `npm run typecheck`          | Next route types + `tsc --noEmit`                                    |
+| `npm run format`             | Prettier (write); `format:check` to verify                           |
+| `npm run generate:types`     | Regenerate `src/payload-types.ts` after schema edits                 |
+| `npm run generate:importmap` | Regenerate the admin import map after adding custom admin components |
+
+## Layout
+
 ```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+src/
+  app/(frontend)/   public site
+  app/(payload)/    Payload admin + REST/GraphQL routes (generated — don't edit)
+  collections/      Payload collections
+  components/ui/    shadcn/ui components
+  payload.config.ts
+```
