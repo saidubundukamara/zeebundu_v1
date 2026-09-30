@@ -14,6 +14,7 @@ const fontDisplay = Fraunces({
 })
 
 export const metadata: Metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:3000'),
   title: {
     default: 'Zeebundu Group',
     template: '%s | Zeebundu Group',
