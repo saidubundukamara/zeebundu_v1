@@ -2,8 +2,6 @@
 
 import { motion, useReducedMotion } from 'motion/react'
 
-import { cn } from '@/lib/utils'
-
 /**
  * Photos "develop" once as they enter: a wipe from the bottom edge while the
  * frame eases from grey and a slight zoom to full colour. Never replays.
