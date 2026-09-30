@@ -6,10 +6,12 @@ See [IMPLEMENTATION_PLAN.md](./IMPLEMENTATION_PLAN.md) for scope and phases.
 ## Setup
 
 1. `npm install`
-2. `cp .env.example .env`, then set `DATABASE_URI` (Neon pooled connection string) and `PAYLOAD_SECRET` (`openssl rand -hex 32`).
-3. `npm run dev` — in development Payload pushes the schema to the database automatically.
+2. `docker compose up -d` — local Postgres 16 on `localhost:5432` (data persists in a Docker volume).
+3. `cp .env.example .env`, then set `PAYLOAD_SECRET` (`openssl rand -hex 32`). The example `DATABASE_URI` already points at the Docker database.
 4. `npm run seed` — loads sectors, the 16 businesses and group copy (safe to re-run). Set `SEED_ADMIN_EMAIL`/`SEED_ADMIN_PASSWORD` to also create a first super-admin.
-5. Open http://localhost:3000/admin (or create the first user there if you skipped the seed admin).
+5. `npm run dev`, then open http://localhost:3000/admin (create the first user there if you skipped the seed admin).
+
+Production uses Neon instead of Docker — see `docs/LAUNCH_CHECKLIST.md`.
 
 ## Scripts
 

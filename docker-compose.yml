@@ -1,0 +1,24 @@
+# Local development database. Production uses Neon (see docs/LAUNCH_CHECKLIST.md).
+#   docker compose up -d      start
+#   docker compose down       stop (data is kept in the zeebundu-pg volume)
+#   docker compose down -v    stop and delete all local data
+services:
+  postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: zeebundu
+      POSTGRES_PASSWORD: zeebundu
+      POSTGRES_DB: zeebundu
+    ports:
+      - '127.0.0.1:5432:5432'
+    volumes:
+      - zeebundu-pg:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U zeebundu -d zeebundu']
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  zeebundu-pg:
