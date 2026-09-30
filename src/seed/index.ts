@@ -115,7 +115,7 @@ async function seed() {
         { link: { label: 'Newsroom', url: '/news' } },
         { link: { label: 'Contact', url: '/contact' } },
       ],
-      cta: { label: 'Enquire', url: '/contact' },
+      cta: { label: 'Send an enquiry', url: '/contact' },
     },
   })
   await payload.updateGlobal({

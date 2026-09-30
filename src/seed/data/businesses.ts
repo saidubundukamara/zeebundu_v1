@@ -5,25 +5,25 @@ export const businesses: SeedBusiness[] = [
     name: 'Gas Stations',
     slug: 'gas-stations',
     sector: 'energy',
-    tagline: 'Quality fuel and friendly service, every time you fill up.',
+    tagline: 'Petrol, diesel and a quick, friendly fill-up.',
     summary:
-      'Fuel stations supplying petrol, diesel and everyday essentials, with honest measures and friendly service.',
+      'Fuel stations selling petrol, diesel and everyday essentials. Honest measures, friendly staff.',
     overview: [
-      'Our fuel stations supply quality petrol and diesel to motorists, commercial drivers and businesses. We focus on the basics that matter: accurate pumps, clean and safe forecourts, and staff who serve you quickly and courteously.',
-      'Alongside fuel, selected stations offer lubricants and a small shop for drinks, snacks and travel essentials.',
+      'Our fuel stations sell petrol and diesel to motorists, commercial drivers and businesses. We keep the pumps accurate and the forecourts clean and safe, and our staff serve you quickly.',
+      'Some stations also sell lubricants and have a small shop for drinks, snacks and travel essentials.',
     ],
     services: [
-      { title: 'Petrol (PMS)', description: 'Quality petrol for cars, motorbikes and generators.' },
+      { title: 'Petrol (PMS)', description: 'Petrol for cars, motorbikes and generators.' },
       { title: 'Diesel (AGO)', description: 'Diesel for trucks, buses, machinery and generators.' },
       {
         title: 'Engine oils & lubricants',
         description: 'Oils and lubricants for cars, motorbikes and generators.',
       },
       { title: 'Convenience shop', description: 'Drinks, snacks and everyday travel essentials.' },
-      { title: 'Car wash', description: 'Exterior and interior cleaning while you wait.' },
+      { title: 'Car wash', description: 'Inside and outside cleaning while you wait.' },
       {
-        title: 'Easy payment',
-        description: 'Cash and mobile money (Orange Money, Africell Money) accepted.',
+        title: 'Cash & mobile money',
+        description: 'Pay cash, Orange Money or Africell Money.',
       },
     ],
     featured: false,
@@ -33,17 +33,16 @@ export const businesses: SeedBusiness[] = [
     name: 'Petroleum Services',
     slug: 'petroleum-services',
     sector: 'energy',
-    tagline: 'Dependable fuel supply for businesses and projects.',
-    summary:
-      'Bulk fuel supply and petroleum services for businesses, institutions and project sites.',
+    tagline: 'Planned fuel supply for businesses and project sites.',
+    summary: 'Bulk fuel and petroleum services for businesses, institutions and project sites.',
     overview: [
-      'Our Petroleum Services business supplies fuel and related services to businesses and organisations that need a reliable, planned supply. We work with customers to understand their consumption and deliver on schedule, with careful attention to safe handling and accurate measurement.',
-      'Whether you run a fleet, a generator-powered site or a construction project, our team can advise on the right supply arrangement for you.',
+      'We supply fuel and related services to businesses and organisations that need a planned supply. We look at how much you use, agree a schedule and deliver on it. Handling is safe and measurement is accurate.',
+      'Running a fleet, a site on generator power or a construction project? Our team will help you set up the right supply.',
     ],
     services: [
       {
         title: 'Bulk fuel supply',
-        description: 'Diesel and petrol supplied in bulk for commercial customers.',
+        description: 'Diesel and petrol in bulk for commercial customers.',
       },
       {
         title: 'Fuel delivery',
@@ -69,16 +68,16 @@ export const businesses: SeedBusiness[] = [
     name: 'Hotels & Resorts',
     slug: 'hotels-resorts',
     sector: 'hospitality',
-    tagline: 'Comfortable stays and warm Sierra Leonean hospitality.',
-    summary: 'Comfortable rooms, good food and attentive service for business and leisure guests.',
+    tagline: 'Comfortable rooms and Sierra Leonean hospitality.',
+    summary: 'Comfortable rooms, good food and helpful staff for business and leisure guests.',
     overview: [
-      'Our hotels offer comfortable, well-kept rooms and attentive service for business travellers, families and visitors. Guests can relax, eat well and work in comfort, with staff on hand to help with everything from airport transfers to local advice.',
+      'Our hotels have comfortable, well-kept rooms for business travellers, families and visitors. You can rest, eat well and get work done. Our staff can arrange airport transfers and point you in the right direction around town.',
       'We also host meetings, conferences and private events.',
     ],
     services: [
       {
         title: 'Accommodation',
-        description: 'Clean, comfortable rooms and suites with the essentials you need.',
+        description: 'Clean, comfortable rooms and suites.',
       },
       {
         title: 'Restaurant & bar',
@@ -100,17 +99,17 @@ export const businesses: SeedBusiness[] = [
     name: 'Farming Operations',
     slug: 'farming-operations',
     sector: 'agriculture-food',
-    tagline: 'Fresh local produce, grown with care for the land.',
+    tagline: 'Fresh produce, grown here in Sierra Leone.',
     summary:
-      'Crops grown in Sierra Leone using sustainable practices, supplying fresh produce to homes, markets and businesses.',
+      'Crops grown in Sierra Leone with sustainable methods, sold fresh to homes, markets and businesses.',
     overview: [
-      'Our farming business grows fresh produce for Sierra Leonean households, traders and businesses. We work with the land rather than against it, using practices that protect the soil and conserve water so the farm stays productive season after season.',
-      'We harvest through the rainy and dry seasons and supply produce direct from the farm. Our aim is to help more of the food eaten in Sierra Leone be grown in Sierra Leone.',
+      'Our farm grows fresh produce for Sierra Leonean households, traders and businesses. We protect the soil and save water, so the land keeps producing year after year.',
+      'We harvest in both the rainy and dry seasons and sell straight from the farm. We want more of the food eaten in Sierra Leone to be grown here.',
     ],
     services: [
       { title: 'Fresh vegetables', description: 'Seasonal vegetables harvested and sold fresh.' },
       { title: 'Staple crops', description: '' },
-      { title: 'Fruit', description: 'Seasonal fruit harvested at the right time.' },
+      { title: 'Fruit', description: 'Seasonal fruit, picked ripe.' },
       {
         title: 'Wholesale supply',
         description: 'Regular supply for traders, restaurants, hotels and institutions.',
@@ -127,12 +126,12 @@ export const businesses: SeedBusiness[] = [
     name: 'Fish Farming',
     slug: 'fish-farming',
     sector: 'agriculture-food',
-    tagline: 'Fresh, locally farmed fish for Sierra Leone.',
+    tagline: 'Fresh fish, farmed here in Sierra Leone.',
     summary:
-      'Fish raised in carefully managed ponds or tanks, supplying fresh fish to homes, traders and businesses.',
+      'Fish raised in managed ponds or tanks and sold fresh to homes, traders and businesses.',
     overview: [
-      'Our fish farm raises fish in carefully managed conditions, giving customers a steady supply of fresh, locally produced fish. Farming fish reduces pressure on wild stocks and helps keep good-quality protein available all year.',
-      'We pay close attention to water quality, feeding and hygiene, from the pond to the point of sale.',
+      'We raise fish in managed conditions, so customers get a steady supply of fresh, local fish. Farmed fish takes pressure off wild stocks and keeps protein on the market all year.',
+      'We watch water quality, feeding and hygiene closely, from the pond to the point of sale.',
     ],
     services: [
       { title: 'Fresh fish', description: '' },
@@ -153,17 +152,16 @@ export const businesses: SeedBusiness[] = [
     name: 'Livestock',
     slug: 'livestock',
     sector: 'agriculture-food',
-    tagline: 'Healthy animals, quality meat, supporting local food supply.',
-    summary:
-      'Livestock raised with good animal care to supply quality meat and animals to local markets.',
+    tagline: 'Healthy animals and locally raised meat.',
+    summary: 'Animals raised with good care, supplying meat and live animals to local markets.',
     overview: [
-      "We supply quality meat and animals to local markets, butchers and businesses, helping to strengthen Sierra Leone's own food supply.",
-      'By producing locally, we reduce reliance on imported meat, create rural jobs and support the traders and processors who depend on a steady supply.',
+      'We supply meat and live animals to local markets, butchers and businesses, so Sierra Leone can rely more on its own food.',
+      'Producing locally cuts the need for imported meat and creates rural jobs. It also gives traders and processors a steady supply to depend on.',
     ],
     services: [
       {
         title: 'Meat supply',
-        description: 'Quality meat for butchers, traders, hotels and restaurants.',
+        description: 'Meat for butchers, traders, hotels and restaurants.',
       },
       {
         title: 'Live animals',
@@ -182,11 +180,11 @@ export const businesses: SeedBusiness[] = [
     name: 'Poultry',
     slug: 'poultry',
     sector: 'agriculture-food',
-    tagline: 'Fresh eggs and quality chicken, produced locally.',
+    tagline: 'Fresh eggs and chicken, produced locally.',
     summary: 'Locally produced eggs and chicken for households, traders, hotels and restaurants.',
     overview: [
-      'Our poultry business produces fresh eggs and chicken for Sierra Leonean homes and businesses. Our birds are kept in clean, well-ventilated housing with good feed, clean water and regular health checks.',
-      'We supply eggs and birds both retail and wholesale, giving customers a reliable local alternative to imported products.',
+      'We produce fresh eggs and chicken for Sierra Leonean homes and businesses. Our birds live in clean, well-ventilated housing, with good feed, clean water and regular health checks.',
+      'We sell eggs and birds retail and wholesale, so customers can buy local instead of imported.',
     ],
     services: [
       { title: 'Fresh eggs', description: 'Eggs sold by the tray, retail and wholesale.' },
@@ -208,12 +206,12 @@ export const businesses: SeedBusiness[] = [
     name: 'Water Production',
     slug: 'water-production',
     sector: 'food-beverage-production',
-    tagline: 'Safe, clean drinking water for homes and businesses.',
+    tagline: 'Clean drinking water for homes and businesses.',
     summary:
       'Purified drinking water in sachets, bottles and dispensers, delivered to homes, shops, offices and events.',
     overview: [
-      'We produce safe, clean drinking water using a multi-stage purification process and careful quality checks at every step. Our water is packed in hygienic conditions and sealed to stay fresh until it reaches you.',
-      'We supply households, shops, offices and events, from single bottles to bulk orders, with delivery available.',
+      'Our water goes through several stages of purification, with checks at each step. It is packed in hygienic conditions and sealed until it reaches you.',
+      'We supply households, shops, offices and events. Order one bottle or a bulk load, and we can deliver.',
     ],
     services: [
       { title: 'Sachet water', description: 'Purified water in sealed sachets, sold by the bag.' },
@@ -227,7 +225,7 @@ export const businesses: SeedBusiness[] = [
         description: 'Large orders for businesses, events and institutions.',
       },
       { title: 'Delivery', description: 'Delivery to homes, shops and offices.' },
-      { title: 'Quality testing', description: 'Regular testing of every production batch.' },
+      { title: 'Batch testing', description: 'Every production batch is tested.' },
     ],
     featured: true,
     order: 8,
@@ -236,11 +234,11 @@ export const businesses: SeedBusiness[] = [
     name: 'Natural Juices',
     slug: 'natural-juices',
     sector: 'food-beverage-production',
-    tagline: 'Refreshing juices made from real fruit.',
-    summary: 'Fruit juices made from local fruit, bottled for homes, shops and events.',
+    tagline: 'Juice made from real fruit.',
+    summary: 'Juice made from local fruit, bottled for homes, shops and events.',
     overview: [
-      'Our Natural Juices business turns fruit into refreshing, ready-to-drink juices. We source fruit locally where we can, supporting Sierra Leonean farmers, and prepare our juices under hygienic conditions.',
-      'Our juices are available for individual customers, shops, restaurants and events.',
+      'We make ready-to-drink juice from fruit. Where we can, we buy that fruit from Sierra Leonean farmers. Every batch is prepared under hygienic conditions.',
+      'Buy it for yourself, your shop, your restaurant or your event.',
     ],
     services: [
       {
@@ -255,12 +253,12 @@ export const businesses: SeedBusiness[] = [
     name: 'Beverages',
     slug: 'beverages',
     sector: 'food-beverage-production',
-    tagline: 'A wide range of drinks for shops, businesses and events.',
+    tagline: 'Drinks for shops, businesses and events.',
     summary:
-      'Production and distribution of soft drinks and other beverages for retailers, businesses and events.',
+      'We make and distribute soft drinks and other beverages for retailers, businesses and events.',
     overview: [
-      'Our Beverages business supplies a range of drinks to retailers, hotels, restaurants and event organisers.',
-      'We offer wholesale supply with dependable stock and delivery, so our customers can keep their shelves and fridges full.',
+      'We supply drinks to retailers, hotels, restaurants and event organisers.',
+      'Wholesale customers get steady stock and delivery, so their shelves and fridges stay full.',
     ],
     services: [
       { title: 'Soft drinks', description: '' },
@@ -273,7 +271,7 @@ export const businesses: SeedBusiness[] = [
         title: 'Hotels, restaurants & events',
         description: 'Regular and one-off supply for hospitality and events.',
       },
-      { title: 'Delivery', description: 'Delivery to your business.' },
+      { title: 'Delivery', description: 'Delivered to your business.' },
     ],
     featured: false,
     order: 10,
@@ -282,12 +280,12 @@ export const businesses: SeedBusiness[] = [
     name: 'Construction Materials',
     slug: 'construction-materials',
     sector: 'construction',
-    tagline: 'Quality building materials, supplied when you need them.',
+    tagline: 'Building materials, there when you need them.',
     summary:
       'Cement, steel, timber, plumbing and electrical materials for builders, contractors and homeowners.',
     overview: [
-      'We supply quality construction materials for homes, commercial buildings and larger projects, including cement, steel, timber, plumbing and electrical materials. Contractors, developers and individual homeowners come to us for reliable stock, fair prices and practical advice.',
-      'Our team helps you get the right materials in the right quantities, with delivery to site available.',
+      'We supply cement, steel, timber, plumbing and electrical materials for homes, commercial buildings and larger projects. Contractors, developers and homeowners buy from us because we keep stock, price fairly and give practical advice.',
+      "Tell us what you're building and we'll help you order the right materials in the right amounts. We can deliver to site.",
     ],
     services: [
       {
@@ -313,17 +311,17 @@ export const businesses: SeedBusiness[] = [
     name: 'Pharmacy',
     slug: 'pharmacy',
     sector: 'health-beauty',
-    tagline: 'Your trusted local pharmacy.',
+    tagline: 'Your local pharmacy, with qualified pharmacists.',
     summary:
-      'Genuine medicines, professional advice from qualified pharmacists, and everyday health and personal care products.',
+      'Genuine medicines, advice from qualified pharmacists, and everyday health and personal care products.',
     overview: [
-      'Our pharmacy provides genuine, properly stored medicines and professional advice from qualified pharmacists. We dispense prescriptions, help customers choose the right over-the-counter treatment, and stock a range of health, baby and personal care products.',
+      'We sell genuine medicines, stored properly, and our qualified pharmacists are there to advise you. We dispense prescriptions and help you pick the right over-the-counter treatment. We also stock health, baby and personal care products.',
     ],
     services: [
       {
         title: 'Prescriptions',
         description:
-          'Prescriptions dispensed accurately, with clear advice on how to take your medicine.',
+          'Prescriptions dispensed accurately, with clear instructions on how to take your medicine.',
       },
       {
         title: 'Over-the-counter medicines',
@@ -350,11 +348,11 @@ export const businesses: SeedBusiness[] = [
     name: 'Cosmetics Salon',
     slug: 'cosmetics-salon',
     sector: 'health-beauty',
-    tagline: 'Enhancing your beauty to let you shine.',
-    summary: 'Professional hair, beauty and nail care in a relaxed, welcoming salon.',
+    tagline: 'Hair, beauty and nail care by a skilled team.',
+    summary: 'Hair, beauty and nail care in a relaxed, friendly salon.',
     overview: [
-      'Our salon offers professional hair, beauty and nail care from a skilled, friendly team. Every client gets individual attention, with treatments tailored to their hair, skin and style.',
-      'We use quality products and keep up with the latest styles and techniques, in a clean, comfortable space where you can relax. From everyday grooming to bridal and special-occasion looks, we are here to help you look and feel your best.',
+      'Our salon offers hair, beauty and nail care from a skilled, friendly team. Each client gets individual attention, with treatments matched to their hair, skin and style.',
+      'We use good products and keep up with new styles and techniques. The salon is clean and comfortable. Come in for everyday grooming, or for a bridal or special-occasion look.',
     ],
     services: [
       {
@@ -369,7 +367,7 @@ export const businesses: SeedBusiness[] = [
       { title: 'Makeup', description: 'Makeup for everyday, events and photo shoots.' },
       {
         title: 'Bridal packages',
-        description: 'Complete hair and makeup for brides and bridal parties.',
+        description: 'Hair and makeup for brides and bridal parties.',
       },
       { title: 'Beauty products', description: 'Hair and beauty products available to buy.' },
     ],
@@ -380,12 +378,11 @@ export const businesses: SeedBusiness[] = [
     name: 'Foreign Exchange',
     slug: 'foreign-exchange',
     sector: 'financial-services',
-    tagline: 'Fair rates and trusted currency exchange in Sierra Leone.',
-    summary:
-      'Foreign exchange bureau buying and selling major currencies, with money transfer services.',
+    tagline: 'Fair rates and clear pricing on currency exchange.',
+    summary: 'A bureau buying and selling major currencies, with money transfer services.',
     overview: [
-      'Our foreign exchange bureau buys and sells major international and regional currencies at competitive rates, with clear pricing and courteous service. We serve travellers, traders, businesses and families receiving money from abroad.',
-      "Visit any of our bureaus or call us for today's rates.",
+      'We buy and sell major international and regional currencies at competitive rates, and our prices are clear. Our customers include travellers, traders, businesses and families receiving money from abroad.',
+      "Visit one of our bureaus or call us for today's rates.",
     ],
     services: [
       {
@@ -394,7 +391,7 @@ export const businesses: SeedBusiness[] = [
       },
       {
         title: 'Money transfer',
-        description: 'Send and receive money internationally through trusted partners.',
+        description: 'Send and receive money internationally through our partners.',
       },
       {
         title: 'Business exchange',
@@ -412,12 +409,12 @@ export const businesses: SeedBusiness[] = [
     name: 'Micro-Finance & Lending',
     slug: 'micro-finance-lending',
     sector: 'financial-services',
-    tagline: 'Flexible loans to help your business and family grow.',
+    tagline: 'Loans to help your business and family grow.',
     summary:
-      'Small business and personal loans with clear terms, simple applications and personal service.',
+      'Small business and personal loans with clear terms, a simple application and staff who listen.',
     overview: [
-      'We help small businesses, traders and individuals access the finance they need to grow. Our loans come with clear terms, a straightforward application process and staff who take time to understand your needs.',
-      'We lend responsibly: we only approve loans we believe you can afford to repay, and we explain every cost before you sign.',
+      'We lend to small businesses, traders and individuals who need finance to grow. Our terms are clear, applying is straightforward, and our staff take time to understand what you need.',
+      'We lend responsibly. We only approve loans we believe you can repay, and we explain every cost before you sign.',
     ],
     services: [
       { title: 'Business startup loan', description: 'For new businesses getting started.' },
@@ -435,12 +432,11 @@ export const businesses: SeedBusiness[] = [
     name: 'Zeemart Shopping',
     slug: 'zeemart-shopping',
     sector: 'retail',
-    tagline: 'Everyday shopping, all under one roof.',
-    summary:
-      'A convenient store for groceries, household goods and everyday essentials at fair prices.',
+    tagline: 'Everyday shopping under one roof.',
+    summary: 'Groceries, household goods and everyday essentials in one store, at fair prices.',
     overview: [
-      'Zeemart makes everyday shopping simple. We stock a wide range of groceries, household goods and personal care products, so customers can find what they need in one place at fair prices.',
-      'Our friendly staff keep the shelves stocked and the store clean, and we are always looking for ways to make shopping easier for our customers.',
+      'Zeemart stocks groceries, household goods and personal care products, so you can get what you need in one place at fair prices.',
+      'Our staff keep the shelves full and the store clean.',
     ],
     services: [
       { title: 'Groceries', description: 'Food staples, fresh items, snacks and drinks.' },
