@@ -65,6 +65,7 @@ beforeAll(async () => {
           slug: `biz-${key}-${run}`,
           summary: 'Summary',
           sector: sector.id,
+          stage: 'operating',
           _status: status,
         },
       }),
