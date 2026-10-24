@@ -15,6 +15,9 @@ const fontDisplay = Big_Shoulders({
   variable: '--font-display',
   subsets: ['latin'],
   axes: ['opsz'],
+  // next/font has no metrics for Big Shoulders, so it can't size a fallback; name condensed ones instead
+  adjustFontFallback: false,
+  fallback: ['Impact', 'Arial Narrow', 'sans-serif'],
 })
 
 export const metadata: Metadata = {
