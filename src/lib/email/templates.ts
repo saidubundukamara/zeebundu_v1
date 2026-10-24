@@ -51,14 +51,16 @@ export const enquiryTypeLabels: Record<string, string> = {
   general: 'General',
   sales: 'Sales',
   partnership: 'Partnership',
+  careers: 'Careers',
   media: 'Media',
 }
 
 export type EnquiryEmailData = {
   id: number | string
   name: string
-  email: string
+  email?: string | null
   phone?: string | null
+  organization?: string | null
   type: string
   message: string
   pageUrl?: string | null
@@ -82,12 +84,16 @@ export function enquiryNotificationEmail({
     ['Name', enquiry.name],
     ['Email', enquiry.email],
     ['Phone', enquiry.phone],
+    ['Organization', enquiry.organization],
     ['About', typeLabel],
     ['For', businessName],
     ['Sent from page', enquiry.pageUrl],
     ['Received', enquiry.createdAt ? formatDate(enquiry.createdAt) : undefined],
   ]
   const present = rows.filter(([, v]) => v)
+  const replyHint = enquiry.email
+    ? 'Reply to this email to answer the sender directly.'
+    : 'The sender left no email address. Reply by phone.'
 
   const html = layout(
     `New ${escapeHtml(typeLabel.toLowerCase())} enquiry for ${escapeHtml(businessName)}`,
@@ -104,7 +110,7 @@ export function enquiryNotificationEmail({
         .join('')}
     </table>
     <div style="margin:0 0 24px;padding:16px;background:#FAFAF9;border-left:4px solid ${gold};font-size:15px;line-height:1.6;">${multiline(enquiry.message)}</div>
-    ${p('Reply to this email to answer the sender directly.')}
+    ${p(replyHint)}
     <p style="margin:0;"><a href="${escapeHtml(adminUrl)}" style="display:inline-block;background:${forest};color:#FFFFFF;text-decoration:none;padding:10px 18px;border-radius:6px;font-size:14px;font-weight:bold;">Open in the CMS</a></p>`,
   )
 
@@ -116,7 +122,7 @@ export function enquiryNotificationEmail({
     'Message:',
     enquiry.message,
     '',
-    'Reply to this email to answer the sender directly.',
+    replyHint,
     `Open in the CMS: ${adminUrl}`,
   ].join('\n')
 

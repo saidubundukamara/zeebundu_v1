@@ -8,7 +8,7 @@ import { z } from 'zod'
 
 import { sendEnquiryEmails } from './enquiry-notify'
 import { getClientIp, hashIp, isRateLimited } from './enquiry-rate-limit'
-import { enquirySchema, type EnquiryState } from './enquiry-schema'
+import { enquirySchema, fromAbout, type EnquiryState } from './enquiry-schema'
 import { verifyTurnstile } from './turnstile'
 
 const TURNSTILE_FIELD = 'cf-turnstile-response'
@@ -29,7 +29,8 @@ export async function submitEnquiry(
   // Honeypot: real people never fill the hidden "company" field
   if (company) return { status: 'success' }
 
-  const parsed = enquirySchema.safeParse(values)
+  const { about, ...fields } = values
+  const parsed = enquirySchema.safeParse({ ...fields, ...fromAbout(about) })
   if (!parsed.success) {
     return {
       status: 'error',
@@ -47,12 +48,12 @@ export async function submitEnquiry(
       status: 'error',
       code: 'turnstile',
       message:
-        'We couldn’t confirm you’re not a robot. Please wait for the security check to finish and send your message again.',
+        'We couldn’t confirm you’re not a robot. Please wait for the security check to finish and send your inquiry again.',
       values,
     }
   }
 
-  const data = { ...parsed.data, email: parsed.data.email.toLowerCase() }
+  const data = { ...parsed.data, email: parsed.data.email?.toLowerCase() }
   const ipHash = ip ? hashIp(ip) : undefined
 
   try {
@@ -82,7 +83,8 @@ export async function submitEnquiry(
     console.error('[enquiry] failed to save', err)
     return {
       status: 'error',
-      message: 'Sorry, something went wrong sending your message. Please try again or call us.',
+      message:
+        'Your inquiry could not be sent. Please try again or contact us by telephone or email.',
       values,
     }
   }

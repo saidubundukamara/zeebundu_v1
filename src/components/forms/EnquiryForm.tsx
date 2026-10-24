@@ -1,6 +1,7 @@
 'use client'
 
 import { CheckCircleIcon } from '@phosphor-icons/react'
+import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useActionState, useEffect, useId } from 'react'
 
@@ -10,7 +11,7 @@ import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
 import { trackEvent } from '@/lib/analytics'
 import { submitEnquiry } from '@/lib/enquiry-action'
-import { enquiryTypes, type EnquiryState } from '@/lib/enquiry-schema'
+import { enquiryTopics, type EnquiryState } from '@/lib/enquiry-schema'
 import { cn } from '@/lib/utils'
 
 import { Turnstile } from './Turnstile'
@@ -54,12 +55,10 @@ export function EnquiryForm({
         )}
       >
         <CheckCircleIcon weight="light" aria-hidden className="size-8 text-map-course" />
-        <h3 className="font-heading text-h3 text-map-ink">
-          Thank you, we’ve received your message
-        </h3>
+        <h3 className="font-heading text-h3 text-map-ink">Thank you for contacting Zeebundu</h3>
         <p className="text-sm text-map-ink-soft">
-          {business ? `The ${business.name} team` : 'Our team'} will get back to you as soon as
-          possible.
+          Your inquiry has been received. {business ? `The ${business.name} team` : 'Our team'} will
+          get back to you as soon as possible.
         </p>
       </div>
     )
@@ -101,59 +100,72 @@ export function EnquiryForm({
 
       <div className="grid gap-5 sm:grid-cols-2">
         <div className="space-y-2">
-          <Label htmlFor={`${id}-name`}>Your name</Label>
+          <Label htmlFor={`${id}-name`}>Full name</Label>
           <Input {...field('name')} autoComplete="name" required className="h-11 bg-card" />
           {fieldError('name')}
         </div>
         <div className="space-y-2">
-          <Label htmlFor={`${id}-email`}>Email</Label>
+          <Label htmlFor={`${id}-organization`}>
+            Organization <span className="font-normal text-map-ink-soft">(optional)</span>
+          </Label>
+          <Input {...field('organization')} autoComplete="organization" className="h-11 bg-card" />
+        </div>
+        <p id={`${id}-reply-hint`} className="text-sm text-map-ink-soft sm:col-span-2">
+          Give an email address, a telephone number or both, so we can reply.
+        </p>
+        <div className="space-y-2">
+          <Label htmlFor={`${id}-email`}>Email address</Label>
           <Input
             {...field('email')}
             type="email"
             autoComplete="email"
-            required
+            aria-describedby={[`${id}-reply-hint`, err('email') && `${id}-email-error`]
+              .filter(Boolean)
+              .join(' ')}
             className="h-11 bg-card"
           />
           {fieldError('email')}
         </div>
         <div className="space-y-2">
-          <Label htmlFor={`${id}-phone`}>
-            Phone <span className="font-normal text-map-ink-soft">(optional)</span>
-          </Label>
-          <Input {...field('phone')} type="tel" autoComplete="tel" className="h-11 bg-card" />
+          <Label htmlFor={`${id}-phone`}>Telephone</Label>
+          <Input
+            {...field('phone')}
+            type="tel"
+            autoComplete="tel"
+            aria-describedby={[`${id}-reply-hint`, err('phone') && `${id}-phone-error`]
+              .filter(Boolean)
+              .join(' ')}
+            className="h-11 bg-card"
+          />
           {fieldError('phone')}
         </div>
-        <div className="space-y-2">
-          <Label htmlFor={`${id}-type`}>What is it about?</Label>
-          <select
-            {...field('type')}
-            defaultValue={state.values?.type ?? 'general'}
-            className={selectClass}
-          >
-            {enquiryTypes.map((t) => (
-              <option key={t.value} value={t.value}>
-                {t.label}
-              </option>
-            ))}
-          </select>
-        </div>
-        {!business && businesses?.length ? (
+        {!business && (
           <div className="space-y-2 sm:col-span-2">
-            <Label htmlFor={`${id}-business`}>Which business?</Label>
+            <Label htmlFor={`${id}-about`}>Business or topic</Label>
             <select
-              {...field('business')}
-              defaultValue={state.values?.business ?? ''}
+              {...field('about')}
+              defaultValue={state.values?.about ?? 'general'}
               className={selectClass}
             >
-              <option value="">Zeebundu Group (general)</option>
-              {businesses.map((b) => (
-                <option key={b.id} value={b.id}>
-                  {b.name}
-                </option>
-              ))}
+              {businesses?.length ? (
+                <optgroup label="Our businesses">
+                  {businesses.map((b) => (
+                    <option key={b.id} value={`business:${b.id}`}>
+                      {b.name}
+                    </option>
+                  ))}
+                </optgroup>
+              ) : null}
+              <optgroup label="Other topics">
+                {enquiryTopics.map((t) => (
+                  <option key={t.value} value={t.value}>
+                    {t.label}
+                  </option>
+                ))}
+              </optgroup>
             </select>
           </div>
-        ) : null}
+        )}
       </div>
 
       <div className="space-y-2">
@@ -168,11 +180,15 @@ export function EnquiryForm({
       {state.status === 'error' && state.message && state.code && alert}
 
       <div className="flex flex-wrap items-center justify-between gap-4">
-        <p className="text-xs text-map-ink-soft">
-          We only use your details to reply to this enquiry.
+        <p className="max-w-sm text-xs text-map-ink-soft">
+          We use the information you provide to respond to your inquiry. Please read our{' '}
+          <Link href="/privacy" className="underline underline-offset-2 hover:text-map-course">
+            Privacy Notice
+          </Link>{' '}
+          for details.
         </p>
         <Button type="submit" variant="highlight" size="xl" disabled={pending}>
-          {pending ? 'Sending…' : 'Send enquiry'}
+          {pending ? 'Sending…' : 'Send Inquiry'}
         </Button>
       </div>
     </form>

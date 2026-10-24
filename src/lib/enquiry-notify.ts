@@ -50,7 +50,10 @@ export async function resolveRecipients(
  */
 export async function sendEnquiryEmails(
   payload: Payload,
-  enquiry: Pick<Enquiry, 'id' | 'name' | 'email' | 'phone' | 'type' | 'message' | 'pageUrl'> & {
+  enquiry: Pick<
+    Enquiry,
+    'id' | 'name' | 'email' | 'phone' | 'organization' | 'type' | 'message' | 'pageUrl'
+  > & {
     createdAt?: string
     business?: Enquiry['business']
   },
@@ -72,7 +75,9 @@ export async function sendEnquiryEmails(
         payload.sendEmail({
           to: recipients.to,
           cc: recipients.cc,
-          replyTo: { name: enquiry.name.replace(/[\r\n"<>]/g, ' '), address: enquiry.email },
+          ...(enquiry.email && {
+            replyTo: { name: enquiry.name.replace(/[\r\n"<>]/g, ' '), address: enquiry.email },
+          }),
           ...email,
         }),
       )
@@ -82,19 +87,22 @@ export async function sendEnquiryEmails(
       )
     }
 
-    jobs.push(
-      payload.sendEmail({
-        to: enquiry.email,
-        replyTo: recipients.to,
-        ...enquiryAutoReplyEmail({
-          name: enquiry.name,
-          businessName: recipients.businessName,
-          groupName: recipients.groupName,
-          phone: recipients.phone,
-          whatsapp: recipients.whatsapp,
+    // Senders who left only a phone number get no auto-reply
+    if (enquiry.email) {
+      jobs.push(
+        payload.sendEmail({
+          to: enquiry.email,
+          replyTo: recipients.to,
+          ...enquiryAutoReplyEmail({
+            name: enquiry.name,
+            businessName: recipients.businessName,
+            groupName: recipients.groupName,
+            phone: recipients.phone,
+            whatsapp: recipients.whatsapp,
+          }),
         }),
-      }),
-    )
+      )
+    }
 
     const results = await Promise.allSettled(jobs)
     for (const result of results) {
