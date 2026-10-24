@@ -170,6 +170,10 @@ export interface Business {
    * One or two sentences, shown on cards and in search results.
    */
   summary: string;
+  /**
+   * Text on the inquiry button, e.g. "Ask About Fuel Availability".
+   */
+  enquiryLabel?: string | null;
   logo?: (number | null) | Media;
   heroImage?: (number | null) | Media;
   overview?: {
@@ -281,6 +285,10 @@ export interface Business {
   generateSlug?: boolean | null;
   slug: string;
   sector: number | Sector;
+  /**
+   * In-development pages hide services, hours and locations.
+   */
+  stage: 'operating' | 'in-development';
   /**
    * Show in the homepage carousel.
    */
@@ -693,7 +701,9 @@ export interface Leadership {
 export interface Page {
   id: number;
   title: string;
-  layout?: (HeroBlock | RichTextBlock | ServicesGridBlock | StatsBlock | GalleryBlock | CTABlock | FAQBlock)[] | null;
+  layout?:
+    | (HeroBlock | RichTextBlock | ServicesGridBlock | StatsBlock | GalleryBlock | CTABlock | FAQBlock | PlacesBlock)[]
+    | null;
   meta?: {
     title?: string | null;
     description?: string | null;
@@ -782,6 +792,28 @@ export interface GalleryBlock {
   blockType: 'gallery';
 }
 /**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "PlacesBlock".
+ */
+export interface PlacesBlock {
+  heading?: string | null;
+  intro?: string | null;
+  items?:
+    | {
+        place: string;
+        kind: 'office' | 'operating' | 'agriculture' | 'in-development';
+        /**
+         * What the group does here.
+         */
+        description: string;
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'places';
+}
+/**
  * Messages sent through the website. Update the status as you follow up.
  *
  * This interface was referenced by `Config`'s JSON-Schema
@@ -790,15 +822,16 @@ export interface GalleryBlock {
 export interface Enquiry {
   id: number;
   name: string;
-  email: string;
+  email?: string | null;
   phone?: string | null;
+  organization?: string | null;
   message: string;
   pageUrl?: string | null;
   /**
    * Empty for general group enquiries.
    */
   business?: (number | null) | Business;
-  type: 'general' | 'sales' | 'partnership' | 'media';
+  type: 'general' | 'sales' | 'partnership' | 'careers' | 'media';
   status: 'new' | 'in-progress' | 'closed' | 'spam';
   /**
    * Only visible to staff.
@@ -1085,6 +1118,7 @@ export interface BusinessesSelect<T extends boolean = true> {
   name?: T;
   tagline?: T;
   summary?: T;
+  enquiryLabel?: T;
   logo?: T;
   heroImage?: T;
   overview?: T;
@@ -1156,6 +1190,7 @@ export interface BusinessesSelect<T extends boolean = true> {
   generateSlug?: T;
   slug?: T;
   sector?: T;
+  stage?: T;
   featured?: T;
   order?: T;
   updatedAt?: T;
@@ -1410,6 +1445,7 @@ export interface PagesSelect<T extends boolean = true> {
         gallery?: T | GalleryBlockSelect<T>;
         cta?: T | CTABlockSelect<T>;
         faq?: T | FAQBlockSelect<T>;
+        places?: T | PlacesBlockSelect<T>;
       };
   meta?:
     | T
@@ -1488,12 +1524,31 @@ export interface GalleryBlockSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "PlacesBlock_select".
+ */
+export interface PlacesBlockSelect<T extends boolean = true> {
+  heading?: T;
+  intro?: T;
+  items?:
+    | T
+    | {
+        place?: T;
+        kind?: T;
+        description?: T;
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "enquiries_select".
  */
 export interface EnquiriesSelect<T extends boolean = true> {
   name?: T;
   email?: T;
   phone?: T;
+  organization?: T;
   message?: T;
   pageUrl?: T;
   business?: T;
@@ -1704,6 +1759,14 @@ export interface Homepage {
       url?: string | null;
     };
   };
+  intro?: {
+    heading?: string | null;
+    text?: string | null;
+    /**
+     * Short line set below the introduction.
+     */
+    brandLine?: string | null;
+  };
   /**
    * Leave empty to use businesses marked "featured".
    */
@@ -1775,6 +1838,15 @@ export interface SiteSetting {
     whatsapp?: string | null;
     email?: string | null;
     /**
+     * Shown after the main phone number.
+     */
+    otherPhones?:
+      | {
+          number: string;
+          id?: string | null;
+        }[]
+      | null;
+    /**
      * General enquiries go here; business enquiries are copied here too.
      */
     enquiryEmail?: string | null;
@@ -1788,7 +1860,7 @@ export interface SiteSetting {
     youtube?: string | null;
   };
   /**
-   * Numbers shown on the homepage, e.g. 16 businesses, 8 sectors.
+   * Numbers shown on the homepage, e.g. the number of businesses and sectors.
    */
   stats?:
     | {
@@ -1881,6 +1953,13 @@ export interface HomepageSelect<T extends boolean = true> {
               url?: T;
             };
       };
+  intro?:
+    | T
+    | {
+        heading?: T;
+        text?: T;
+        brandLine?: T;
+      };
   featuredBusinesses?: T;
   featuredImpact?: T;
   chairman?:
@@ -1952,6 +2031,12 @@ export interface SiteSettingsSelect<T extends boolean = true> {
         phone?: T;
         whatsapp?: T;
         email?: T;
+        otherPhones?:
+          | T
+          | {
+              number?: T;
+              id?: T;
+            };
         enquiryEmail?: T;
       };
   socials?:

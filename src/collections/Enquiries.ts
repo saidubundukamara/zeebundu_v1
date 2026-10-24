@@ -37,10 +37,16 @@ export const Enquiries: CollectionConfig = {
           type: 'row',
           fields: [
             { name: 'name', type: 'text', required: true, admin: { width: '50%' } },
-            { name: 'email', type: 'email', required: true, admin: { width: '50%' } },
+            { name: 'email', type: 'email', admin: { width: '50%' } },
           ],
         },
-        { name: 'phone', type: 'text' },
+        {
+          type: 'row',
+          fields: [
+            { name: 'phone', type: 'text', admin: { width: '50%' } },
+            { name: 'organization', type: 'text', admin: { width: '50%' } },
+          ],
+        },
         { name: 'message', type: 'textarea', required: true },
         { name: 'pageUrl', label: 'Sent from page', type: 'text' },
       ] satisfies Field[]
@@ -61,6 +67,7 @@ export const Enquiries: CollectionConfig = {
         { label: 'General', value: 'general' },
         { label: 'Sales / quote', value: 'sales' },
         { label: 'Partnership', value: 'partnership' },
+        { label: 'Careers', value: 'careers' },
         { label: 'Media', value: 'media' },
       ],
       admin: { position: 'sidebar' },

@@ -18,7 +18,7 @@ export const Businesses: CollectionConfig = {
   admin: {
     group: adminGroups.businesses,
     useAsTitle: 'name',
-    defaultColumns: ['name', 'sector', 'featured', '_status', 'updatedAt'],
+    defaultColumns: ['name', 'sector', 'stage', 'featured', '_status', 'updatedAt'],
     description: 'Each business has its own page at /businesses/[slug].',
   },
   defaultSort: 'order',
@@ -50,6 +50,13 @@ export const Businesses: CollectionConfig = {
               required: true,
               maxLength: 240,
               admin: { description: 'One or two sentences, shown on cards and in search results.' },
+            },
+            {
+              name: 'enquiryLabel',
+              type: 'text',
+              admin: {
+                description: 'Text on the inquiry button, e.g. "Ask About Fuel Availability".',
+              },
             },
             {
               type: 'row',
@@ -217,6 +224,23 @@ export const Businesses: CollectionConfig = {
       required: true,
       access: { update: groupEditorsField },
       admin: { position: 'sidebar' },
+    },
+    {
+      // Not `status`: that name collides with the drafts `_status` enum in Postgres
+      name: 'stage',
+      label: 'Status',
+      type: 'select',
+      required: true,
+      defaultValue: 'operating',
+      options: [
+        { label: 'Operating', value: 'operating' },
+        { label: 'In development', value: 'in-development' },
+      ],
+      access: { update: groupEditorsField },
+      admin: {
+        position: 'sidebar',
+        description: 'In-development pages hide services, hours and locations.',
+      },
     },
     {
       name: 'featured',

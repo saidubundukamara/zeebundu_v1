@@ -10,7 +10,7 @@ export const SiteSettings: GlobalConfig = {
   admin: { group: adminGroups.settings },
   access: { read: anyone, update: superAdmin },
   fields: [
-    { name: 'groupName', type: 'text', required: true, defaultValue: 'Zeebundu Group' },
+    { name: 'groupName', type: 'text', required: true, defaultValue: 'Zeebundu Group of Companies' },
     {
       name: 'contact',
       label: 'Head office contact',
@@ -24,6 +24,13 @@ export const SiteSettings: GlobalConfig = {
             { name: 'whatsapp', label: 'WhatsApp', type: 'text', admin: { width: '33%' } },
             { name: 'email', type: 'email', admin: { width: '33%' } },
           ],
+        },
+        {
+          name: 'otherPhones',
+          label: 'Other phone numbers',
+          type: 'array',
+          admin: { description: 'Shown after the main phone number.' },
+          fields: [{ name: 'number', type: 'text', required: true }],
         },
         {
           name: 'enquiryEmail',
@@ -52,7 +59,7 @@ export const SiteSettings: GlobalConfig = {
     {
       ...statsArray('stats'),
       label: 'Stats band',
-      admin: { description: 'Numbers shown on the homepage, e.g. 16 businesses, 8 sectors.' },
+      admin: { description: 'Numbers shown on the homepage, e.g. the number of businesses and sectors.' },
     },
   ],
 }

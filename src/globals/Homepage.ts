@@ -26,6 +26,19 @@ export const Homepage: GlobalConfig = {
           ],
         },
         {
+          label: 'Introduction',
+          name: 'intro',
+          fields: [
+            { name: 'heading', type: 'text' },
+            { name: 'text', type: 'textarea' },
+            {
+              name: 'brandLine',
+              type: 'text',
+              admin: { description: 'Short line set below the introduction.' },
+            },
+          ],
+        },
+        {
           label: 'Featured',
           fields: [
             {
@@ -44,7 +57,7 @@ export const Homepage: GlobalConfig = {
           ],
         },
         {
-          label: "Chairman's message",
+          label: "Leader's message",
           name: 'chairman',
           fields: [
             { name: 'quote', type: 'textarea' },

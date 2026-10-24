@@ -3,6 +3,7 @@ import { FAQBlock } from './FAQ'
 import { GalleryBlock } from './Gallery'
 import { HeroBlock } from './Hero'
 import { LoanProductsBlock } from './LoanProducts'
+import { PlacesBlock } from './Places'
 import { ProductListBlock } from './ProductList'
 import { RatesTableBlock } from './RatesTable'
 import { RichTextBlock } from './RichText'
@@ -19,6 +20,7 @@ export const pageBlocks = [
   GalleryBlock,
   CTABlock,
   FAQBlock,
+  PlacesBlock,
 ]
 
 /** Optional extras on a business page. */
