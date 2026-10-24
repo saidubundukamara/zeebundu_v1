@@ -15,7 +15,11 @@ export const metadata: Metadata = {
 // Unmatched URLs skip every layout, so this page must stand alone (no CMS data)
 export default function GlobalNotFound() {
   return (
-    <html lang="en" className={`${fontSans.variable} ${fontDisplay.variable} antialiased`}>
+    <html
+      lang="en"
+      className={`${fontSans.variable} ${fontDisplay.variable} antialiased`}
+      data-scroll-behavior="smooth"
+    >
       <body className="min-h-screen bg-background text-foreground">
         <NotFoundContent />
       </body>

@@ -48,6 +48,8 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
     <html
       lang="en"
       className={`${fontSans.variable} ${fontDisplay.variable} h-full antialiased`}
+      // globals.css smooth-scrolls anchors; this lets Next jump instantly on route changes
+      data-scroll-behavior="smooth"
       suppressHydrationWarning
     >
       <head>
