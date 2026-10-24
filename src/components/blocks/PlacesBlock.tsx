@@ -23,7 +23,7 @@ export function PlacesBlock({
         {block.items.map((item) => (
           <li
             key={item.id ?? item.place}
-            className="grid gap-2 py-5 md:grid-cols-[minmax(0,1fr)_minmax(0,2fr)_auto] md:items-baseline md:gap-8"
+            className="grid gap-2 py-5 md:grid-cols-[minmax(0,2fr)_minmax(0,3fr)_8rem] md:items-baseline md:gap-8"
           >
             <h3 className="font-heading text-2xl leading-none font-extrabold uppercase">
               {item.place}

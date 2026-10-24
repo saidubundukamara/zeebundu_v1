@@ -41,7 +41,11 @@ function LeaderGrid({ leaders }: { leaders: Leadership[] }) {
             </h3>
             <p className="text-sm text-map-course">{leader.title}</p>
           </div>
-          {leader.bio && <p className="text-sm leading-relaxed text-map-ink-soft">{leader.bio}</p>}
+          {leader.bio && (
+            <p className="text-sm leading-relaxed whitespace-pre-line text-map-ink-soft">
+              {leader.bio}
+            </p>
+          )}
         </li>
       ))}
     </ul>

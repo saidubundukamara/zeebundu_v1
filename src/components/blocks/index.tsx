@@ -37,7 +37,12 @@ export function RenderBlocks({
         return block.blockType === 'hero' || block.blockType === 'cta' ? (
           rendered
         ) : (
-          <div key={key} className="border-t border-map-rule first:border-t-0">
+          <div
+            key={key}
+            // A block name doubles as an anchor, e.g. "vacancies" for /careers#vacancies
+            id={anchor(block.blockName)}
+            className="scroll-mt-20 border-t border-map-rule first:border-t-0"
+          >
             {rendered}
           </div>
         )
@@ -45,6 +50,14 @@ export function RenderBlocks({
     </>
   )
 }
+
+const anchor = (name?: string | null) =>
+  name
+    ? name
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/^-|-$/g, '') || undefined
+    : undefined
 
 function renderBlock(block: Block, key: string, tone: 'default' | 'paper') {
   switch (block.blockType) {

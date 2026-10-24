@@ -21,6 +21,7 @@ import { Reveal } from '@/components/motion/Reveal'
 import { getCourse } from '@/lib/course'
 import { getBusiness, getBusinesses, getNews, populated } from '@/lib/data'
 import { formatDate } from '@/lib/links'
+import { metaTitle } from '@/lib/seo/title'
 import type { Media as MediaDoc } from '@/payload-types'
 
 export async function generateStaticParams() {
@@ -34,12 +35,13 @@ export async function generateMetadata(props: PageProps<'/businesses/[slug]'>): 
   if (!business) return {}
 
   const title = business.meta?.title || business.name
+  // og:title doesn't take the template, so it gets the plain string
   const description = business.meta?.description || business.summary
   const image = populated(business.meta?.image) ?? populated(business.heroImage)
   const imageURL = image?.sizes?.hero?.url ?? image?.url
 
   return {
-    title,
+    title: metaTitle(business.meta?.title, business.name),
     description,
     alternates: { canonical: `/businesses/${business.slug}` },
     openGraph: {

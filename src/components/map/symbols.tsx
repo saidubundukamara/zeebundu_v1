@@ -54,10 +54,10 @@ export function FinishMark({ className }: { className?: string }) {
 /*
  * One ISOM map symbol per sector, in sector order, so the legend reads like a
  * real map key: man-made object, building, vegetation, water, cliff,
- * special vegetation feature, knoll, open land.
+ * special vegetation feature, knoll, open land, fence.
  */
 export function SectorSymbol({ index, className }: { index: number; className?: string }) {
-  const k = index % 8
+  const k = index % 9
   return (
     <svg viewBox="0 0 24 16" className={cn('h-4 w-6 shrink-0', className)} aria-hidden fill="none">
       {k === 0 && (
@@ -105,6 +105,14 @@ export function SectorSymbol({ index, className }: { index: number; className?: 
           fill="var(--color-open)"
           stroke="var(--map-ink)"
           strokeWidth="1"
+        />
+      )}
+      {k === 8 && (
+        <path
+          d="M2 8h20M5 4v8M12 4v8M19 4v8"
+          stroke="var(--map-ink)"
+          strokeWidth="1.4"
+          strokeLinecap="round"
         />
       )}
     </svg>
