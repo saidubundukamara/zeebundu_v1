@@ -15,7 +15,7 @@ Two audiences, weighted equally on the group pages:
 
 ## Product Purpose
 
-The public website of Zeebundu Group. It presents the group and its 16 businesses, routes visitors to each business page, and collects enquiries per business (Payload `Enquiries`, routed to the owning business). Editors run everything through Payload CMS at `/admin`.
+The public website of Zeebundu Group. It presents the group and its 19 businesses and projects, routes visitors to each business page, and collects enquiries per business (Payload `Enquiries`, routed to the owning business). Editors run everything through Payload CMS at `/admin`.
 
 Success: a first-time visitor understands within one screen that Zeebundu is a multi-sector Sierra Leone group, and any business is at most two taps away.
 
@@ -25,16 +25,17 @@ A single Sierra Leonean group covering the everyday economy: fuel, food, water, 
 
 ## Operating Context
 
-- 8 sectors, 16 businesses (source: `src/seed/data/sectors.ts`, `businesses.ts`):
-  - Energy (Gas Stations, Petroleum Services)
-  - Hospitality (Hotels & Resorts)
-  - Agriculture & Food (Farming Operations, Fish Farming, Livestock, Poultry)
-  - Food & Beverage Production (Water Production, Natural Juices, Beverages)
-  - Construction (Construction Materials)
-  - Health & Beauty (Pharmacy, Cosmetics Salon)
-  - Financial Services (Foreign Exchange, Micro-Finance & Lending)
-  - Retail (Zeemart Shopping)
-- Sections: About, Businesses (index, sector, detail), Impact (programmes), News (articles, RSS, media kit), Contact, CMS pages (privacy, terms).
+- 9 sectors, 19 businesses and projects (source: `src/seed/data/sectors.ts`, `businesses.ts`, from the client's `review.md`). Businesses marked _dev_ are in development: their pages hide services and locations.
+  - Energy & Vehicle Care (Zeebundu Gas Station, Zee AutoCare)
+  - Retail (ZeeMart 360, Electrical and Plumbing Shop _dev_)
+  - Food & Beverage (Heart2Heart Water Factory, Heart2Heart Natural Juices _dev_, Zee Flavors Restaurant, Food Import and Export)
+  - Agriculture (Food Production and Processing, Cattle Farms and Meat Production)
+  - Hospitality & Venues (Zeebundu Conference Center, Hotels and Resorts _dev_)
+  - Construction (Construction and Building Supplies)
+  - Beauty & Health (ZeeLux Beauty Salon, Lux Zee, Zeebundu Pharmacy _dev_)
+  - Financial Services (Foreign Exchange and Microfinance _dev_, Zee Empowered Lending and Microfinance _dev_)
+  - Security (Elite Lion Zuma Security Agency _dev_)
+- Sections: About Us, Our Businesses (index, sector, detail), Projects and Locations, Community, News (articles, RSS, media kit), Careers, Contact, CMS pages (privacy, terms). /impact redirects to /community; impact programme pages remain for future use.
 - Reference sites named in the brief: Dangote, Tata, Heirs Holdings, Tolaram.
 
 ## Capabilities and Constraints
@@ -45,14 +46,14 @@ A single Sierra Leonean group covering the everyday economy: fuel, food, water, 
 
 ## Brand Commitments
 
-- Name: always "Zeebundu" (one word, capital Z only). Formal: "Zeebundu Group".
+- Name: always "Zeebundu" (one word, capital Z only). Formal: "Zeebundu Group of Companies" (the client writes it in capitals in documents; the site uses title case).
 - No logo exists yet. The client must supply one or approve a new lockup, so any wordmark is interim.
 - The earlier "Forest & gold" direction was never signed off and is replaced by the 2026-09 redesign.
 
 ## Evidence on Hand
 
-- Real numbers: 16 businesses, 8 sectors. Founding year, staff count, locations and revenue are **not known**. Never invent them.
-- Copy: seed data in `src/seed/data/*`, legacy copy in `content/legacy/`.
+- Real facts (client content pack, `review.md`, October 2026): office at 42 Bathurst Street, Freetown; admin@zeebundu.com; +232 73 921 049, +232 79 088 882, +232 75 339 268; CEO Usman Jawa Bundu; places Freetown/Goderich, Lungi, Lunsar, Kamranka, Sanda, plus hotel projects at Mahera Beach, Tagrin and John Obey; in 2026 over 120 acres of rice and over 30 acres of corn, groundnuts and sweet potatoes, with a rice milling factory. Founding year, staff count and revenue are **not known**. Never invent them.
+- Copy: the client's approved content pack is `review.md` (October 2026), loaded into `src/seed/data/*`. `content/legacy/COPY_REVIEW.md` is the earlier draft it replaced.
 - Photography: none from the client. Unsplash photos are temporary seed media and must be replaced with real Zeebundu photography before launch.
 - No testimonials, awards or partner logos. Don't fabricate any.
 

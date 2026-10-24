@@ -1,3 +1,5 @@
+> **Superseded (October 2026).** The client replied with their own content pack, `review.md` at the repo root. That text is now in the seed data (`src/seed/data/*`). Keep this file only as a record of the first draft.
+
 # Zeebundu Website: Copy for Review
 
 **Prepared for:** Zeebundu management
