@@ -1,6 +1,8 @@
 /**
- * Idempotent seed: sectors, 16 businesses, group globals and a draft About page.
- * Safe to re-run — documents are matched by slug and updated in place.
+ * Idempotent seed: sectors, businesses, group globals, leadership, the first news story and the
+ * group pages (About, Projects and Locations, Community, Careers, Contact FAQ, legal).
+ * Safe to re-run: documents are matched by slug and updated in place. Businesses and sectors
+ * that are no longer in the seed data are deleted.
  *
  * Usage: npm run seed
  * Optional: SEED_ADMIN_EMAIL + SEED_ADMIN_PASSWORD create a first super-admin if none exists.
@@ -43,7 +45,7 @@ const toRichText = (paragraphs: string[]) => ({
   },
 })
 
-async function upsertBySlug<T extends 'sectors' | 'businesses' | 'pages'>(
+async function upsertBySlug<T extends 'sectors' | 'businesses' | 'pages' | 'news'>(
   payload: Payload,
   collection: T,
   slug: string,
@@ -66,6 +68,23 @@ async function upsertBySlug<T extends 'sectors' | 'businesses' | 'pages'>(
   return created.id as number
 }
 
+/** Deletes documents whose slug is no longer in the seed data (renamed or dropped). */
+async function pruneMissing(
+  payload: Payload,
+  collection: 'sectors' | 'businesses',
+  keep: string[],
+): Promise<string[]> {
+  const { docs } = await payload.find({
+    collection,
+    where: { slug: { not_in: keep } },
+    limit: 100,
+    depth: 0,
+    draft: true,
+  })
+  for (const doc of docs) await payload.delete({ collection, id: doc.id, depth: 0 })
+  return docs.map((doc) => doc.slug ?? String(doc.id))
+}
+
 async function seed() {
   const payload = await getPayload({ config })
   const log = (msg: string) => payload.logger.info(`[seed] ${msg}`)
@@ -86,41 +105,65 @@ async function seed() {
   }
   log(`${sectors.length} sectors`)
 
-  // A business without its own photo borrows its sector's (the forex business shows
-  // the Freetown banking wall rather than a foreign currency).
-  const photoFor: Record<string, string> = { 'foreign-exchange': 'financial-services' }
-  const businessPhoto = (slug: string) => photo(photos, slug) ?? photo(photos, photoFor[slug] ?? '')
+  // A business without its own photo borrows its sector's
+  const businessPhoto = (slug: string, sector: string) =>
+    photo(photos, slug) ?? photo(photos, sector)
 
-  // Businesses (published so the site renders; contact details stay empty until supplied)
+  // Businesses (published so the site renders; addresses, phones and hours wait for verification)
   const businessIDs: Record<string, number> = {}
   for (const business of businesses) {
     const sector = sectorIDs[business.sector]
     if (!sector) throw new Error(`Unknown sector "${business.sector}" for ${business.name}`)
+    const heroImage = businessPhoto(business.slug, business.sector)
     businessIDs[business.slug] = await upsertBySlug(payload, 'businesses', business.slug, {
       name: business.name,
       sector,
+      stage: business.stage,
       tagline: business.tagline,
       summary: business.summary,
+      enquiryLabel: business.enquiryLabel,
       overview: toRichText(business.overview),
-      services: business.services.map(({ title, description }) => ({
-        title,
-        description: description || undefined,
-      })),
+      services: business.services ?? [],
+      stats: business.stats ?? [],
+      locations: business.locations ?? [],
       featured: business.featured,
       order: business.order,
-      ...(businessPhoto(business.slug) && { heroImage: businessPhoto(business.slug) }),
+      meta: { title: `${business.name} | Zeebundu`, description: business.summary },
+      ...(heroImage && { heroImage }),
       _status: 'published',
     })
   }
   log(`${businesses.length} businesses`)
 
+  const prunedBusinesses = await pruneMissing(
+    payload,
+    'businesses',
+    businesses.map((b) => b.slug),
+  )
+  const prunedSectors = await pruneMissing(
+    payload,
+    'sectors',
+    sectors.map((s) => s.slug),
+  )
+  if (prunedBusinesses.length || prunedSectors.length) {
+    log(`removed ${[...prunedBusinesses, ...prunedSectors].join(', ')}`)
+  }
+
+  const { contact, seo } = groupCopy
+
   // Globals
   await payload.updateGlobal({
     slug: 'site-settings',
     data: {
-      groupName: 'Zeebundu Group',
+      groupName: 'Zeebundu Group of Companies',
+      contact: {
+        address: contact.address,
+        email: contact.email,
+        phone: contact.phones[0],
+        otherPhones: contact.phones.slice(1).map((number) => ({ number })),
+      },
       stats: [
-        { value: String(businesses.length), label: 'Businesses' },
+        { value: String(businesses.length), label: 'Businesses and projects' },
         { value: String(sectors.length), label: 'Sectors' },
       ],
     },
@@ -129,13 +172,14 @@ async function seed() {
     slug: 'header',
     data: {
       navItems: [
-        { link: { label: 'About', url: '/about' } },
+        { link: { label: 'About Us', url: '/about' } },
         { link: { label: 'Our Businesses', url: '/businesses' } },
-        { link: { label: 'Impact', url: '/impact' } },
-        { link: { label: 'Newsroom', url: '/news' } },
-        { link: { label: 'Contact', url: '/contact' } },
+        { link: { label: 'Projects and Locations', url: '/projects' } },
+        { link: { label: 'Community', url: '/community' } },
+        { link: { label: 'News', url: '/news' } },
+        { link: { label: 'Careers', url: '/careers' } },
       ],
-      cta: { label: 'Send an enquiry', url: '/contact' },
+      cta: { label: 'Contact', url: '/contact' },
     },
   })
   await payload.updateGlobal({
@@ -143,7 +187,7 @@ async function seed() {
     data: {
       tagline: groupCopy.footerTagline,
       legalLinks: [
-        { link: { label: 'Privacy', url: '/privacy' } },
+        { link: { label: 'Privacy Notice', url: '/privacy' } },
         { link: { label: 'Terms', url: '/terms' } },
       ],
       showNewsletter: true,
@@ -153,15 +197,24 @@ async function seed() {
     slug: 'homepage',
     data: {
       hero: {
+        eyebrow: null,
         ...groupCopy.hero,
         ...(photo(photos, 'group-hero') && { image: photo(photos, 'group-hero') }),
-        primaryCta: { label: 'Explore our businesses', url: '/businesses' },
-        secondaryCta: { label: 'About Zeebundu', url: '/about' },
+        primaryCta: { label: 'Explore Our Businesses', url: '/businesses' },
+        secondaryCta: { label: 'Contact Our Team', url: '/contact' },
+      },
+      intro: groupCopy.intro,
+      // No portrait yet: the page shows the name until an approved photo is uploaded
+      chairman: {
+        quote: groupCopy.ceo.message,
+        name: groupCopy.ceo.name,
+        title: groupCopy.ceo.title,
+        link: { label: 'About our leadership', url: '/about' },
       },
       ctaBand: {
-        heading: 'Work with Zeebundu',
-        text: 'Partnerships, supply and general enquiries: tell us what you need and the right team will reply.',
-        link: { label: 'Send an enquiry', url: '/contact' },
+        heading: groupCopy.partnerships.heading,
+        text: groupCopy.partnerships.text,
+        link: { label: 'Send a Partnership Inquiry', url: '/contact' },
       },
       _status: 'published',
     },
@@ -172,16 +225,138 @@ async function seed() {
   })
   log('globals')
 
-  // About page stays a draft until mission, history and leadership are supplied
-  await upsertBySlug(payload, 'pages', 'about', {
-    title: 'About Zeebundu',
-    layout: [
-      { blockType: 'hero', heading: 'About Zeebundu', eyebrow: 'Zeebundu Group' },
-      { blockType: 'richText', content: toRichText(groupCopy.about) },
-    ],
-    _status: 'draft',
+  // Leadership, matched by name
+  const { ceo } = groupCopy
+  const leader = await payload.find({
+    collection: 'leadership',
+    where: { name: { equals: ceo.name } },
+    limit: 1,
+    depth: 0,
   })
-  log('about page (draft)')
+  const leaderData = {
+    name: ceo.name,
+    title: ceo.title,
+    bio: ceo.bio.join('\n\n'),
+    group: 'executive' as const,
+    order: 1,
+  }
+  if (leader.docs[0]) {
+    await payload.update({ collection: 'leadership', id: leader.docs[0].id, data: leaderData })
+  } else {
+    await payload.create({ collection: 'leadership', data: leaderData })
+  }
+  log('leadership')
+
+  // Group pages
+  const { about, community, careers, partnerships, projects } = groupCopy
+  const pages: Record<string, { title: string; layout: unknown[] }> = {
+    about: {
+      title: 'About Us',
+      layout: [
+        { blockType: 'hero', heading: about.heading },
+        { blockType: 'richText', content: toRichText(about.intro) },
+        {
+          blockType: 'richText',
+          content: toRichText(['## Mission', about.mission, '## Vision', about.vision]),
+        },
+        { blockType: 'servicesGrid', heading: 'Our values', items: about.values },
+        {
+          blockType: 'cta',
+          heading: about.connects.heading,
+          text: about.connects.text,
+          link: { label: 'Meet Our Businesses', url: '/businesses' },
+          style: 'light',
+        },
+      ],
+    },
+    projects: {
+      title: 'Projects and Locations',
+      layout: [
+        { blockType: 'hero', heading: projects.heading, subheading: projects.intro },
+        { blockType: 'places', items: projects.places },
+        {
+          blockType: 'cta',
+          heading: projects.lunsar.heading,
+          text: projects.lunsar.text,
+          link: { label: 'Contact the Lunsar Team', url: '/contact' },
+          style: 'dark',
+        },
+      ],
+    },
+    community: {
+      title: 'Community',
+      layout: [
+        {
+          blockType: 'hero',
+          heading: community.heading,
+          subheading: community.text,
+          cta: { label: 'Discuss a Community Partnership', url: '/contact' },
+        },
+        { blockType: 'servicesGrid', items: community.commitments },
+      ],
+    },
+    careers: {
+      title: 'Careers',
+      layout: [
+        {
+          blockType: 'hero',
+          heading: careers.heading,
+          subheading: careers.text[0],
+          cta: { label: 'View Current Vacancies', url: '#vacancies' },
+        },
+        { blockType: 'richText', content: toRichText(careers.text.slice(1)) },
+        {
+          blockType: 'richText',
+          blockName: 'vacancies',
+          content: toRichText(['## Current vacancies', careers.vacancies]),
+        },
+        {
+          blockType: 'cta',
+          heading: partnerships.heading,
+          text: partnerships.text,
+          link: { label: 'Send a Partnership Inquiry', url: '/contact' },
+          style: 'dark',
+        },
+      ],
+    },
+    // Rendered under the form on /contact
+    contact: {
+      title: 'Contact Us',
+      layout: [{ blockType: 'faq', heading: 'Frequently asked questions', items: contact.faq }],
+    },
+  }
+  for (const [slug, page] of Object.entries(pages)) {
+    await upsertBySlug(payload, 'pages', slug, {
+      ...page,
+      meta: seo[slug as keyof typeof seo],
+      _status: 'published',
+    })
+  }
+  log(`${Object.keys(pages).join(', ')} pages`)
+
+  // First news story; the hero is a placeholder until event photos arrive
+  const newsHero = photo(photos, 'group-hero')
+  if (newsHero) {
+    const { news } = groupCopy
+    const slug = 'lunsar-business-destination-opening'
+    const existing = await payload.find({
+      collection: 'news',
+      where: { slug: { equals: slug } },
+      limit: 1,
+      depth: 0,
+      draft: true,
+    })
+    await upsertBySlug(payload, 'news', slug, {
+      title: news.title,
+      excerpt: news.excerpt,
+      body: toRichText(news.body),
+      heroImage: newsHero,
+      category: 'news',
+      ...(existing.docs[0] ? {} : { publishedAt: new Date().toISOString() }),
+      _status: 'published',
+    })
+    log('news story')
+  }
 
   // Starter legal pages behind the footer links; editors refine them in the admin
   for (const [slug, { title, body }] of Object.entries(legalPages)) {

@@ -16,13 +16,13 @@ const demoUsers = [
     email: 'pharmacy.editor@example.com',
     name: 'Demo Health & Beauty Editor',
     role: 'business-editor' as const,
-    businesses: ['pharmacy', 'cosmetics-salon'],
+    businesses: ['pharmacy', 'zeelux'],
   },
   {
     email: 'fuel.editor@example.com',
     name: 'Demo Energy Editor',
     role: 'business-editor' as const,
-    businesses: ['gas-stations', 'petroleum-services'],
+    businesses: ['gas-station', 'zee-autocare'],
   },
 ]
 

@@ -1,457 +1,343 @@
 import type { SeedBusiness } from './types'
 
+// Copy from the client's content pack (review.md, October 2026). Slugs follow its page paths.
+const lunsar = { name: 'Lunsar', district: 'port-loko' }
+
 export const businesses: SeedBusiness[] = [
+  // Energy & Vehicle Care
   {
-    name: 'Gas Stations',
-    slug: 'gas-stations',
+    name: 'Zeebundu Gas Station',
+    slug: 'gas-station',
     sector: 'energy',
-    tagline: 'Petrol, diesel and a quick, friendly fill-up.',
+    stage: 'operating',
+    tagline: 'Fuel for everyday journeys',
     summary:
-      'Fuel stations selling petrol, diesel and everyday essentials. Honest measures, friendly staff.',
+      'Our Lunsar fuel business connects motorists and transport operators with the wider Zeebundu service destination.',
     overview: [
-      'Our fuel stations sell petrol and diesel to motorists, commercial drivers and businesses. We keep the pumps accurate and the forecourts clean and safe, and our staff serve you quickly.',
-      'Some stations also sell lubricants and have a small shop for drinks, snacks and travel essentials.',
+      'Zeebundu Gas Station forms part of our Lunsar business destination, alongside retail, food and vehicle care activities. Our focus is a straightforward customer experience, attentive service and responsible day-to-day fuel operations.',
+      'Contact the station team for current fuel availability, opening hours and business inquiries.',
     ],
-    services: [
-      { title: 'Petrol (PMS)', description: 'Petrol for cars, motorbikes and generators.' },
-      { title: 'Diesel (AGO)', description: 'Diesel for trucks, buses, machinery and generators.' },
-      {
-        title: 'Engine oils & lubricants',
-        description: 'Oils and lubricants for cars, motorbikes and generators.',
-      },
-      { title: 'Convenience shop', description: 'Drinks, snacks and everyday travel essentials.' },
-      { title: 'Car wash', description: 'Inside and outside cleaning while you wait.' },
-      {
-        title: 'Cash & mobile money',
-        description: 'Pay cash, Orange Money or Africell Money.',
-      },
-    ],
-    featured: false,
+    enquiryLabel: 'Ask About Fuel Availability',
+    locations: [lunsar],
+    featured: true,
     order: 1,
   },
   {
-    name: 'Petroleum Services',
-    slug: 'petroleum-services',
+    name: 'Zee AutoCare',
+    slug: 'zee-autocare',
     sector: 'energy',
-    tagline: 'Planned fuel supply for businesses and project sites.',
-    summary: 'Bulk fuel and petroleum services for businesses, institutions and project sites.',
+    stage: 'operating',
+    tagline: 'Practical care for your vehicle',
+    summary:
+      'Zee AutoCare is the group’s vehicle service business associated with the Lunsar service bay.',
     overview: [
-      'We supply fuel and related services to businesses and organisations that need a planned supply. We look at how much you use, agree a schedule and deliver on it. Handling is safe and measurement is accurate.',
-      'Running a fleet, a site on generator power or a construction project? Our team will help you set up the right supply.',
+      'Zee AutoCare adds vehicle care to the Zeebundu service destination. Our aim is to support vehicle owners through clearly explained work and an organized service experience.',
+      'Contact the service bay to discuss your vehicle, the work required and current service availability.',
     ],
-    services: [
-      {
-        title: 'Bulk fuel supply',
-        description: 'Diesel and petrol in bulk for commercial customers.',
-      },
-      {
-        title: 'Fuel delivery',
-        description: 'Scheduled delivery to your site, depot or generator.',
-      },
-      {
-        title: 'Fleet & corporate accounts',
-        description: 'Supply arrangements for companies with vehicles or machinery.',
-      },
-      {
-        title: 'Storage & handling',
-        description: 'Safe storage and handling of petroleum products.',
-      },
-      {
-        title: 'Lubricants',
-        description: 'Industrial and automotive lubricants supplied to order.',
-      },
-    ],
+    enquiryLabel: 'Enquire About Vehicle Services',
+    locations: [lunsar],
     featured: false,
     order: 2,
   },
+
+  // Retail
   {
-    name: 'Hotels & Resorts',
-    slug: 'hotels-resorts',
-    sector: 'hospitality',
-    tagline: 'Comfortable rooms and Sierra Leonean hospitality.',
-    summary: 'Comfortable rooms, good food and helpful staff for business and leisure guests.',
+    name: 'ZeeMart 360',
+    slug: 'zeemart-360',
+    sector: 'retail',
+    stage: 'operating',
+    tagline: 'Everyday shopping in one place',
+    summary: 'ZeeMart 360 brings the group’s everyday retail offering to customers in Lunsar.',
     overview: [
-      'Our hotels have comfortable, well-kept rooms for business travellers, families and visitors. You can rest, eat well and get work done. Our staff can arrange airport transfers and point you in the right direction around town.',
-      'We also host meetings, conferences and private events.',
+      'ZeeMart 360 is designed around convenient everyday shopping. As part of the Zeebundu Lunsar destination, the store complements nearby group services and gives customers a place to shop for their regular needs.',
+      'Speak with the store team for the current product range, prices and availability, or contact us about supplying products.',
     ],
-    services: [
-      {
-        title: 'Accommodation',
-        description: 'Clean, comfortable rooms and suites.',
-      },
-      {
-        title: 'Restaurant & bar',
-        description: 'Local and international dishes, drinks and room service.',
-      },
-      {
-        title: 'Meetings & events',
-        description: 'Spaces for conferences, workshops, weddings and celebrations.',
-      },
-      {
-        title: 'Guest services',
-        description: 'Help with transport, bookings and local information.',
-      },
-    ],
+    enquiryLabel: 'Contact ZeeMart 360',
+    locations: [lunsar],
     featured: true,
     order: 3,
   },
   {
-    name: 'Farming Operations',
-    slug: 'farming-operations',
-    sector: 'agriculture-food',
-    tagline: 'Fresh produce, grown here in Sierra Leone.',
+    name: 'Electrical and Plumbing Shop',
+    slug: 'electrical-plumbing',
+    sector: 'retail',
+    stage: 'in-development',
+    tagline: 'Practical supplies for building needs',
     summary:
-      'Crops grown in Sierra Leone with sustainable methods, sold fresh to homes, markets and businesses.',
+      'The group’s plans include an electrical and plumbing retail activity alongside its wider construction interests.',
     overview: [
-      'Our farm grows fresh produce for Sierra Leonean households, traders and businesses. We protect the soil and save water, so the land keeps producing year after year.',
-      'We harvest in both the rainy and dry seasons and sell straight from the farm. We want more of the food eaten in Sierra Leone to be grown here.',
+      'Our electrical and plumbing shop initiative is intended to complement the group’s building supplies offering. Contact the group about the development of this business and potential supply relationships.',
+      'Product information will be added as the shop offering is confirmed.',
     ],
-    services: [
-      { title: 'Fresh vegetables', description: 'Seasonal vegetables harvested and sold fresh.' },
-      { title: 'Staple crops', description: '' },
-      { title: 'Fruit', description: 'Seasonal fruit, picked ripe.' },
-      {
-        title: 'Wholesale supply',
-        description: 'Regular supply for traders, restaurants, hotels and institutions.',
-      },
-      {
-        title: 'Farm visits',
-        description: 'Visits for schools, groups and partners by arrangement.',
-      },
-    ],
+    enquiryLabel: 'Discuss a Supply Opportunity',
     featured: false,
     order: 4,
   },
+
+  // Food & Beverage
   {
-    name: 'Fish Farming',
-    slug: 'fish-farming',
-    sector: 'agriculture-food',
-    tagline: 'Fresh fish, farmed here in Sierra Leone.',
+    name: 'Heart2Heart Water Factory',
+    slug: 'heart2heart-water',
+    sector: 'food-beverage-production',
+    stage: 'operating',
+    tagline: 'Water production and distribution',
     summary:
-      'Fish raised in managed ponds or tanks and sold fresh to homes, traders and businesses.',
+      'Heart2Heart brings together the group’s packaged water production, sales and distribution activities.',
     overview: [
-      'We raise fish in managed conditions, so customers get a steady supply of fresh, local fish. Farmed fish takes pressure off wild stocks and keeps protein on the market all year.',
-      'We watch water quality, feeding and hygiene closely, from the pond to the point of sale.',
+      'Heart2Heart Water Factory, also referred to in group materials as Heart2Heart Pure Water or H2H Pure Water, is our water production business. Activities include water treatment, packaging, storage, sales and distribution. Our operating standards emphasize hygiene, equipment care and product handling.',
+      'Shops, offices, hospitality businesses and distributors can contact our team to discuss supply requirements.',
     ],
+    enquiryLabel: 'Enquire About Water Supply',
     services: [
-      { title: 'Fresh fish', description: '' },
       {
-        title: 'Wholesale supply',
-        description: 'Regular supply for traders, restaurants and hotels.',
+        title: 'Bundles of 24 large packets',
+        description: 'Available for delivery or for purchase at our factories.',
       },
-      {
-        title: 'Fingerlings',
-        description: 'Young fish for other farmers starting or restocking ponds.',
-      },
-      { title: 'Processed fish', description: 'Cleaned, smoked or frozen fish.' },
     ],
-    featured: false,
+    locations: [
+      { name: 'Freetown (Goderich)', district: 'western-area-urban' },
+      { name: 'Lungi', district: 'port-loko' },
+      lunsar,
+    ],
+    featured: true,
     order: 5,
   },
   {
-    name: 'Livestock',
-    slug: 'livestock',
-    sector: 'agriculture-food',
-    tagline: 'Healthy animals and locally raised meat.',
-    summary: 'Animals raised with good care, supplying meat and live animals to local markets.',
+    name: 'Heart2Heart Natural Juices',
+    slug: 'natural-juices',
+    sector: 'food-beverage-production',
+    stage: 'in-development',
+    tagline: 'A growing beverage vision',
+    summary: 'Heart2Heart Natural Juices is a beverage initiative within the Zeebundu portfolio.',
     overview: [
-      'We supply meat and live animals to local markets, butchers and businesses, so Sierra Leone can rely more on its own food.',
-      'Producing locally cuts the need for imported meat and creates rural jobs. It also gives traders and processors a steady supply to depend on.',
+      'Heart2Heart Natural Juices reflects the group’s ambition to broaden its food and beverage offering. The initiative connects with our interests in agriculture, production and consumer retail.',
+      'Product details and availability will be shared as the range is developed.',
     ],
-    services: [
-      {
-        title: 'Meat supply',
-        description: 'Meat for butchers, traders, hotels and restaurants.',
-      },
-      {
-        title: 'Live animals',
-        description: 'Healthy animals for sale, including for festivals and ceremonies.',
-      },
-      {
-        title: 'Breeding stock',
-        description: 'Selected animals for farmers building their herds.',
-      },
-      { title: 'Dairy', description: 'Fresh milk and dairy products.' },
-    ],
+    enquiryLabel: 'Contact the Group',
     featured: false,
     order: 6,
   },
   {
-    name: 'Poultry',
-    slug: 'poultry',
-    sector: 'agriculture-food',
-    tagline: 'Fresh eggs and chicken, produced locally.',
-    summary: 'Locally produced eggs and chicken for households, traders, hotels and restaurants.',
+    name: 'Zee Flavors Restaurant',
+    slug: 'zee-flavors',
+    sector: 'food-beverage-production',
+    stage: 'operating',
+    tagline: 'Food and hospitality from Zeebundu',
+    summary:
+      'Zee Flavors is the group’s restaurant brand, connected with the Lunsar business destination.',
     overview: [
-      'We produce fresh eggs and chicken for Sierra Leonean homes and businesses. Our birds live in clean, well-ventilated housing, with good feed, clean water and regular health checks.',
-      'We sell eggs and birds retail and wholesale, so customers can buy local instead of imported.',
+      'Zee Flavors Restaurant brings food service into the Zeebundu customer experience. Our aim is to provide a welcoming place to enjoy a meal as part of a visit to our Lunsar businesses.',
+      'Contact the restaurant team for the current menu, service times and dining inquiries.',
     ],
-    services: [
-      { title: 'Fresh eggs', description: 'Eggs sold by the tray, retail and wholesale.' },
-      { title: 'Broilers', description: 'Chicken raised for meat, sold live or dressed.' },
-      {
-        title: 'Layers / point-of-lay birds',
-        description: 'Birds for other farmers starting egg production.',
-      },
-      { title: 'Day-old chicks', description: 'Chicks for small farmers.' },
-      {
-        title: 'Wholesale supply',
-        description: 'Regular orders for shops, hotels, restaurants and caterers.',
-      },
-    ],
-    featured: false,
+    enquiryLabel: 'Enquire About Dining',
+    locations: [lunsar],
+    featured: true,
     order: 7,
   },
   {
-    name: 'Water Production',
-    slug: 'water-production',
+    name: 'Zeebundu Food Import and Export',
+    slug: 'food-trade',
     sector: 'food-beverage-production',
-    tagline: 'Clean drinking water for homes and businesses.',
+    stage: 'operating',
+    tagline: 'Connecting food supply opportunities',
     summary:
-      'Purified drinking water in sachets, bottles and dispensers, delivered to homes, shops, offices and events.',
+      'Our food trade portfolio focuses on relationships between producers, suppliers and markets.',
     overview: [
-      'Our water goes through several stages of purification, with checks at each step. It is packed in hygienic conditions and sealed until it reaches you.',
-      'We supply households, shops, offices and events. Order one bottle or a bulk load, and we can deliver.',
+      'Zeebundu Food Import and Export represents the group’s food trading interests. It connects with our broader ambitions in retail, agriculture and processing.',
+      'Businesses interested in supplying products or discussing food trade opportunities are invited to contact the group with their product details and proposed terms.',
     ],
-    services: [
-      { title: 'Sachet water', description: 'Purified water in sealed sachets, sold by the bag.' },
-      { title: 'Bottled water', description: 'Purified water in a range of bottle sizes.' },
-      {
-        title: 'Dispenser bottles',
-        description: 'Large refillable bottles for homes and offices.',
-      },
-      {
-        title: 'Bulk & event supply',
-        description: 'Large orders for businesses, events and institutions.',
-      },
-      { title: 'Delivery', description: 'Delivery to homes, shops and offices.' },
-      { title: 'Batch testing', description: 'Every production batch is tested.' },
-    ],
-    featured: true,
+    enquiryLabel: 'Discuss a Food Trade Opportunity',
+    featured: false,
     order: 8,
   },
+
+  // Agriculture
   {
-    name: 'Natural Juices',
-    slug: 'natural-juices',
-    sector: 'food-beverage-production',
-    tagline: 'Juice made from real fruit.',
-    summary: 'Juice made from local fruit, bottled for homes, shops and events.',
+    name: 'Zeebundu Food Production and Processing',
+    slug: 'food-production',
+    sector: 'agriculture-food',
+    stage: 'operating',
+    tagline: 'Growing the foundations of food production',
+    summary:
+      'Our agribusiness activities connect crop cultivation with ambitions for food processing and market supply.',
     overview: [
-      'We make ready-to-drink juice from fruit. Where we can, we buy that fruit from Sierra Leonean farmers. Every batch is prepared under hygienic conditions.',
-      'Buy it for yourself, your shop, your restaurant or your event.',
+      'Our farming activities span Kamranka, Lungi and Sanda. In 2026, we cultivated over 120 acres of rice and over 30 acres of corn, groundnuts and sweet potatoes combined across our farms.',
+      'We process our produce into finished products through our own rice milling factory and other food processing facilities, connecting cultivation, processing and market supply. This integrated approach adds value to what we grow and supports food production in Sierra Leone.',
+      'We welcome conversations with agricultural specialists, equipment suppliers and potential buyers.',
     ],
-    services: [
-      {
-        title: 'Wholesale & events',
-        description: 'Bulk orders for shops, restaurants, hotels and events.',
-      },
+    enquiryLabel: 'Discuss an Agriculture Opportunity',
+    stats: [
+      { value: '120+', label: 'Acres of rice cultivated in 2026' },
+      { value: '30+', label: 'Acres of corn, groundnuts and sweet potatoes in 2026' },
     ],
+    locations: [{ name: 'Kamranka' }, { name: 'Lungi', district: 'port-loko' }, { name: 'Sanda' }],
     featured: false,
     order: 9,
   },
   {
-    name: 'Beverages',
-    slug: 'beverages',
-    sector: 'food-beverage-production',
-    tagline: 'Drinks for shops, businesses and events.',
-    summary:
-      'We make and distribute soft drinks and other beverages for retailers, businesses and events.',
+    name: 'Zeebundu Cattle Farms and Meat Production',
+    slug: 'cattle-farms',
+    sector: 'agriculture-food',
+    stage: 'operating',
+    tagline: 'Developing the livestock value chain',
+    summary: 'Our cattle farming interests form part of the group’s wider agriculture portfolio.',
     overview: [
-      'We supply drinks to retailers, hotels, restaurants and event organisers.',
-      'Wholesale customers get steady stock and delivery, so their shelves and fridges stay full.',
+      'Zeebundu Cattle Farms and Meat Production brings together our livestock interests and ambitions for the meat value chain. The focus is the responsible development of cattle farming alongside the group’s crop activities.',
+      'Contact the group to discuss livestock operations, technical partnerships or future supply opportunities.',
     ],
-    services: [
-      { title: 'Soft drinks', description: '' },
-      { title: 'Other beverages', description: '' },
-      {
-        title: 'Wholesale supply',
-        description: 'Bulk supply for shops, supermarkets and distributors.',
-      },
-      {
-        title: 'Hotels, restaurants & events',
-        description: 'Regular and one-off supply for hospitality and events.',
-      },
-      { title: 'Delivery', description: 'Delivered to your business.' },
-    ],
+    enquiryLabel: 'Enquire About Livestock Activities',
+    locations: [{ name: 'Sanda' }],
     featured: false,
     order: 10,
   },
+
+  // Hospitality & Venues
   {
-    name: 'Construction Materials',
-    slug: 'construction-materials',
-    sector: 'construction',
-    tagline: 'Building materials, there when you need them.',
+    name: 'Zeebundu Conference Center',
+    slug: 'conference-center',
+    sector: 'hospitality',
+    stage: 'operating',
+    tagline: 'An ultra-modern setting for meetings and events',
     summary:
-      'Cement, steel, timber, plumbing and electrical materials for builders, contractors and homeowners.',
+      'Our conference center at the Zeebundu gas station in Lunsar hosts conferences, meetings, workshops and training.',
     overview: [
-      'We supply cement, steel, timber, plumbing and electrical materials for homes, commercial buildings and larger projects. Contractors, developers and homeowners buy from us because we keep stock, price fairly and give practical advice.',
-      "Tell us what you're building and we'll help you order the right materials in the right amounts. We can deliver to site.",
+      'Located at the Zeebundu gas station in Lunsar, our ultra-modern conference center provides a dedicated venue for conferences, business meetings, workshops, training sessions and professional gatherings.',
+      'The center brings organizations, businesses and community groups together within the wider Zeebundu destination, alongside our fuel, retail, restaurant and other businesses.',
+      'Contact our team to discuss your event, preferred date, expected attendance and venue requirements.',
     ],
-    services: [
-      {
-        title: 'Cement & blocks',
-        description: 'Cement, blocks, sand and aggregates for foundations and walls.',
-      },
-      {
-        title: 'Steel & metal',
-        description: 'Reinforcement bars (rebar), roofing sheets, wire and fasteners.',
-      },
-      { title: 'Timber', description: 'Timber for roofing, formwork and joinery.' },
-      { title: 'Plumbing', description: 'Pipes, fittings, tanks and sanitary ware.' },
-      { title: 'Electrical', description: 'Cables, conduits, switches and fittings.' },
-      {
-        title: 'Delivery & bulk orders',
-        description: 'Delivery to site and bulk pricing for larger projects.',
-      },
-    ],
+    enquiryLabel: 'Enquire About the Conference Center',
+    locations: [{ name: 'Lunsar, at the Zeebundu gas station', district: 'port-loko' }],
     featured: false,
     order: 11,
   },
   {
-    name: 'Pharmacy',
-    slug: 'pharmacy',
-    sector: 'health-beauty',
-    tagline: 'Your local pharmacy, with qualified pharmacists.',
+    name: 'Zeebundu Hotels and Resorts',
+    slug: 'hotels-resorts',
+    sector: 'hospitality',
+    stage: 'in-development',
+    tagline: 'Hospitality destinations in development',
     summary:
-      'Genuine medicines, advice from qualified pharmacists, and everyday health and personal care products.',
+      'Our hospitality portfolio includes projects associated with Mahera Beach, Tagrin and John Obey.',
     overview: [
-      'We sell genuine medicines, stored properly, and our qualified pharmacists are there to advise you. We dispense prescriptions and help you pick the right over-the-counter treatment. We also stock health, baby and personal care products.',
+      'Zeebundu Hotels and Resorts brings together the group’s hospitality development ambitions in Sierra Leone. Our aim is to create welcoming destinations for relaxation, dining and time with family and friends.',
+      'Our projects are Mahera Beach Hotel, Tagrin Hotel and John Obey Resort. All are coming soon.',
+      'Contact the group for project information and partnership inquiries. Operating properties and guest services will be listed individually when available.',
     ],
-    services: [
-      {
-        title: 'Prescriptions',
-        description:
-          'Prescriptions dispensed accurately, with clear instructions on how to take your medicine.',
-      },
-      {
-        title: 'Over-the-counter medicines',
-        description: 'Everyday treatments for pain, colds, malaria, stomach upsets and more.',
-      },
-      {
-        title: 'Pharmacist advice',
-        description: 'Free, confidential advice on medicines and minor health concerns.',
-      },
-      {
-        title: 'Health & wellness',
-        description: 'Vitamins, supplements and health monitoring devices.',
-      },
-      {
-        title: 'Personal & baby care',
-        description: 'Skincare, oral care, hair care and baby products.',
-      },
-      { title: 'Health checks', description: 'Blood pressure and blood sugar checks.' },
-    ],
+    enquiryLabel: 'Enquire About Hospitality Projects',
     featured: false,
     order: 12,
   },
+
+  // Construction
   {
-    name: 'Cosmetics Salon',
-    slug: 'cosmetics-salon',
-    sector: 'health-beauty',
-    tagline: 'Hair, beauty and nail care by a skilled team.',
-    summary: 'Hair, beauty and nail care in a relaxed, friendly salon.',
+    name: 'Zeebundu Construction and Building Supplies',
+    slug: 'construction',
+    sector: 'construction',
+    stage: 'operating',
+    tagline: 'Supporting projects from the ground up',
+    summary:
+      'Our construction and building supplies business supports the group’s investment in facilities and infrastructure.',
     overview: [
-      'Our salon offers hair, beauty and nail care from a skilled, friendly team. Each client gets individual attention, with treatments matched to their hair, skin and style.',
-      'We use good products and keep up with new styles and techniques. The salon is clean and comfortable. Come in for everyday grooming, or for a bridal or special-occasion look.',
+      'Zeebundu Construction and Building Supplies connects project development with the materials and practical work needed to deliver it. The group’s portfolio includes commercial facilities, production sites and hospitality development.',
+      'Contact our team to discuss a building materials inquiry, a project requirement or a potential supply relationship.',
     ],
-    services: [
-      {
-        title: 'Hair styling',
-        description: 'Cuts, styling, braiding, weaves, relaxing and treatments.',
-      },
-      {
-        title: 'Facials & skincare',
-        description: 'Cleansing and facial treatments for healthy skin.',
-      },
-      { title: 'Nail care', description: 'Manicures, pedicures and nail art.' },
-      { title: 'Makeup', description: 'Makeup for everyday, events and photo shoots.' },
-      {
-        title: 'Bridal packages',
-        description: 'Hair and makeup for brides and bridal parties.',
-      },
-      { title: 'Beauty products', description: 'Hair and beauty products available to buy.' },
-    ],
+    enquiryLabel: 'Discuss a Project or Supply Need',
     featured: false,
     order: 13,
   },
+
+  // Beauty & Health
   {
-    name: 'Foreign Exchange',
-    slug: 'foreign-exchange',
-    sector: 'financial-services',
-    tagline: 'Fair rates and clear pricing on currency exchange.',
-    summary: 'A bureau buying and selling major currencies, with money transfer services.',
+    name: 'ZeeLux Beauty Salon',
+    slug: 'zeelux',
+    sector: 'health-beauty',
+    stage: 'operating',
+    tagline: 'Time for personal care',
+    summary: 'ZeeLux is the group’s salon brand for beauty and personal care services.',
     overview: [
-      'We buy and sell major international and regional currencies at competitive rates, and our prices are clear. Our customers include travellers, traders, businesses and families receiving money from abroad.',
-      "Visit one of our bureaus or call us for today's rates.",
+      'ZeeLux Beauty Salon is being developed around welcoming service and attention to individual customer needs. Our beauty offering complements the group’s retail activities and provides a setting for personal care.',
+      'Contact ZeeLux for the current service menu, appointment availability and prices.',
     ],
-    services: [
-      {
-        title: 'Currency exchange',
-        description: 'Buy and sell major currencies at competitive rates.',
-      },
-      {
-        title: 'Money transfer',
-        description: 'Send and receive money internationally through our partners.',
-      },
-      {
-        title: 'Business exchange',
-        description: 'Larger currency transactions for traders and companies.',
-      },
-      {
-        title: 'Bureau & agent network',
-        description: 'Access through our bureaus and authorised partners.',
-      },
-    ],
-    featured: true,
+    enquiryLabel: 'Ask About Salon Services',
+    featured: false,
     order: 14,
   },
   {
-    name: 'Micro-Finance & Lending',
-    slug: 'micro-finance-lending',
-    sector: 'financial-services',
-    tagline: 'Loans to help your business and family grow.',
-    summary:
-      'Small business and personal loans with clear terms, a simple application and staff who listen.',
+    name: 'Lux Zee',
+    slug: 'lux-zee',
+    sector: 'health-beauty',
+    stage: 'operating',
+    tagline: 'Beauty products and personal style',
+    summary: 'Lux Zee is the group’s beauty retail business, complementing ZeeLux salon services.',
     overview: [
-      'We lend to small businesses, traders and individuals who need finance to grow. Our terms are clear, applying is straightforward, and our staff take time to understand what you need.',
-      'We lend responsibly. We only approve loans we believe you can repay, and we explain every cost before you sign.',
+      'Lux Zee connects customers with beauty and personal care retail products. The business supports the group’s wider beauty offering through product sales, customer assistance and retail service.',
+      'Contact the shop for the current range and availability or speak with our team about supplier opportunities.',
     ],
-    services: [
-      { title: 'Business startup loan', description: 'For new businesses getting started.' },
-      { title: 'Working capital loan', description: 'To buy stock and manage cash flow.' },
-      { title: 'Equipment finance', description: 'To buy equipment for your business.' },
-      {
-        title: 'Personal loan',
-        description: 'For school fees, medical costs or home improvements.',
-      },
-    ],
+    enquiryLabel: 'Enquire About Products',
     featured: false,
     order: 15,
   },
   {
-    name: 'Zeemart Shopping',
-    slug: 'zeemart-shopping',
-    sector: 'retail',
-    tagline: 'Everyday shopping under one roof.',
-    summary: 'Groceries, household goods and everyday essentials in one store, at fair prices.',
+    name: 'Zeebundu Pharmacy',
+    slug: 'pharmacy',
+    sector: 'health-beauty',
+    stage: 'in-development',
+    tagline: 'Pharmacy development within the group',
+    summary: 'A pharmacy has been identified as part of the group’s Lunsar business plans.',
     overview: [
-      'Zeemart stocks groceries, household goods and personal care products, so you can get what you need in one place at fair prices.',
-      'Our staff keep the shelves full and the store clean.',
+      'Zeebundu’s pharmacy initiative forms part of the broader vision for convenient local services. Further information about its location, opening and services will be shared when finalized.',
     ],
-    services: [
-      { title: 'Groceries', description: 'Food staples, fresh items, snacks and drinks.' },
-      {
-        title: 'Household goods',
-        description: 'Cleaning products, kitchenware and home essentials.',
-      },
-      { title: 'Personal care', description: 'Toiletries, cosmetics and baby products.' },
-      {
-        title: 'Group products',
-        description: 'Products from other Zeebundu businesses, such as water and juices.',
-      },
-      { title: 'Delivery / online orders', description: 'Order by phone or WhatsApp.' },
-    ],
-    featured: true,
+    enquiryLabel: 'Contact the Group',
+    featured: false,
     order: 16,
+  },
+
+  // Financial Services
+  {
+    name: 'Zeebundu Foreign Exchange and Microfinance',
+    slug: 'financial-services',
+    sector: 'financial-services',
+    stage: 'in-development',
+    tagline: 'Financial services in development',
+    summary:
+      'This portfolio area reflects the group’s interest in currency services and access to finance.',
+    overview: [
+      'Zeebundu Foreign Exchange and Microfinance is a financial services initiative within the group’s development portfolio. Further information about its business scope, service availability and customer requirements will be shared when these details are finalized.',
+    ],
+    enquiryLabel: 'Contact the Group',
+    featured: false,
+    order: 17,
+  },
+  {
+    name: 'Zee Empowered Lending and Microfinance',
+    slug: 'zee-empowered',
+    sector: 'financial-services',
+    stage: 'in-development',
+    tagline: 'An ambition to widen economic opportunity',
+    summary: 'Zee Empowered is the group’s lending and microfinance development initiative.',
+    overview: [
+      'Zee Empowered Lending and Microfinance represents our ambition to support economic participation through the development of appropriate financial services. Further information about the initiative, intended customer groups and product availability will be published when finalized.',
+    ],
+    enquiryLabel: 'Contact the Group',
+    featured: false,
+    order: 18,
+  },
+
+  // Security
+  {
+    name: 'Elite Lion Zuma Security Agency',
+    slug: 'security',
+    sector: 'security',
+    stage: 'in-development',
+    tagline: 'Security services development',
+    summary:
+      'Elite Lion Zuma Security Agency is the security business named within the Zeebundu portfolio.',
+    overview: [
+      'Elite Lion Zuma Security Agency forms part of the group’s portfolio in security services. Its intended focus is the protection needs of people, property and business facilities.',
+      'Further information about its service scope and availability will be published as the business develops.',
+    ],
+    enquiryLabel: 'Contact the Group',
+    featured: false,
+    order: 19,
   },
 ]

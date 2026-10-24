@@ -1,18 +1,10 @@
 [
   {
-    "file": "gas-stations.jpg",
+    "file": "gas-station.jpg",
     "alt": "People standing by the fuel pumps at a small roadside gas station in Freetown, Sierra Leone.",
     "photographer": "Random Institute",
     "photographerUrl": "https://unsplash.com/@randominstitute",
     "pageUrl": "https://unsplash.com/photos/VL-a8GYUE-0",
-    "license": "Unsplash License"
-  },
-  {
-    "file": "petroleum-services.jpg",
-    "alt": "Aerial view of white fuel storage tanks beside a waterfront neighbourhood in Ijora, Lagos.",
-    "photographer": "Vitalis Nwenyi",
-    "photographerUrl": "https://unsplash.com/@vitalis_nwenyi",
-    "pageUrl": "https://unsplash.com/photos/I1VGlHw7OAc",
     "license": "Unsplash License"
   },
   {
@@ -24,7 +16,7 @@
     "license": "Unsplash License"
   },
   {
-    "file": "farming-operations.jpg",
+    "file": "food-production.jpg",
     "alt": "Women bending to tend a cassava field surrounded by palm trees in Sierra Leone.",
     "photographer": "Annie Spratt",
     "photographerUrl": "https://unsplash.com/@anniespratt",
@@ -32,15 +24,7 @@
     "license": "Unsplash License"
   },
   {
-    "file": "fish-farming.jpg",
-    "alt": "Fishermen pulling nets on the sand beside their boats at Fidjross\u00e8 beach in Cotonou.",
-    "photographer": "Junior Samson",
-    "photographerUrl": "https://unsplash.com/@jrsamson",
-    "pageUrl": "https://unsplash.com/photos/ZY0eI-L-FBc",
-    "license": "Unsplash License"
-  },
-  {
-    "file": "livestock.jpg",
+    "file": "cattle-farms.jpg",
     "alt": "A herd of long-horned cattle walking down a dusty road in Senegal.",
     "photographer": "Carlos Torres",
     "photographerUrl": "https://unsplash.com/@elcarito",
@@ -48,15 +32,7 @@
     "license": "Unsplash License"
   },
   {
-    "file": "poultry.jpg",
-    "alt": "Hundreds of young chicks gathered around feeders under heat lamps in a poultry house.",
-    "photographer": "Muhammed Minhaj VP",
-    "photographerUrl": "https://unsplash.com/@muhd_minhaj_vp",
-    "pageUrl": "https://unsplash.com/photos/8YZOdT7CsGk",
-    "license": "Unsplash License"
-  },
-  {
-    "file": "water-production.jpg",
+    "file": "heart2heart-water.jpg",
     "alt": "Rows of sealed plastic water bottles with white caps packed closely together.",
     "photographer": "Jonathan Chng",
     "photographerUrl": "https://unsplash.com/@jon_chng",
@@ -72,22 +48,6 @@
     "license": "Unsplash License"
   },
   {
-    "file": "beverages.jpg",
-    "alt": "A man in sunglasses serving bottled drinks from an outdoor table in Lagos.",
-    "photographer": "Ben Iwara",
-    "photographerUrl": "https://unsplash.com/@1hundredimages",
-    "pageUrl": "https://unsplash.com/photos/3eFxmh9mdjQ",
-    "license": "Unsplash License"
-  },
-  {
-    "file": "construction-materials.jpg",
-    "alt": "A builder laying concrete blocks to raise a wall in Mukono, Uganda.",
-    "photographer": "Mugabi Owen",
-    "photographerUrl": "https://unsplash.com/@spenz_official",
-    "pageUrl": "https://unsplash.com/photos/f5K2-fU5M98",
-    "license": "Unsplash License"
-  },
-  {
     "file": "pharmacy.jpg",
     "alt": "A pharmacy shelf stocked with bottles and boxes of medicine.",
     "photographer": "David Trinks",
@@ -96,7 +56,7 @@
     "license": "Unsplash License"
   },
   {
-    "file": "cosmetics-salon.jpg",
+    "file": "zeelux.jpg",
     "alt": "A woman having her hair braided at a salon in Sierra Leone.",
     "photographer": "Patrick Marah",
     "photographerUrl": "https://unsplash.com/@pamarah",
@@ -104,7 +64,7 @@
     "license": "Unsplash License"
   },
   {
-    "file": "micro-finance-lending.jpg",
+    "file": "zee-empowered.jpg",
     "alt": "A woman arranging stock in her small clothing boutique in Abuja.",
     "photographer": "Muhammad-Taha Ibrahim",
     "photographerUrl": "https://unsplash.com/@planeteelevene",
@@ -112,7 +72,7 @@
     "license": "Unsplash License"
   },
   {
-    "file": "zeemart-shopping.jpg",
+    "file": "zeemart-360.jpg",
     "alt": "A woman pushing a shopping cart down a well-stocked supermarket aisle in Lagos.",
     "photographer": "Ninthgrid",
     "photographerUrl": "https://unsplash.com/@ninthgrid_",
