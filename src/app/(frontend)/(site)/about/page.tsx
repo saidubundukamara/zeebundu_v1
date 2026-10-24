@@ -1,4 +1,5 @@
 import { draftMode } from 'next/headers'
+import { cn } from '@/lib/utils'
 import type { Metadata } from 'next'
 
 import { RenderBlocks } from '@/components/blocks'
@@ -10,15 +11,16 @@ import { Media } from '@/components/Media'
 import { StatsGrid } from '@/components/StatsGrid'
 import { buildCourse } from '@/lib/course'
 import { getBusinessesBySector, getGlobal, getLeadership, getPage } from '@/lib/data'
+import { metaTitle } from '@/lib/seo/title'
 import type { Leadership } from '@/payload-types'
 
 export async function generateMetadata(): Promise<Metadata> {
   const page = await getPage('about')
   return {
-    title: page?.meta?.title || 'About',
+    title: metaTitle(page?.meta?.title, 'About Us'),
     description:
       page?.meta?.description ??
-      'Zeebundu is a Sierra Leone group of businesses across energy, hospitality, agriculture, food, construction, health, finance and retail.',
+      'Learn about Zeebundu Group of Companies, our leadership, mission and vision for connected businesses and economic opportunity in Sierra Leone.',
   }
 }
 
@@ -64,11 +66,7 @@ export default async function AboutPage() {
   return (
     <>
       {!startsWithHero && (
-        <PageHeader
-          title={page?.title ?? 'About Zeebundu'}
-          crumbs={[{ label: 'About' }]}
-          description="A Sierra Leonean group of businesses, serving households and companies across the country."
-        />
+        <PageHeader title={page?.title ?? 'About Us'} crumbs={[{ label: 'About' }]} />
       )}
 
       {/* Overview, story, mission and values are edited as blocks on the "about" page */}
@@ -90,8 +88,14 @@ export default async function AboutPage() {
               sizes="(min-width: 768px) 30vw, 80vw"
             />
             <div className="space-y-6">
-              <p className="text-sm font-medium text-map-ink-soft">Chairman’s message</p>
-              <blockquote className="font-heading text-h2 font-extrabold uppercase">
+              <p className="text-sm font-medium text-map-ink-soft">Message from the CEO</p>
+              <blockquote
+                className={cn(
+                  'font-heading font-extrabold uppercase',
+                  // A long message reads better a size down
+                  chairman.quote.length > 180 ? 'text-h3' : 'text-h2',
+                )}
+              >
                 “{chairman.quote}”
               </blockquote>
               <figcaption className="text-sm text-map-ink-soft">
@@ -104,7 +108,7 @@ export default async function AboutPage() {
 
       {executives.length > 0 && (
         <Section>
-          <SectionHeader title="Executive team" />
+          <SectionHeader title="Leadership" />
           <LeaderGrid leaders={executives} />
         </Section>
       )}

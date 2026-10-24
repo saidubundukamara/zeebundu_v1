@@ -32,13 +32,15 @@ export async function SiteFooter() {
           )}
           <address className="space-y-1 text-sm text-map-ink not-italic">
             {contact?.address && <p className="whitespace-pre-line">{contact.address}</p>}
-            {contact?.phone && (
-              <p>
-                <a href={telHref(contact.phone)} className="tabular hover:text-map-course">
-                  {contact.phone}
-                </a>
-              </p>
-            )}
+            {[contact?.phone, ...(contact?.otherPhones ?? []).map((p) => p.number)]
+              .filter((n): n is string => Boolean(n))
+              .map((phone) => (
+                <p key={phone}>
+                  <a href={telHref(phone)} className="tabular hover:text-map-course">
+                    {phone}
+                  </a>
+                </p>
+              ))}
             {contact?.email && (
               <p>
                 <a href={`mailto:${contact.email}`} className="hover:text-map-course">

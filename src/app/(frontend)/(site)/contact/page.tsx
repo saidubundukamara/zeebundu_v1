@@ -7,33 +7,44 @@ import {
 import type { Metadata } from 'next'
 import Link from 'next/link'
 
+import { RenderBlocks } from '@/components/blocks'
 import { EnquiryForm } from '@/components/forms/EnquiryForm'
 import { PageHeader } from '@/components/layout/PageHeader'
 import { Section, SectionHeader } from '@/components/layout/Section'
-import { getBusinessesBySector, getGlobal } from '@/lib/data'
+import { getBusinessesBySector, getGlobal, getPage } from '@/lib/data'
 import { telHref, whatsappHref } from '@/lib/links'
+import { metaTitle } from '@/lib/seo/title'
 
-export const metadata: Metadata = {
-  title: 'Contact',
-  description:
-    'Contact Zeebundu Group or any of our businesses. Send an enquiry and the right team will reply.',
+export async function generateMetadata(): Promise<Metadata> {
+  const page = await getPage('contact')
+  return {
+    title: metaTitle(page?.meta?.title, 'Contact Us'),
+    description:
+      page?.meta?.description ??
+      'Contact Zeebundu Group of Companies in Freetown for customer inquiries, supplier proposals, partnerships and project information.',
+  }
 }
 
 export default async function ContactPage() {
-  const [settings, groups] = await Promise.all([
+  // The "contact" CMS page holds the FAQ shown under the form
+  const [settings, groups, page] = await Promise.all([
     getGlobal('site-settings', 0),
     getBusinessesBySector(),
+    getPage('contact'),
   ])
   const contact = settings.contact
   const businesses = groups.flatMap((g) => g.businesses).map(({ id, name }) => ({ id, name }))
 
+  const phones = [contact?.phone, ...(contact?.otherPhones ?? []).map((p) => p.number)].filter(
+    (n): n is string => Boolean(n),
+  )
   const channels = [
-    contact?.phone && {
+    ...phones.map((phone) => ({
       icon: PhoneIcon,
-      label: 'Call us',
-      value: contact.phone,
-      href: telHref(contact.phone),
-    },
+      label: 'Telephone',
+      value: phone,
+      href: telHref(phone),
+    })),
     contact?.whatsapp && {
       icon: WhatsappLogoIcon,
       label: 'WhatsApp',
@@ -51,15 +62,15 @@ export default async function ContactPage() {
   return (
     <>
       <PageHeader
-        title="Contact us"
+        title="Speak with the Zeebundu team"
         crumbs={[{ label: 'Contact' }]}
-        description="Questions, quotes, partnerships or press: send us a message and the right team will get back to you."
+        description="For business inquiries, product information, supplier proposals or project discussions, contact our team and tell us which Zeebundu business you need."
       />
 
       <Section>
         <div className="grid gap-12 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-20">
           <div className="space-y-8">
-            <h2 className="text-h2">Head office</h2>
+            <h2 className="text-h2">Office</h2>
             {contact?.address && (
               <p className="flex gap-3 whitespace-pre-line text-map-ink-soft">
                 <MapPinIcon
@@ -73,7 +84,7 @@ export default async function ContactPage() {
             {channels.length > 0 ? (
               <ul className="border-t border-map-ink">
                 {channels.map(({ icon: Icon, label, value, href }) => (
-                  <li key={label}>
+                  <li key={value}>
                     <a
                       href={href}
                       className="group flex items-center gap-4 border-b border-map-rule py-4 transition-colors hover:text-map-course"
@@ -96,13 +107,13 @@ export default async function ContactPage() {
               </ul>
             ) : (
               <p className="text-map-ink-soft">
-                Use the form to reach us, and we’ll reply by email.
+                Use the form to reach us, and we’ll reply by email or telephone.
               </p>
             )}
           </div>
 
           <div className="border border-map-ink bg-card p-5 md:p-8">
-            <h2 className="mb-6 text-h2">Send an enquiry</h2>
+            <h2 className="mb-6 text-h2">Send an inquiry</h2>
             <EnquiryForm businesses={businesses} />
           </div>
         </div>
@@ -111,7 +122,7 @@ export default async function ContactPage() {
       <Section className="border-t border-map-rule">
         <SectionHeader
           title="Contact a business directly"
-          description="Each business page lists its own phone, WhatsApp and opening hours."
+          description="Each business page has its own inquiry form, and its contact details once confirmed."
         />
         <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
           {groups.map(({ sector, businesses }) => (
@@ -135,6 +146,11 @@ export default async function ContactPage() {
           ))}
         </div>
       </Section>
+      {page?.layout?.length ? (
+        <div className="border-t border-map-rule">
+          <RenderBlocks blocks={page.layout} />
+        </div>
+      ) : null}
     </>
   )
 }

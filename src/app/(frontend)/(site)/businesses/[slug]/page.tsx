@@ -76,10 +76,12 @@ export default async function BusinessPage(props: PageProps<'/businesses/[slug]'
   const previous = at > 0 ? controls[at - 1] : null
   const next = at >= 0 && at < controls.length - 1 ? controls[at + 1] : null
 
-  const services = business.services ?? []
+  // In-development pages show no services, hours or locations until the business opens
+  const inDevelopment = business.stage === 'in-development'
+  const services = inDevelopment ? [] : (business.services ?? [])
   const stats = business.stats ?? []
   const gallery = (business.gallery ?? []).filter((img) => typeof img === 'object')
-  const locations = business.locations ?? []
+  const locations = inDevelopment ? [] : (business.locations ?? [])
   const blocks = business.layout ?? []
 
   const crumbs = [
@@ -105,6 +107,7 @@ export default async function BusinessPage(props: PageProps<'/businesses/[slug]'
         </Link>
       ),
     },
+    inDevelopment && { label: 'Status', value: 'In development' },
     locations.length > 0 && {
       label: 'Locations',
       value: (
@@ -257,7 +260,11 @@ export default async function BusinessPage(props: PageProps<'/businesses/[slug]'
           <div className="space-y-8">
             <SectionHeader
               title={`Contact ${business.name}`}
-              description="Send a message and the team will reply, or use the details below."
+              description={
+                inDevelopment
+                  ? 'This business is in development. Send a message and the group team will reply.'
+                  : 'Send a message and the team will reply, or use the details below.'
+              }
               className="mb-0"
             />
             <ContactDetails business={business} />

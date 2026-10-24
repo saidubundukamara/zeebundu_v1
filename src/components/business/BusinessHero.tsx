@@ -3,6 +3,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { ViewTransition } from 'react'
 
+import { StageLabel } from '@/components/business/StageLabel'
 import { Container } from '@/components/layout/Container'
 import { Terrain } from '@/components/map/Terrain'
 import { ControlMark } from '@/components/map/symbols'
@@ -85,6 +86,7 @@ export function BusinessHero({
             <h1 className="text-h1 lg:text-[clamp(3.5rem,2rem+3.6vw,6rem)]">
               <Lines lines={splitHeadline(business.name, 14)} />
             </h1>
+            <StageLabel stage={business.stage} />
             {business.tagline && (
               <p className="max-w-[44ch] text-lead text-map-ink-soft">{business.tagline}</p>
             )}
@@ -122,7 +124,7 @@ export function BusinessHero({
             )}
             <div className="flex flex-wrap gap-3">
               <Button asChild size="xl">
-                <a href="#enquire">Send an enquiry</a>
+                <a href="#enquire">{business.enquiryLabel || 'Send an inquiry'}</a>
               </Button>
               {whatsapp && (
                 <Button asChild variant="outline" size="xl">

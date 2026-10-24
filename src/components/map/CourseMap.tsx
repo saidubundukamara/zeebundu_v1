@@ -49,8 +49,11 @@ const COURSE = [
   { x: 865, y: 105 },
   { x: 935, y: 225 },
   { x: 800, y: 300 },
+  { x: 690, y: 420 },
+  { x: 705, y: 575 },
+  { x: 860, y: 560 },
 ]
-const FINISH = { x: 870, y: 480 }
+const FINISH = { x: 940, y: 440 }
 
 function layout(count: number) {
   const pts = COURSE.slice(0, count)

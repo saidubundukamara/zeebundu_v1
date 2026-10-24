@@ -1,5 +1,6 @@
 import { ArrowRightIcon } from '@phosphor-icons/react/ssr'
 import { draftMode } from 'next/headers'
+import { cn } from '@/lib/utils'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 
@@ -27,12 +28,10 @@ import { formatDate } from '@/lib/links'
 import { JsonLd, organizationJsonLd } from '@/lib/seo/jsonld'
 import type { Business, ImpactProgramme } from '@/payload-types'
 
-export async function generateMetadata(): Promise<Metadata> {
-  const home = await getGlobal('homepage', 0)
-  return {
-    title: { absolute: 'Zeebundu Group' },
-    description: home.hero?.subline ?? undefined,
-  }
+export const metadata: Metadata = {
+  title: { absolute: 'Zeebundu Group of Companies | Sierra Leone' },
+  description:
+    'Explore Zeebundu businesses and projects in Sierra Leone, spanning fuel, retail, water, food, beauty, agriculture, construction and hospitality.',
 }
 
 export default async function HomePage() {
@@ -113,6 +112,25 @@ export default async function HomePage() {
           />
         </Container>
       </section>
+
+      {/* 1b. Introduction */}
+      {home.intro?.heading && (
+        <Section className="border-b border-map-rule">
+          <Reveal className="grid gap-8 md:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] md:gap-16">
+            <h2 className="text-h2">{home.intro.heading}</h2>
+            <div className="space-y-6">
+              {home.intro.text && (
+                <p className="max-w-[60ch] text-lead text-map-ink-soft">{home.intro.text}</p>
+              )}
+              {home.intro.brandLine && (
+                <p className="border-t border-map-rule pt-6 font-heading text-xl font-extrabold text-map-ink uppercase">
+                  {home.intro.brandLine}
+                </p>
+              )}
+            </div>
+          </Reveal>
+        </Section>
+      )}
 
       {/* 2. Every business, as the control-description sheet */}
       <Section>
@@ -223,7 +241,7 @@ export default async function HomePage() {
         </Container>
       </section>
 
-      {/* 5. Chairman's message */}
+      {/* 5. Message from the CEO */}
       {chairman?.quote && (
         <Section className="border-t border-map-rule">
           <figure className="grid items-end gap-10 md:grid-cols-[minmax(0,1fr)_minmax(0,2fr)]">
@@ -231,11 +249,18 @@ export default async function HomePage() {
               <Media
                 resource={chairman.portrait}
                 className="size-full"
+                fallbackLabel={chairman.name ?? undefined}
                 sizes="(min-width: 768px) 30vw, 80vw"
               />
             </DevelopImage>
             <Reveal className="space-y-6">
-              <blockquote className="font-heading text-h2 font-extrabold uppercase">
+              <blockquote
+                className={cn(
+                  'font-heading font-extrabold uppercase',
+                  // A long message reads better a size down
+                  chairman.quote.length > 180 ? 'text-h3' : 'text-h2',
+                )}
+              >
                 &ldquo;{chairman.quote}&rdquo;
               </blockquote>
               <figcaption className="text-sm text-map-ink-soft">

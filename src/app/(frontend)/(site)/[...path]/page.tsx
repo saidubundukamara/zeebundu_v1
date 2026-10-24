@@ -5,6 +5,7 @@ import { RenderBlocks } from '@/components/blocks'
 import { PageHeader } from '@/components/layout/PageHeader'
 import { getPage, getPageSlugs } from '@/lib/data'
 import { notFoundOrRedirect } from '@/lib/redirects'
+import { metaTitle } from '@/lib/seo/title'
 
 /**
  * Generic CMS pages (privacy, terms…) at /[slug]. Any other unmatched URL lands here too,
@@ -12,7 +13,7 @@ import { notFoundOrRedirect } from '@/lib/redirects'
  */
 
 // Routes with their own page files take precedence
-const reserved = new Set(['about'])
+const reserved = new Set(['about', 'contact'])
 
 const slugFrom = (path: string[]) => (path.length === 1 && !reserved.has(path[0]) ? path[0] : null)
 
@@ -27,7 +28,7 @@ export async function generateMetadata(props: PageProps<'/[...path]'>): Promise<
   const page = slug ? await getPage(slug) : null
   if (!page) return { title: 'Page not found' }
   return {
-    title: page.meta?.title || page.title,
+    title: metaTitle(page.meta?.title, page.title),
     description: page.meta?.description ?? undefined,
   }
 }

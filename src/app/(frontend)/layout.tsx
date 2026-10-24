@@ -20,11 +20,11 @@ const fontDisplay = Big_Shoulders({
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:3000'),
   title: {
-    default: 'Zeebundu Group',
-    template: '%s | Zeebundu Group',
+    default: 'Zeebundu Group of Companies',
+    template: '%s | Zeebundu Group of Companies',
   },
   description:
-    'Zeebundu is a Sierra Leone group with 16 businesses in energy, hospitality, farming, food and drink, construction, health, finance and retail.',
+    'Zeebundu Group of Companies brings together businesses and development projects across Sierra Leone, from fuel, retail and water to agriculture, construction and hospitality.',
 }
 
 // Light is the default; the night map is opt-in (ThemeToggle) and remembered in localStorage.
@@ -32,10 +32,10 @@ const THEME_SCRIPT = `try{if(localStorage.getItem('zb-theme')==='dark')document.
 
 // Design direction contract (Impeccable). Kept in the built HTML so the finish review can audit it.
 const DIRECTION_CONTRACT = `
-THESIS: Zeebundu drawn as an orienteering map. Its 16 businesses are numbered controls on one course, and the 8 sectors are the legend. Refuses the holding-company default of a photo hero, stats band and sector card grid.
+THESIS: Zeebundu drawn as an orienteering map. Its businesses are numbered controls on one course, and the sectors are the legend. Refuses the holding-company default of a photo hero, stats band and sector card grid.
 OWN-WORLD: White runnable ground; generated contour terrain in brown, with olive thicket, yellow open land and blue marsh. Course purple (#7B2CBF) only for the route, active state and primary action. Big Shoulders condensed uppercase display with control numerals, Mona Sans text. Square containers, circular controls, a legend-table grammar with ISOM symbol swatches. The night map is an opt-in toggle (light is the default): same inks on near-black paper, course lifted to #A36FE3 for contrast, vegetation printed as dot screens.
-STORY: Visitors see that one Sierra Leone group runs 16 everyday businesses, trust its plain, specific voice, and reach any business in two taps or send an enquiry.
-FIRST VIEWPORT: Left: a four-line condensed poster thesis, a short subline and one purple "Explore the businesses" action. Right: terrain with a purple course drawing through 16 numbered control circles. Under the map, a two-column legend lists all 8 sectors with their map symbols and controls; hovering one lights its controls.
+STORY: Visitors see that one Sierra Leone group runs everyday businesses and projects, trust its plain, specific voice, and reach any business in two taps or send an inquiry.
+FIRST VIEWPORT: Left: a four-line condensed poster thesis, a short subline and one purple "Explore the businesses" action. Right: terrain with a purple course drawing through the numbered control circles. Under the map, a two-column legend lists every sector with their map symbols and controls; hovering one lights its controls.
 FORM: Orienteering map and legend (dealt challenger, chosen by the user); ordered list #6 of fused; seed key 9838c056.
 FINISH: unreviewed and undocumented is unfinished; this build ends with the finish review, the verdict, DESIGN.md, and every shipping raster carrying its provenance
 `

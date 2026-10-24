@@ -36,7 +36,7 @@ const publishedEntries = (collection: 'businesses' | 'news' | 'pages', tag: stri
   )()
 
 // Routes with their own page files; CMS pages with these slugs are not served by /[slug]
-const reservedPageSlugs = new Set(['about', 'home'])
+const reservedPageSlugs = new Set(['about', 'contact', 'home'])
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const [businesses, news, pages, sectors, programmes] = await Promise.all([
@@ -62,7 +62,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       changeFrequency: 'weekly',
       priority: 0.9,
     },
-    { url: absoluteURL('/impact'), changeFrequency: 'monthly', priority: 0.7 },
     {
       url: absoluteURL('/news'),
       lastModified: latest(news),

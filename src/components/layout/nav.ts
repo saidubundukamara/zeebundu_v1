@@ -3,11 +3,12 @@ import type { Header } from '@/payload-types'
 export type NavLink = { label: string; url: string }
 
 const fallbackNav: NavLink[] = [
-  { label: 'About', url: '/about' },
+  { label: 'About Us', url: '/about' },
   { label: 'Our Businesses', url: '/businesses' },
-  { label: 'Impact', url: '/impact' },
-  { label: 'Newsroom', url: '/news' },
-  { label: 'Contact', url: '/contact' },
+  { label: 'Projects and Locations', url: '/projects' },
+  { label: 'Community', url: '/community' },
+  { label: 'News', url: '/news' },
+  { label: 'Careers', url: '/careers' },
 ]
 
 export const navFromHeader = (header: Header | null) => {
@@ -17,6 +18,6 @@ export const navFromHeader = (header: Header | null) => {
   const cta =
     header?.cta?.label && header.cta.url
       ? { label: header.cta.label, url: header.cta.url }
-      : { label: 'Send an enquiry', url: '/contact' }
+      : { label: 'Contact', url: '/contact' }
   return { items: items.length ? items : fallbackNav, cta }
 }

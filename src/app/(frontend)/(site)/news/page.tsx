@@ -32,11 +32,11 @@ export async function generateMetadata(props: PageProps<'/news'>): Promise<Metad
   const { category, business, page } = parseFilters(await props.searchParams)
   const label = newsCategoryFilters.find((f) => f.value === category)?.label
   return {
-    title: [category ? `${label} — Newsroom` : 'Newsroom', page > 1 && `Page ${page}`]
+    title: [category ? `${label} — News` : 'News', page > 1 && `Page ${page}`]
       .filter(Boolean)
       .join(' · '),
     description:
-      'News, press releases and stories from Zeebundu Group and its businesses across Sierra Leone.',
+      'Follow updates from across Zeebundu Group of Companies, including business milestones, project progress, product announcements and community activities.',
     alternates: {
       canonical: newsHref({ category, business, page }),
       types: { 'application/rss+xml': '/news/rss.xml' },
@@ -53,9 +53,9 @@ export default async function NewsPage(props: PageProps<'/news'>) {
   return (
     <>
       <PageHeader
-        title="Newsroom"
-        description="News, press releases and stories from across Zeebundu Group and our businesses."
-        crumbs={[{ label: 'Newsroom' }]}
+        title="News"
+        description="Follow updates from across Zeebundu Group of Companies, including business milestones, project progress, product announcements and community activities."
+        crumbs={[{ label: 'News' }]}
       >
         <div className="flex flex-wrap gap-3 pt-2">
           <Button asChild variant="outline" size="lg">

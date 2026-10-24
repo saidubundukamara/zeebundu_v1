@@ -5,6 +5,7 @@ import { FAQBlock } from './FAQBlock'
 import { GalleryBlock } from './GalleryBlock'
 import { HeroBlock } from './HeroBlock'
 import { LoanProductsBlock } from './LoanProductsBlock'
+import { PlacesBlock } from './PlacesBlock'
 import { ProductListBlock } from './ProductListBlock'
 import { RatesTableBlock } from './RatesTableBlock'
 import { RichTextBlock } from './RichTextBlock'
@@ -61,6 +62,8 @@ function renderBlock(block: Block, key: string, tone: 'default' | 'paper') {
       return <CTABlock key={key} block={block} />
     case 'faq':
       return <FAQBlock key={key} block={block} tone={tone} />
+    case 'places':
+      return <PlacesBlock key={key} block={block} tone={tone} />
     case 'ratesTable':
       return <RatesTableBlock key={key} block={block} tone={tone} />
     case 'loanProducts':

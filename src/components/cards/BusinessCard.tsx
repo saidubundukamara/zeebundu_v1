@@ -2,6 +2,7 @@ import { ArrowRightIcon } from '@phosphor-icons/react/ssr'
 import Link from 'next/link'
 import { ViewTransition } from 'react'
 
+import { StageLabel } from '@/components/business/StageLabel'
 import { ControlMark } from '@/components/map/symbols'
 import { Media } from '@/components/Media'
 import { populated } from '@/lib/data'
@@ -52,6 +53,7 @@ export function BusinessCard({
       <div className="flex flex-1 flex-col gap-2 px-5 py-4">
         {showSector && sector && <p className="text-xs font-medium text-map-ink">{sector.name}</p>}
         <p className="text-sm leading-relaxed text-map-ink-soft">{business.summary}</p>
+        <StageLabel stage={business.stage} className="mt-auto pt-2" />
       </div>
     </Link>
   )

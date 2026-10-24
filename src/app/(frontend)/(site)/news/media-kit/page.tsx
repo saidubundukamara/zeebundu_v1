@@ -194,7 +194,7 @@ export default async function MediaKitPage() {
                 </ul>
               ) : (
                 <p className="text-map-ink-soft">
-                  For media enquiries, please use our{' '}
+                  For media inquiries, please use our{' '}
                   <Link
                     href="/contact"
                     className="text-map-course underline underline-offset-4 focus-visible:ring-3 focus-visible:ring-map-course/60 focus-visible:outline-none"

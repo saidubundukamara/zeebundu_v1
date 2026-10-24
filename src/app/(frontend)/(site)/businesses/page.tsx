@@ -7,9 +7,9 @@ import { Section } from '@/components/layout/Section'
 import { getCourse } from '@/lib/course'
 
 export const metadata: Metadata = {
-  title: 'Our businesses',
+  title: { absolute: 'Our Businesses | Zeebundu Group of Companies' },
   description:
-    'All 16 Zeebundu Group businesses in Sierra Leone, from fuel and farming to pharmacy, forex and shopping.',
+    'Discover the Zeebundu portfolio, including ZeeMart 360, Heart2Heart Water, ZeeLux, Zee AutoCare, agriculture and development projects.',
 }
 
 export default async function BusinessesPage() {
@@ -33,8 +33,8 @@ export default async function BusinessesPage() {
   return (
     <>
       <PageHeader
-        title="Our businesses"
-        description={`${controls.length} businesses in ${legs.length} sectors. Pick a sector or search for what you need.`}
+        title="Our Businesses"
+        description={`Explore the ${controls.length} businesses and projects within Zeebundu Group of Companies, in ${legs.length} sectors. Contact our team for current services, product availability and location information.`}
         crumbs={[{ label: 'Our businesses' }]}
       />
       <Section className="pt-14 md:pt-20">

@@ -26,23 +26,51 @@ const nextConfig: NextConfig = {
 
     return webpackConfig
   },
-  // URLs from the previous site (~/Dev/zeebundu_old). Editors add further redirects in the CMS.
+  // URLs from the previous site (~/Dev/zeebundu_old) and from the first seed, before the client's
+  // October 2026 content pack renamed the businesses. Editors add further redirects in the CMS.
   async redirects() {
-    const renamed: Record<string, string> = {
-      farming: 'farming-operations',
-      zeemart: 'zeemart-shopping',
-      'micro-finance': 'micro-finance-lending',
+    // First-seed business slug → current slug, or a sector page for dropped businesses
+    const renamedBusinesses: Record<string, string> = {
+      'gas-stations': '/businesses/gas-station',
+      'petroleum-services': '/businesses/sector/energy',
+      'water-production': '/businesses/heart2heart-water',
+      beverages: '/businesses/sector/food-beverage-production',
+      'zeemart-shopping': '/businesses/zeemart-360',
+      'cosmetics-salon': '/businesses/zeelux',
+      'construction-materials': '/businesses/construction',
+      'farming-operations': '/businesses/food-production',
+      'fish-farming': '/businesses/sector/agriculture-food',
+      poultry: '/businesses/sector/agriculture-food',
+      livestock: '/businesses/cattle-farms',
+      'foreign-exchange': '/businesses/financial-services',
+      'micro-finance-lending': '/businesses/zee-empowered',
+    }
+    const oldSite: Record<string, string> = {
+      farming: 'food-production',
+      zeemart: 'zeemart-360',
+      'micro-finance': 'zee-empowered',
       'hotels-and-resorts': 'hotels-resorts',
+      ...Object.fromEntries(
+        Object.entries(renamedBusinesses).map(([from, to]) => [
+          from,
+          to.replace('/businesses/', ''),
+        ]),
+      ),
     }
     const oldCategories: Record<string, string> = {
       fuel: 'energy',
       'gas-stations': 'energy',
       hotels: 'hospitality',
-      restaurants: 'hospitality',
+      restaurants: 'food-beverage-production',
       food: 'agriculture-food',
     }
     return [
-      ...Object.entries(renamed).map(([from, to]) => ({
+      ...Object.entries(renamedBusinesses).map(([from, to]) => ({
+        source: `/businesses/${from}`,
+        destination: to,
+        permanent: true,
+      })),
+      ...Object.entries(oldSite).map(([from, to]) => ({
         source: `/business/${from}`,
         destination: `/businesses/${to}`,
         permanent: true,
@@ -54,6 +82,8 @@ const nextConfig: NextConfig = {
         permanent: true,
       })),
       { source: '/services/:category', destination: '/businesses', permanent: true },
+      // Impact became Community; programme pages under /impact/[slug] stay where they are
+      { source: '/impact', destination: '/community', permanent: true },
     ]
   },
   experimental: {
